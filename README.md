@@ -1,5 +1,5 @@
 # bookcity
-JavaWeb实训：网上购书成平台系统
+JavaWeb实训：网上购书城平台系统
 
 本项目采用Maven管理工具
 
