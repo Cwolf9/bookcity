@@ -133,7 +133,10 @@ public class WebServlet extends HttpServlet{
                     req.getRequestDispatcher("page/login.jsp").forward(req, resp);
                 }else{//登陆成功
                     session.setAttribute("u", u);
-                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
+                    //重定向
+                    resp.sendRedirect(req.getContextPath()+"/page/welcome.jsp");
+                    //转发
+//                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
@@ -170,7 +173,8 @@ public class WebServlet extends HttpServlet{
                     req.getRequestDispatcher("page/smslogin.jsp").forward(req, resp);
                 }else{//登陆成功
                     req.setAttribute("u", u);
-                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
+                    resp.sendRedirect(req.getContextPath()+"/page/welcome.jsp");
+//                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息

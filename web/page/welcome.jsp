@@ -15,10 +15,10 @@
 </head>
 <!-- <body> -->
 <frameset rows="40,*" frameborder="1" border="1" noresize>
-    <frame src="page/top.jsp" scrolling="no">
+    <frame src="${pageContext.servletContext.contextPath}/page/top.jsp" scrolling="no">
     <frameset cols="200,*">
-        <frame src="page/menu.jsp" scrolling="no">
-        <frame name="right" src="page/index.jsp" >
+        <frame src="${pageContext.servletContext.contextPath}/page/menu.jsp" scrolling="no">
+        <frame name="right" src="${pageContext.servletContext.contextPath}/page/index.jsp" >
     </frameset>
 </frameset>
 <!-- </body> -->
