@@ -30,7 +30,8 @@ import com.demo.util.SendCodeUtil;
 
 public class test {
     public static void main(String[] args) {
-        new UserDao().save("ww","ww","王五","男","9354");
+        new UserDao().save("zj","zj","张杰","男","1362873");
         // SendCodeUtil.sendsms("15172425261");
     }
 }
+本文原创发布于慕课网 ，转载请注明出处，谢谢合作
