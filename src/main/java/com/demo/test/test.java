@@ -26,11 +26,19 @@
 package com.demo.test;
 
 import com.demo.dao.UserDao;
+import com.demo.model.User;
+import com.demo.util.MD5Util;
 import com.demo.util.SendCodeUtil;
+
+import java.util.List;
 
 public class test {
     public static void main(String[] args) {
-        new UserDao().save("zj","zj","张杰","男","1362873");
+        //new UserDao().save("zj","zj","张杰","男","1362873");
         // SendCodeUtil.sendsms("15172425261");
+        List<User> users = new UserDao().findAll();
+        for(User user: users) {
+            new UserDao().modifyPwd(MD5Util.MD5Encode(user.getPwd(),"utf-8"), user.getId());
+        }
     }
 }

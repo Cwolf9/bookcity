@@ -21,7 +21,7 @@
             <a href="#"><i class="icon icon-qq"></i>用户管理</a>
             <ul>
                 <li><a href="${pageContext.servletContext.contextPath}/findAll.do" target="right">查询</a></li>
-                <li><a href="#">添加</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/page/save.jsp" target="right">添加</a></li>
             </ul>
         </li>
         <li><a href="#"><i class="icon icon-user"></i>系统管理</a></li>

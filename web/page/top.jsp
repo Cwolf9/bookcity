@@ -46,7 +46,7 @@
 
             <!-- 右侧的导航项目 -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">上传头像</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/page/avatar.jsp" target="right">更换头像</a></li>
                 <li><a href="#">欢迎【${u.username}】登陆</a></li>
                 <li class="dropdown">
                     <a href="your/nice/url" class="dropdown-toggle" data-toggle="dropdown">退出 </a>

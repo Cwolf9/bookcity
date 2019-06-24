@@ -27,6 +27,7 @@ package com.demo.dao;
 
 import com.demo.model.User;
 import com.demo.util.DBUtil;
+import com.demo.util.MD5Util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -59,7 +60,7 @@ public class UserDao {
             pstm = conn.prepareStatement(sql);
             //为sql语句中的问号赋值
             pstm.setString(1, account);
-            pstm.setString(2, pwd);
+            pstm.setString(2, MD5Util.MD5Encode(pwd,"utf-8"));
             pstm.setString(3, username);
             pstm.setString(4, sex);
             pstm.setString(5, phonenumber);
@@ -90,7 +91,7 @@ public class UserDao {
         try {
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, user.getAccount());
-            pstm.setString(2, user.getPwd());
+            pstm.setString(2, MD5Util.MD5Encode(user.getPwd(),"utf-8"));
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,6 +106,7 @@ public class UserDao {
             }
         }
     }
+
     /**
      * 根据id删除b_user中的一条数据
      * @param id 要删除的数据的id
@@ -333,7 +335,7 @@ public class UserDao {
      * @param newPwd 要更改的新密码
      * @param id 要更改的用户的id
      */
-    public void modify(String newPwd, int id){
+    public void modifyPwd(String newPwd, int id){
         Connection conn = null;
         PreparedStatement pstmt = null;
         conn = DBUtil.getConnection();
@@ -352,6 +354,33 @@ public class UserDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 根据id修改b_user表的头像
+     * @param newAva 新的头像地址
+     * @param id
+     */
+    public void modifyAvatar(String newAva, int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        conn = DBUtil.getConnection();
+        String sql = "UPDATE b_user SET avatar=? WHERE id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newAva);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
