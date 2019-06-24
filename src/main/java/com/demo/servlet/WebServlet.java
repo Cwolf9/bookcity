@@ -25,13 +25,11 @@
  */
 package com.demo.servlet;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demo.dao.UserDao;
 import com.demo.model.User;
 import com.demo.util.CodeUtil;
 import com.demo.util.ColorUtil;
-import com.demo.util.SendCodeUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
@@ -41,12 +39,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.BasicStroke;
 import java.io.IOException;
 import java.io.OutputStream;
 //import javax.servlet.http.HttpSession;
 import javax.servlet.http.*;
-import java.awt.color.*;
+import java.util.List;
 import java.util.Random;
 
 public class WebServlet extends HttpServlet{
@@ -135,8 +132,8 @@ public class WebServlet extends HttpServlet{
                     req.setAttribute("error", "账号或者密码错误!");
                     req.getRequestDispatcher("page/login.jsp").forward(req, resp);
                 }else{//登陆成功
-                    req.setAttribute("u", u);
-                    req.getRequestDispatcher("page/menu.jsp").forward(req, resp);
+                    session.setAttribute("u", u);
+                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
@@ -173,27 +170,30 @@ public class WebServlet extends HttpServlet{
                     req.getRequestDispatcher("page/smslogin.jsp").forward(req, resp);
                 }else{//登陆成功
                     req.setAttribute("u", u);
-                    req.getRequestDispatcher("page/menu.jsp").forward(req, resp);
+                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
                 req.setAttribute("error", "验证码错误!");
                 req.getRequestDispatcher("page/login.jsp").forward(req, resp);
             }
-        }else if("/sendsmscode.do".equals(url)) {
-
-        }else if("/sendsmscode.do".equals(url)) {
-
-        }else if("/sendsmscode.do".equals(url)) {
-
-        }else if("/sendsmscode.do".equals(url)) {
-
-        }else if("/sendsmscode.do".equals(url)) {
-
-        }else if("/sendsmscode.do".equals(url)) {
-
-        }else if("/sendsmscode.do".equals(url)) {
-
+        }else if("/person.do".equals(url)) {
+            User u = (User) session.getAttribute("u");
+            User user = dao.findById(u.getId());
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("page/person.jsp").forward(req, resp);
+        }else if("/findAll.do".equals(url)){//查询所有的数据
+            List<User> list = dao.findAll();
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("page/findAll.jsp").forward(req, resp);
+        }else if("/del.do".equals(url)){
+            String id = req.getParameter("id");
+            System.out.println(id);
+            dao.remove(Integer.parseInt(id));
+            //删除之后要干嘛？
+            List<User> list = dao.findAll();
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("page/findAll.jsp").forward(req, resp);
         }
     }
 }

@@ -25,10 +25,12 @@
  */
 package com.demo.test;
 
+import com.demo.dao.UserDao;
 import com.demo.util.SendCodeUtil;
 
 public class test {
     public static void main(String[] args) {
-        SendCodeUtil.sendsms("15172425261");
+        new UserDao().save("ww","ww","王五","男","9354");
+        // SendCodeUtil.sendsms("15172425261");
     }
 }

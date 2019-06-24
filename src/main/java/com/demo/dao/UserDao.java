@@ -54,7 +54,7 @@ public class UserDao {
         try {
             conn = DBUtil.getConnection();
             //准备要执行的sql语句
-            String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate) VALUES(?,?,?,?,'aa/aaa.jpg',?,NOW())";
+            String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate) VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW())";
             //获取sql语句的执行器对象
             pstm = conn.prepareStatement(sql);
             //为sql语句中的问号赋值
@@ -185,7 +185,6 @@ public class UserDao {
                 String avatar  = rs.getString(6);
                 String phonenumber = rs.getString(7);
                 Date registerdate = rs.getDate(8);
-
                 User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate);
                 list.add(u);
             }
@@ -225,7 +224,6 @@ public class UserDao {
                 String avatar  = rs.getString(6);
                 String phonenumber = rs.getString(7);
                 Date registerdate = rs.getDate(8);
-
                 User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate);
                 return u;
             }

@@ -42,7 +42,7 @@ public class ShowTime extends HttpServlet {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = dateFormat.format(new Date());
         request.setAttribute("currentTime", currentTime);//request.getHeader("User-Agent")
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("page/index.jsp").forward(request, response);
 //        response.sendRedirect("index.jsp");
     }
 }

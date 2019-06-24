@@ -7,6 +7,7 @@
     <welcome-file-list>
         <welcome-file>default</welcome-file>
     </welcome-file-list>
+
     <servlet>
         <servlet-name>WebServlet</servlet-name>
         <servlet-class>com.demo.servlet.WebServlet</servlet-class>
@@ -24,6 +25,7 @@
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ShowTime</servlet-name>
         <servlet-class>com.demo.servlet.ShowTime</servlet-class>
