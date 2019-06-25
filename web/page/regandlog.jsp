@@ -12,6 +12,7 @@
     <meta name="viewport" content="width-device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="sie-edge" />
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/login_style.css" >
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/font-awesome.min.css" >
     <title>登录注册页面</title>
     <!--图标库-->
     <script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
@@ -23,35 +24,43 @@
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         <form action="#">
-            <h1>第三方按钮注册</h1>
-            <div class="social-container"> <a href="#" class="social">
-                <ion-icon name="logo-facebook"></ion-icon>
-            </a> <a href="#" class="social">
-                <ion-icon name="logo-googleplus"></ion-icon>
-            </a> <a href="#" class="social">
-                <ion-icon name="logo-linkedin"></ion-icon>
-            </a> </div>
-            <span>或使用您的电子邮箱注册</span>
+            <h1>手机号注册</h1>
             <input type="text" placeholder="姓名">
-            <input type="email" placeholder="邮箱">
+            <input type="email" placeholder="手机号">
             <input type="password" placeholder="密码">
             <button>注册</button>
+            <span style="margin-top: 5px">第三方按钮注册</span>
+            <div class="social-container">
+                <a href="#" class="social">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </a>
+                <a href="#" class="social">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="#" class="social">
+                    <ion-icon name="logo-googleplus"></ion-icon>
+                </a>
+            </div>
         </form>
     </div>
     <div class="form-container sign-in-container">
         <form action="#">
-            <h1>第三方登录</h1>
-            <div class="social-container"> <a href="#" class="social">
-                <ion-icon name="logo-facebook"></ion-icon>
-            </a> <a href="#" class="social">
-                <ion-icon name="logo-googleplus"></ion-icon>
-            </a> <a href="#" class="social">
-                <ion-icon name="logo-linkedin"></ion-icon>
-            </a> </div>
-            <span>或用邮箱登录</span>
-            <input type="email" placeholder="邮箱">
+            <h1>手机号登录</h1>
+            <input type="email" placeholder="手机号">
             <input type="password" placeholder="密码">
             <button>登录</button>
+            <span style="margin-top: 5px;">第三方登录</span>
+            <div class="social-container">
+                <a href="#" class="social">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </a>
+                <a href="#" class="social">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="#" class="social">
+                    <ion-icon name="logo-googleplus"></ion-icon>
+                </a>
+            </div>
         </form>
     </div>
     <div class="overlay-container">
@@ -78,7 +87,6 @@
     signUpButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
     });
-
 
     signInButton.addEventListener('click', () => {
         container.classList.remove("right-panel-active");

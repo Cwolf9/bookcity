@@ -38,7 +38,9 @@ a:hover {
 	text-decoration: none;
   color: #a64bf4;
 }
-
+._send:link{text-decoration: none}
+._send:active{text-decoration: none}
+._send:visited{text-decoration: none}
 /*---------------------------------------------*/
 h1,h2,h3,h4,h5,h6 {
 	margin: 0px;

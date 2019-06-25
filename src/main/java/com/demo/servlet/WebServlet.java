@@ -75,9 +75,8 @@ public class WebServlet extends HttpServlet{
             String sex = req.getParameter("sex");
             String phonenumber = req.getParameter("phonenumber");
             dao.save(account, pwd, username, sex, phonenumber);
-            //页面跳转 login.jsp
-            req.getRequestDispatcher("page/login.jsp").forward(req, resp);
-
+            //页面跳转
+            req.getRequestDispatcher("page/view.jsp").forward(req, resp);
         }else if("/code.do".equals(url)) {
             //画一张图片验证码传给服务器
             //画布
@@ -139,7 +138,7 @@ public class WebServlet extends HttpServlet{
                 System.out.println("账户密码："+account+" "+pwd);
                 if(u == null){
                     req.setAttribute("error", "账号或者密码错误!");
-                    req.getRequestDispatcher("page/login.jsp").forward(req, resp);
+                    req.getRequestDispatcher("page/view.jsp").forward(req, resp);
                 }else{//登陆成功
                     session.setAttribute("u", u);
                     //重定向
@@ -150,7 +149,7 @@ public class WebServlet extends HttpServlet{
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
                 req.setAttribute("error", "验证码错误!");
-                req.getRequestDispatcher("page/login.jsp").forward(req, resp);
+                req.getRequestDispatcher("page/view.jsp").forward(req, resp);
             }
         }else if("/sendsmscode.do".equals(url)) {
             //发送手机验证码：网易云短信发送接口
@@ -188,7 +187,7 @@ public class WebServlet extends HttpServlet{
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
                 req.setAttribute("error", "验证码错误!");
-                req.getRequestDispatcher("page/login.jsp").forward(req, resp);
+                req.getRequestDispatcher("page/smslogin.jsp").forward(req, resp);
             }
         }else if("/person.do".equals(url)) {
             User u = (User) session.getAttribute("u");

@@ -6712,7 +6712,7 @@ KindEditor.plugin('baidumap', function(K) {
                     var centerObj = map.getCenter();
                     var center = centerObj.lng + ',' + centerObj.lat;
                     var zoom = map.getZoom();
-                    var url = [checkbox[0].checked ? self.pluginsPath + 'baidumap/index.html' : 'http://api.map.baidu.com/staticimage',
+                    var url = [checkbox[0].checked ? self.pluginsPath + 'baidumap/index.jsp' : 'http://api.map.baidu.com/staticimage',
                         '?center=' + encodeURIComponent(center),
                         '&zoom=' + encodeURIComponent(zoom),
                         '&width=' + mapWidth,

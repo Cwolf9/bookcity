@@ -11,6 +11,7 @@
 <head>
     <title>演示：紫色渐变登录页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/material-design-iconic-font.min.css">
@@ -43,10 +44,12 @@
                     <input class="input100" type="text" name="code" placeholder="请输入验证码">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
-                <div class="text-right p-t-8 p-b-31">
-                    <a href="javascript:">忘记密码？</a>
+                <div class="text-left p-t-8 p-b-31">
+                    <a href="${pageContext.servletContext.contextPath}/page/smslogin.jsp">验证码登录</a>
+                    <a href="javascript:" style="float: right">忘记密码？</a>
                 </div>
-
+                <%--<div class="text-right p-t-8 p-b-31">--%>
+                <%--</div>--%>
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
@@ -73,7 +76,7 @@
                 </div>
 
                 <div class="flex-col-c p-t-25">
-                    <a href="javascript:" class="txt2">立即注册</a>
+                    <a href="${pageContext.servletContext.contextPath}/page/register.jsp" class="txt2">立即注册</a>
                 </div>
             </form>
         </div>
@@ -82,6 +85,8 @@
 
 <script src="${pageContext.servletContext.contextPath}/vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="${pageContext.servletContext.contextPath}/js/main.js"></script>
+<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script>
     //改变验证码
     function changeCode(o) {

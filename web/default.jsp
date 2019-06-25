@@ -16,14 +16,15 @@
 <h1>这是default!</h1>
 <h2>request.getContextPath()</h2>
 <h2>request.getPathInfo()</h2>
-<script>
-    alert(1);
-    alter(request.getContextPath());
-</script>
+
 <%
     //        跳转到index servlet拿数据
     response.sendRedirect(request.getContextPath()+"/index.jsp");
 //    request.getRequestDispatcher("index.jsp").forward(request, response);
 %>
+<script>
+    alert(1);
+    alter(request.getContextPath());
+</script>
 </body>
 </html>

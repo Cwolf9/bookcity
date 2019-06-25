@@ -17,6 +17,7 @@
 </head>
 <body>
 <div>${error}</div>
+111
 <form action="${pageContext.servletContext.contextPath}/login.do" method="post">
     <img src="${pageContext.servletContext.contextPath}/imgs/myphoto.jpg" alt="myphoto" /><br><br>
     账号：<input type="text" name="account"><br><br>
