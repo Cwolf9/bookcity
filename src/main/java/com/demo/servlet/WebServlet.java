@@ -30,6 +30,7 @@ import com.demo.dao.UserDao;
 import com.demo.model.User;
 import com.demo.util.CodeUtil;
 import com.demo.util.ColorUtil;
+import com.demo.util.MD5Util;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.apache.commons.fileupload.FileItem;
@@ -134,7 +135,7 @@ public class WebServlet extends HttpServlet{
             String code = (String) session.getAttribute("code");
             if(usercode.equalsIgnoreCase(code)){
                 //继续判断账号和密码
-                User u = dao.findByAccountAndPwd(account, pwd);
+                User u = dao.findByAccountAndPwd(account, MD5Util.MD5Encode(pwd,"utf-8") );
                 System.out.println("账户密码："+account+" "+pwd);
                 if(u == null){
                     req.setAttribute("error", "账号或者密码错误!");

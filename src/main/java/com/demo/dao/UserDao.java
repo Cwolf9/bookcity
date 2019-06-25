@@ -55,7 +55,8 @@ public class UserDao {
         try {
             conn = DBUtil.getConnection();
             //准备要执行的sql语句
-            String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate) VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW())";
+            String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate) " +
+                    "VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW())";
             //获取sql语句的执行器对象
             pstm = conn.prepareStatement(sql);
             //为sql语句中的问号赋值
@@ -117,7 +118,7 @@ public class UserDao {
         try {
             conn = DBUtil.getConnection();
             //准备sql语句
-            String sql = "DELETE FROM b_user WHERE id=?";
+            String sql = "DELETE FROM b_user WHERE userid=?";
             //获取sql语句执行器对象
             pstmt = conn.prepareStatement(sql);
             //为？赋值
@@ -211,7 +212,7 @@ public class UserDao {
      */
     public User findById(int id){
         Connection conn = DBUtil.getConnection();
-        String sql = "SELECT * FROM b_user where id=?";
+        String sql = "SELECT * FROM b_user where userid=?";
         PreparedStatement pstmt = null;
         try {
             pstmt = conn.prepareStatement(sql);
@@ -339,7 +340,7 @@ public class UserDao {
         Connection conn = null;
         PreparedStatement pstmt = null;
         conn = DBUtil.getConnection();
-        String sql = "UPDATE b_user SET pwd=? WHERE id=?";
+        String sql = "UPDATE b_user SET pwd=? WHERE userid=?";
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newPwd);
@@ -368,7 +369,7 @@ public class UserDao {
         Connection conn = null;
         PreparedStatement pstmt = null;
         conn = DBUtil.getConnection();
-        String sql = "UPDATE b_user SET avatar=? WHERE id=?";
+        String sql = "UPDATE b_user SET avatar=? WHERE userid=?";
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newAva);

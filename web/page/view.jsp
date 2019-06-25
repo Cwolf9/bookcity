@@ -11,24 +11,24 @@
 <head>
     <title>演示：紫色渐变登录页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/login_util.css">
-    <link rel="stylesheet" type="text/css" href="../css/login_main.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/login_util.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/login_main.css">
 </head>
 
 <body>
 
 <div class="limiter">
-    <div class="container-login100" style="background-image: url('../imgs/bg-01.jpg');">
+    <div class="container-login100" style="background-image: url('${pageContext.servletContext.contextPath}/imgs/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
             <form class="login100-form validate-form" action="${pageContext.servletContext.contextPath}/login.do" method="post">
                 <span class="login100-form-title p-b-49">登录</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
-                    <input class="input100" type="text" name="account" placeholder="请输入1用户名" autocomplete="off">
+                    <input class="input100" type="text" name="account" placeholder="请输入用户名" autocomplete="off">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
 
@@ -38,8 +38,9 @@
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="请输入验证码">
-                    <span class="label-input100">验证码</span>
-                    <input class="input100" type="password" name="code" placeholder="请输入验证码">
+                        <span class="label-input100" style="margin-top: 5px;">验证码</span>
+                        <img style="margin-top: 5px;" src="${pageContext.servletContext.contextPath}/code.do" alt="code" onclick="changeCode(this)">
+                    <input class="input100" type="text" name="code" placeholder="请输入验证码">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
                 <div class="text-right p-t-8 p-b-31">
@@ -58,15 +59,15 @@
                 </div>
 
                 <div class="flex-c-m">
-                    <a href="#" class="login100-social-item bg1">
+                    <a href="javascript:void(0)" class="login100-social-item bg1">
                         <i class="fa fa-facebook"></i>
                     </a>
 
-                    <a href="#" class="login100-social-item bg2">
+                    <a href="javascript:void(0)" class="login100-social-item bg2">
                         <i class="fa fa-twitter"></i>
                     </a>
 
-                    <a href="#" class="login100-social-item bg3">
+                    <a href="javascript:void(0)" class="login100-social-item bg3">
                         <i class="fa fa-google"></i>
                     </a>
                 </div>
@@ -79,8 +80,15 @@
     </div>
 </div>
 
-<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
-<script src="../js/main.js"></script>
+<script src="${pageContext.servletContext.contextPath}/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.servletContext.contextPath}/js/main.js"></script>
+<script>
+    //改变验证码
+    function changeCode(o) {
+        //修改img的src的值
+        o.src = "${pageContext.servletContext.contextPath}/code.do?"+new Date().getTime();
+    }
+</script>
 </body>
 
 </html>
