@@ -7,28 +7,9 @@
     <meta name="author" content="">
     <title>Free Bootstrap Error Template</title>
     <!-- Bootstrap core CSS -->
-    <link href="${pageContext.servletContext.contextPath}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.servletContext.contextPath}/btts/css/bootstrap.css" rel="stylesheet">
     <!-- FONT AWESOME CSS -->
-    <link href="${pageContext.servletContext.contextPath}/css/font-awesome.min.css" rel="stylesheet" />
-    <!--GOOGLE FONT -->
- <link href='http://fonts.googleapis.com/css?family=Nova+Flat' rel='stylesheet' type='text/css'>
-    <style>
-        body {
-            font-family: 'Nova Flat', cursive;
-            background-color: #B396FF;
-            color: #fff;
-        }
-        .pad-top {
-            padding-top:60px;
-        }
-        .text-center {
-            text-align:center;
-        }
-        #error-link {
-            font-size:150px;
-            padding:10px;
-        }
-    </style>
+    <link href="${pageContext.servletContext.contextPath}/btts/css/style.css" rel="stylesheet" />
 </head>
 <body>
     
@@ -58,12 +39,12 @@
   
   
     <!--Core JavaScript file  -->
-    <script src="${pageContext.servletContext.contextPath}/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/btts/js/jquery-1.10.2.js"></script>
     <!--bootstrap JavaScript file  -->
-    <script src="${pageContext.servletContext.contextPath}/js/bootstrap.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/btts/js/bootstrap.js"></script>
      <!--Count Number JavaScript file  -->
-    <script src="${pageContext.servletContext.contextPath}/js/countUp.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/btts/js/countUp.js"></script>
        <!--Custom JavaScript file  -->
-    <script src="${pageContext.servletContext.contextPath}/js/custom.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/btts/js/custom.js"></script>
 </body>
 </html>
