@@ -33,30 +33,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/")
+//@WebServlet("/")
 public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("btts/index.jsp").forward(request, response);
-        return;
-//        PrintWriter out = response.getWriter();
-//        try {
-//            request.setCharacterEncoding("UTF-8");
-//            response.setContentType("text/html; charset=utf-8");
-//            response.setCharacterEncoding("UTF-8");
-//            String userId = request.getParameter("account");
-//            String pwd = request.getParameter("pwd");
-//            if("lh".equals(userId) && "handsome".equals(pwd)){
-//                out.println("success1");
-//            }else{
-//                out.println("fail1");
-//            }
-//            out.println("<br/>");
-//            String servletPath = this.getServletContext().getRealPath("/");
-//            out.println(servletPath);
-//            out.close();
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//        }
+        PrintWriter out = response.getWriter();
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=utf-8");
+            response.setCharacterEncoding("UTF-8");
+            String userId = request.getParameter("account");
+            String pwd = request.getParameter("pwd");
+            if("lh".equals(userId) && "handsome".equals(pwd)){
+                out.println("success1");
+            }else{
+                out.println("fail1");
+            }
+            out.println("<br/>");
+            String servletPath = this.getServletContext().getRealPath("/");
+            out.println(servletPath);
+            out.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 }

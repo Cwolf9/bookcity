@@ -37,6 +37,8 @@ public class User {
     private String avatar;
     private String phonenumber;
     private Date registerdate;
+    private double grade;
+    private String ismerchant;
     //无参数的构造器
 
     public int getId() {
@@ -88,13 +90,25 @@ public class User {
     public void setRegisterdate(Date registerdate) {
         this.registerdate = registerdate;
     }
+    public double getGrade() {
+        return grade;
+    }
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+    public String getIsmerchant() {
+        return ismerchant;
+    }
+    public void setIsmerchant(String ismerchant) {
+        this.ismerchant = ismerchant;
+    }
 
     public User() {
         super();
     }
 
     public User(int id, String account, String pwd, String username, String sex, String avatar, String phonenumber,
-                Date registerdate) {
+                Date registerdate,double grade, String ismerchant) {
         super();
         this.id = id;
         this.account = account;
@@ -104,6 +118,8 @@ public class User {
         this.avatar = avatar;
         this.phonenumber = phonenumber;
         this.registerdate = registerdate;
+        this.grade = grade;
+        this.ismerchant = ismerchant;
     }
 
     @Override
@@ -111,4 +127,6 @@ public class User {
         //return super.toString();
         return "id:"+id+",account:"+account+",username:"+username;
     }
+
+
 }

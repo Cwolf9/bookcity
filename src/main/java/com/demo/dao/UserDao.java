@@ -55,8 +55,8 @@ public class UserDao {
         try {
             conn = DBUtil.getConnection();
             //准备要执行的sql语句
-            String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate) " +
-                    "VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW())";
+            String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant) " +
+                    "VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW(),60.0,'否')";
             //获取sql语句的执行器对象
             pstm = conn.prepareStatement(sql);
             //为sql语句中的问号赋值
@@ -87,12 +87,16 @@ public class UserDao {
      */
     public void save(User user) {
         Connection conn = DBUtil.getConnection();
-        String sql = "insert into b_user (account, pwd) values (?, ?)";
+        String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant) " +
+                "VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW(),60.0,'否')";
         PreparedStatement pstm = null;
         try {
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, user.getAccount());
             pstm.setString(2, MD5Util.MD5Encode(user.getPwd(),"utf-8"));
+            pstm.setString(3, user.getUsername());
+            pstm.setString(4, user.getSex());
+            pstm.setString(5, user.getPhonenumber());
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,7 +116,7 @@ public class UserDao {
      * 根据id删除b_user中的一条数据
      * @param id 要删除的数据的id
      */
-    public void remove(int id){
+    public void removeById(int id){
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -143,7 +147,7 @@ public class UserDao {
      * 根据account删除b_user中的一条数据
      * @param account 账号
      */
-    public void remove(String  account) {
+    public void removeByAcc(String  account) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -170,7 +174,11 @@ public class UserDao {
             }
         }
     }
-    //查询所有数据
+
+    /**
+     * 查询所有数据
+     * @return
+     */
     public List<User> findAll(){
         List<User> list = new ArrayList<User>();
         Connection conn = DBUtil.getConnection();
@@ -188,7 +196,9 @@ public class UserDao {
                 String avatar  = rs.getString(6);
                 String phonenumber = rs.getString(7);
                 Date registerdate = rs.getDate(8);
-                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate);
+                double grade = rs.getDouble(9);
+                String ismerchant = rs.getString(10);
+                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant);
                 list.add(u);
             }
         } catch (SQLException e) {
@@ -227,7 +237,9 @@ public class UserDao {
                 String avatar  = rs.getString(6);
                 String phonenumber = rs.getString(7);
                 Date registerdate = rs.getDate(8);
-                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate);
+                double grade = rs.getDouble(9);
+                String ismerchant = rs.getString(10);
+                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant);
                 return u;
             }
         } catch (SQLException e) {
@@ -270,7 +282,9 @@ public class UserDao {
                 String avatar  = rs.getString(6);
                 String phonenumber = rs.getString(7);
                 Date registerdate = rs.getDate(8);
-                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate);
+                double grade = rs.getDouble(9);
+                String ismerchant = rs.getString(10);
+                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant);
                 return u;
             }
         } catch (SQLException e) {
@@ -312,7 +326,9 @@ public class UserDao {
                 String avatar  = rs.getString(6);
                 String _phonenumber = rs.getString(7);
                 Date registerdate = rs.getDate(8);
-                User u = new User(id2,account,pwd,username,sex,avatar,_phonenumber,registerdate);
+                double grade = rs.getDouble(9);
+                String ismerchant = rs.getString(10);
+                User u = new User(id2,account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant);
                 return u;
             }
         } catch (SQLException e) {
@@ -387,4 +403,55 @@ public class UserDao {
         }
     }
 
+    /**
+     * 根据id增加信誉积分
+     * @param grade2 +=grade2
+     * @param id
+     */
+    public void modifyGrade(double grade2, int id) {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement pstmt = null;
+        String sql = "UPDATE b_user SET grade = grade + ? WHERE userid=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDouble(1, grade2);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 根据id修改是否为商家
+     * @param ism
+     * @param id
+     */
+    public void modifyIsm(String ism, int id) {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement pstmt = null;
+        String sql = "UPDATE b_user SET ismerchant =? WHERE userid=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, ism);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

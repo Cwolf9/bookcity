@@ -26,7 +26,10 @@
 package com.demo.servlet;
 
 import com.alibaba.fastjson.JSONObject;
+import com.demo.dao.BookDao;
+import com.demo.dao.BookimgsDao;
 import com.demo.dao.UserDao;
+import com.demo.model.Book;
 import com.demo.model.User;
 import com.demo.util.CodeUtil;
 import com.demo.util.ColorUtil;
@@ -50,61 +53,46 @@ import java.io.OutputStream;
 import javax.servlet.http.*;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class WebServlet extends HttpServlet{
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //super.service(req, resp);
-        HttpServletRequest request = req;
-        HttpServletResponse response = resp;
-        req.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding("utf-8");
         UserDao dao = new UserDao();
+        BookDao bdao = new BookDao();
+        BookimgsDao bidao = new BookimgsDao();
         //获取用户地址栏的地址
-        String url = req.getServletPath();// *.do
+        String url = request.getServletPath();// *.do
         System.out.println("本次请求的url地址："+url);
+        System.out.println(request.getPathInfo());
         //Servlet保存数据方法：HttpSession
-        HttpSession session = req.getSession();
+        HttpSession session = request.getSession();
+        System.out.println("sessionId:"+session.getId());
+        if(session.getAttribute("u") == null && url.equals("/login.do") == false&& url.equals("/smslogin.do") == false&& url.equals("/code.do") == false&& url.equals("/smscode.do") == false) {
+            System.out.println("重新登录!+request.getContextPath()+\"/page/view.jsp\"");
+            response.sendRedirect(request.getContextPath()+"/page/view.jsp");
+            return;
+        }
         if("/register.do".equals(url)){//注册
             //account=sss&pwd=admin&username=admin&sex=女&phonenumber=11111
-            String account = req.getParameter("account");
-            String pwd = req.getParameter("pwd");
-            String username = req.getParameter("username");
-            String sex = req.getParameter("sex");
-            String phonenumber = req.getParameter("phonenumber");
+            String account = request.getParameter("account");
+            String pwd = request.getParameter("pwd");
+            String username = request.getParameter("username");
+            String sex = request.getParameter("sex");
+            String phonenumber = request.getParameter("phonenumber");
             dao.save(account, pwd, username, sex, phonenumber);
             //页面跳转
-            req.getRequestDispatcher("page/view.jsp").forward(req, resp);
+            request.getRequestDispatcher("page/view.jsp").forward(request, response);
         }else if("/code.do".equals(url)) {
             //画一张图片验证码传给服务器
-            //画布
             int WIDTH = 100, HEIGHT = 30;
             BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-            //画笔
             Graphics g = img.getGraphics();
-            String code = "";
-            g.setColor(Color.BLACK);
-            g.fillRect(0,0,100,30);
-            g.setColor(ColorUtil.getRandomColor());
-            g.setFont(new Font("", Font.BOLD, 30));
-            String s = CodeUtil.str();
-            code += s;
-            g.setColor(ColorUtil.getRandomColor());
-            g.drawString(s, 10, 20);
-            s = CodeUtil.str();
-            code += s;
-            g.setColor(ColorUtil.getRandomColor());
-            g.drawString(s, 30, 20);
-            s = CodeUtil.str();
-            code += s;
-            g.setColor(ColorUtil.getRandomColor());
-            g.drawString(s, 60, 20);
-            s = CodeUtil.str();
-            code += s;
-            g.setColor(ColorUtil.getRandomColor());
-            g.drawString(s, 80, 20);
+            String code = "";g.setColor(Color.BLACK);g.fillRect(0,0,100,30);g.setColor(ColorUtil.getRandomColor());g.setFont(new Font("", Font.BOLD, 30));
+            String s = CodeUtil.str();code += s;g.setColor(ColorUtil.getRandomColor());g.drawString(s, 10, 20);s = CodeUtil.str();code += s;g.setColor(ColorUtil.getRandomColor());g.drawString(s, 30, 20);s = CodeUtil.str();code += s;g.setColor(ColorUtil.getRandomColor());g.drawString(s, 60, 20);s = CodeUtil.str();code += s;g.setColor(ColorUtil.getRandomColor());g.drawString(s, 80, 20);
             session.setAttribute("code", code);//保存数据
             Random ran = new Random();
             // 随机画线
@@ -113,23 +101,14 @@ public class WebServlet extends HttpServlet{
                 g.drawLine(ran.nextInt(WIDTH), ran.nextInt(HEIGHT), ran.nextInt(WIDTH), ran.nextInt(HEIGHT));
             }
             //输出流，用来给浏览器传输图片
-            OutputStream out = resp.getOutputStream();
+            OutputStream out = response.getOutputStream();
             //对图片进行jpeg压缩
             JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
             encoder.encode(img);
-            /*//多点绘制折线: 点(50, 100), 点(100, 130), 点(150, 70), 点(200, 100)
-            BasicStroke bs1 = new BasicStroke(225);       // 笔画的轮廓（画笔宽度/线宽为5px）
-            Graphics2D g2d = (Graphics2D) img.getGraphics();
-            g2d.setStroke(bs1);
-            g2d.setColor(Color.RED);
-            int[] xPoints = new int[] { 10, 40, 80, 95 };
-            int[] yPoints = new int[] { 10, 27, 1, 20 };
-            g2d.drawPolyline(xPoints, yPoints, 4);
-            encoder.encode(img);*/
         }else if("/login.do".equals(url)){
-            String account = req.getParameter("account");
-            String pwd = req.getParameter("pwd");
-            String usercode = req.getParameter("code");
+            String account = request.getParameter("account");
+            String pwd = request.getParameter("pwd");
+            String usercode = request.getParameter("code");
             //判断验证码
             String code = (String) session.getAttribute("code");
             if(usercode.equalsIgnoreCase(code)){
@@ -137,23 +116,33 @@ public class WebServlet extends HttpServlet{
                 User u = dao.findByAccountAndPwd(account, MD5Util.MD5Encode(pwd,"utf-8") );
                 System.out.println("账户密码："+account+" "+pwd);
                 if(u == null){
-                    req.setAttribute("error", "账号或者密码错误!");
-                    req.getRequestDispatcher("page/view.jsp").forward(req, resp);
+                    request.setAttribute("error", "账号或者密码错误!");
+                    request.getRequestDispatcher("page/view.jsp").forward(request, response);
                 }else{//登陆成功
                     session.setAttribute("u", u);
-                    //重定向
-//                    resp.sendRedirect(req.getContextPath()+"/page/welcome.jsp");
+                    Cookie cookie_acc = new Cookie("account",account);
+                    Cookie cookie_pwd = new Cookie("pwd",pwd);
+                    cookie_acc.setMaxAge(5*60);
+                    cookie_pwd.setMaxAge(5*60);
+//                    cookie_acc.setPath("/");
+
+                    response.addCookie(cookie_acc);
+                    response.addCookie(cookie_pwd);
+                    response.setContentType("text/html;charset=UTF-8");
+                    System.out.println("cookie_acc:"+request.getParameter("account"));
                     //转发
-                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
+                    request.getRequestDispatcher("page/welcome.jsp").forward(request, response);
+                    //重定向
+                    //resp.sendRedirect(req.getContextPath()+"/page/welcome.jsp");
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
-                req.setAttribute("error", "验证码错误!");
-                req.getRequestDispatcher("page/view.jsp").forward(req, resp);
+                request.setAttribute("error", "验证码错误!");
+                request.getRequestDispatcher("page/view.jsp").forward(request, response);
             }
         }else if("/sendsmscode.do".equals(url)) {
             //发送手机验证码：网易云短信发送接口
-            String phone = req.getParameter("phonenumber");
+            String phone = request.getParameter("phonenumber");
 //            String smscode = SendCodeUtil.sendsms(phone);
             String str[] = {
                     "{\"obj\":\"123456\"}",
@@ -166,45 +155,46 @@ public class WebServlet extends HttpServlet{
             System.out.println("smscode:"+smscode);
             JSONObject jo = (JSONObject)JSONObject.parse(smscode);
             session.setAttribute("smscode", jo.getString("obj"));//保存数据
-            req.setAttribute("myphone", phone);
-            req.getRequestDispatcher("page/smslogin.jsp").forward(req, resp);
+            request.setAttribute("myphone", phone);
+            request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
         }else if("/smslogin.do".equals(url)) {
-            String phonenumber = req.getParameter("phonenumber");
-            String smscode = req.getParameter("smscode");
+            String phonenumber = request.getParameter("phonenumber");
+            String smscode = request.getParameter("smscode");
             //判断验证码
             String code = (String) session.getAttribute("smscode");
             if(smscode.equalsIgnoreCase(code)){
                 //继续判断账号和密码
                 User u = dao.findByPhonenumber(phonenumber);
                 if(u == null){
-                    req.setAttribute("error", "手机号错误!");
-                    req.getRequestDispatcher("page/smslogin.jsp").forward(req, resp);
+                    request.setAttribute("error", "手机号错误!");
+                    request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
                 }else{//登陆成功
-                    req.setAttribute("u", u);
+                    request.setAttribute("u", u);
+                    session.setAttribute("u", u);
 //                    resp.sendRedirect(req.getContextPath()+"/page/welcome.jsp");
-                    req.getRequestDispatcher("page/welcome.jsp").forward(req, resp);
+                    request.getRequestDispatcher("page/welcome.jsp").forward(request, response);
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
-                req.setAttribute("error", "验证码错误!");
-                req.getRequestDispatcher("page/smslogin.jsp").forward(req, resp);
+                request.setAttribute("error", "验证码错误!");
+                request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
             }
         }else if("/person.do".equals(url)) {
             User u = (User) session.getAttribute("u");
             User user = dao.findById(u.getId());
-            req.setAttribute("user", user);
-            req.getRequestDispatcher("page/person.jsp").forward(req, resp);
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("page/person.jsp").forward(request, response);
         }else if("/findAll.do".equals(url)){//查询所有的数据
             List<User> list = dao.findAll();
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("page/findAll.jsp").forward(req, resp);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
         }else if("/del.do".equals(url)){
-            String id = req.getParameter("id");
-            dao.remove(Integer.parseInt(id));
+            String id = request.getParameter("id");
+            dao.removeById(Integer.parseInt(id));
             //删除之后要干嘛？
             List<User> list = dao.findAll();
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("page/findAll.jsp").forward(req, resp);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
         }else if("/save.do".equals(url)){
             //取出浏览器提交过来的数据，然后调用dao将数据添加到数据库
             String account = request.getParameter("account");
@@ -215,7 +205,8 @@ public class WebServlet extends HttpServlet{
             dao.save(account, pwd, username, sex, phonenumber);
             List<User> list = dao.findAll();
             request.setAttribute("list", list);
-            request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
+//            request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath()+"/findAll.do");
         }else if("/upload.do".equals(url)){
             //文件上传：
             request.setCharacterEncoding("UTF-8");
@@ -233,7 +224,6 @@ public class WebServlet extends HttpServlet{
             if(items!=null){
                 for(FileItem item:items){
                     if(item.isFormField()){
-
                     }else{
                         String oldName = item.getName();
                         System.out.println("oldName:"+oldName);
@@ -246,6 +236,7 @@ public class WebServlet extends HttpServlet{
                             item.write(new File(path,name));
                             //跟新用户头像为新的图片路径
                             dao.modifyAvatar("upload/"+name,u.getId());
+                            session.setAttribute("u",dao.findById(u.getId()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -253,7 +244,82 @@ public class WebServlet extends HttpServlet{
                 }
             }
             out.write("上传成功！");
+        }else if("/adminlogout.do".equals(url)) {
+            session.removeAttribute("u");
+            request.setAttribute("error", "您已成功退出!");
+            request.getRequestDispatcher("page/view.jsp").forward(request, response);
+        }else if("/savebook.do".equals(url)) {
+            //取出浏览器提交过来的数据，然后调用bdao将数据添加到数据库
+            String bookname = request.getParameter("bookname");
+            String bookauthor = request.getParameter("bookauthor");
+            String bookinfo = request.getParameter("bookinfo");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int booknum = Integer.parseInt(request.getParameter("booknum"));
+            String bowner = request.getParameter("bowner");
+            String book = request.getParameter("book");
+            bdao.save(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
+            bdao.modifydfimg(bidao.findBybook(book).getImg(),book);
+            List<Book> list = bdao.findAll();
+            request.setAttribute("list", list);
+            response.sendRedirect(request.getContextPath()+"/findAllbook.do");
+        }else if("/findAllbook.do".equals(url)) {
+            List<Book> list = bdao.findAll();
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("page/findAllbook.jsp").forward(request, response);
+        }else if("/delbook.do".equals(url)) {
+            String bookid = request.getParameter("bookid");
+            bdao.removeById(Integer.parseInt(bookid));
+            List<Book> list = bdao.findAll();
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("page/findAllbook.jsp").forward(request, response);
+        }else if("/uploadbookimgs.do".equals(url)) {
+            //文件上传：
+            request.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            DiskFileItemFactory dfif = new DiskFileItemFactory();
+            ServletFileUpload parser = new ServletFileUpload(dfif);
+            List<FileItem> items = null;
+            try {
+                items = parser.parseRequest(request);
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+            //处理请求内容
+            if(items!=null){
+                for(FileItem item:items){
+                    if(item.isFormField()){
+                    }else{
+                        String oldName = item.getName();
+                        System.out.println("oldName:"+oldName);
+                        //确定要上传到服务器的位置
+                        String path = request.getServletContext().getRealPath("/upload");
+                        //文件名
+                        String book = request.getParameter("book");
+                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+oldName.substring(oldName.lastIndexOf("."));
+                        try {
+                            item.write(new File(path,name));
+                            //跟新用户头像为新的图片路径
+                            bidao.save(book,"upload/"+name);
+                            System.out.println(book+"; upload/"+name);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            out.write("上传成功！");
+        }else if("/deletaall.do".equals(url)) {
+            System.out.println("deleteall:");
+            System.out.println(request.getAttribute("bookid"));
+            System.out.println(request.getParameter("bookid"));
         }
 
     }
 }
+/*
+ Cookie ck = new Cookie("lastAcceptTime", "");
+        ck.setPath("/");// 路径一定要正确，否则可能会删错对象
+        ck.setMaxAge(0);
+        response.addCookie(ck);
+*/

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>查看所有用户</title>
+    <title>查看所有书籍</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.css"/>
@@ -26,35 +26,37 @@
 <script>
     $("#page1").load("${pageContext.servletContext.contextPath}/page/top.jsp");
 </script>
-
 <div class="myright_bar">
     <div style="height: 100px;"></div>
-    <button class="btn btn-danger" type="button" onclick="deleteall()" style="margin-left: 5px; margin-bottom: 3px;">删除所选</button>
     <table class="table datatable">
         <thead>
         <tr>
             <th>编号</th>
-            <th>账号</th>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>头像</th>
-            <th>手机号码</th>
-            <th>注册时间</th>
+            <th>署名</th>
+            <th>作者</th>
+            <th>缩略图</th>
+            <th>简介</th>
+            <th>上架日期</th>
+            <th>单价</th>
+            <th>剩余库存</th>
+            <th>上传者</th>
             <th>更多</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${list}" var="u" varStatus="stauts">
+        <c:forEach items="${list}" var="u">
             <tr>
-                <td id="mytl${stauts.index}">${u.id}</td>
-                <td>${u.account }</td>
-                <td>${u.username }</td>
-                <td>${u.sex }</td>
-                <td><img src="${u.avatar }" height="40px"/></td>
-                <td>${u.phonenumber }</td>
-                <td>${u.registerdate }</td>
+                <td>${u.bookid}</td>
+                <td>${u.bookname }</td>
+                <td>${u.bookauthor }</td>
+                <td><img src="${u.defaultimg}" alt="缩略图" style="height: 40px;"></td>
+                <td>${u.bookinfo }</td>
+                <td>${u.pubdate }</td>
+                <td>${u.price }</td>
+                <td>${u.booknum }</td>
+                <td>${u.bowner }</td>
                 <td>
-                    <button class="btn btn-danger btn-sm" type="button" onclick="del(${u.id})">删除</button>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="del(${u.bookid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button">修改</button>
                 </td>
             </tr>
@@ -62,13 +64,13 @@
         </tbody>
     </table>
 </div>
-
+<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $('table.datatable').datatable({sortable: true, checkable: true});
-    function del(id) {
+    function del(bookid) {
         bootbox.confirm({
             message: "确定要删除数据?",
             buttons: {
@@ -83,26 +85,11 @@
             },
             callback: function (result) {
                 if (result) {//确定删除数据
-                    location.href = "${pageContext.servletContext.contextPath}/del.do?id=" + id;
+                    location.href = "${pageContext.servletContext.contextPath}/delbook.do?bookid=" + bookid;
                 }
             }
         });
     }
-    function deleteall() {
-        // 获取数据表格实例对象
-        var myDatatable = $('table.datatable').data('zui.datatable');
-        // 获取行选中数据
-        var checksStatus = myDatatable.checks.checks;
-        var tmp = "";
-        for(var x in checksStatus) {
-            tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
-            if(x != checksStatus.length-1) tmp += ','
-        }
-        console.log(tmp);
-        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-        $.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp)
-    }
-
 </script>
 </body>
 </html>

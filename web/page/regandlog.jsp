@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="sie-edge" />
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/login_style.css" >
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/font-awesome.min.css" >
-    <title>登录注册页面</title>
+    <title>注册和登录页面</title>
     <!--图标库-->
     <script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
 

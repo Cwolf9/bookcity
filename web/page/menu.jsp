@@ -9,14 +9,15 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>暂时没用</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
 </head>
 <body>
 <nav class="menu" data-ride="menu" style="width: 200px">
     <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
         <li><a href="#"><i class="icon icon-th"></i>首页</a></li>
-        <li><a href="${pageContext.servletContext.contextPath}/person.do" target="right"><i class="icon icon-user"></i>个人资料</a></li>
+        <li><a href="${pageContext.servletContext.contextPath}/person.do" target="right"><i class="icon icon-user"></i>个人资料</a>
+        </li>
         <li>
             <a href="#"><i class="icon icon-qq"></i>用户管理</a>
             <ul>
@@ -28,7 +29,8 @@
     </ul>
 </nav>
 
-<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript"
+        charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
