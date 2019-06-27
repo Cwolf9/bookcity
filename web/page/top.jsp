@@ -41,8 +41,8 @@
                             <li><a href="${pageContext.servletContext.contextPath}/page/savebook.jsp">添加书籍</a></li>
                         </ul>
                     </li>
-                    <li><a href="${pageContext.servletContext.contextPath}/order.jsp"><i class="icon icon-book"></i>订单管理</a></li>
-                    <li><a href="${pageContext.servletContext.contextPath}/admin.jsp"><i class="icon icon-user"></i>系统管理</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/page/order.jsp"><i class="icon icon-book"></i>订单管理</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/page/adminers.jsp"><i class="icon icon-user"></i>系统管理</a></li>
                 </ul>
                 <!-- 右侧的导航项目 -->
                 <ul class="nav navbar-nav navbar-right">

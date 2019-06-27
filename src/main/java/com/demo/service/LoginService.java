@@ -41,4 +41,5 @@ public interface LoginService {
     User findById(int id);
     List findAllUsers();
     void removeById(int id);
+    void modifyAvatar(String newAva, int id);
 }

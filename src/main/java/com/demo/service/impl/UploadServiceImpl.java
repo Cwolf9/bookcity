@@ -44,8 +44,6 @@ import java.util.List;
 public class UploadServiceImpl implements UploadService {
     public List<FileItem> uploadimg(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //文件上传：
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
         DiskFileItemFactory dfif = new DiskFileItemFactory();
         ServletFileUpload parser = new ServletFileUpload(dfif);
         List<FileItem> items = null;

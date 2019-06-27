@@ -96,4 +96,7 @@ public class LoginServiceImpl implements LoginService {
     public void removeById(int id) {
         udao.removeById(id);
     }
+    public void modifyAvatar(String newAva, int id) {
+        udao.modifyAvatar(newAva, id);
+    }
 }
