@@ -60,7 +60,6 @@ public class BookDao {
                     "VALUES(?,?,?,NOW(),?,?,?,?)";
             //获取sql语句的执行器对象
             pstm = conn.prepareStatement(sql);
-            //为sql语句中的问号赋值
             pstm.setString(1, bookname);
             pstm.setString(2, bookauthor);
             pstm.setString(3, bookinfo);
@@ -68,7 +67,6 @@ public class BookDao {
             pstm.setInt(5, booknum);
             pstm.setString(6, bowner);
             pstm.setString(7, book);
-            //执行sql语句
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,15 +86,12 @@ public class BookDao {
      * @param bookid
      */
     public void removeById(int bookid){
-        Connection conn = conn = DBUtil.getConnection();;
+        Connection conn = DBUtil.getConnection();;
         PreparedStatement pstmt = null;
         try {
-            //准备sql语句
             String sql = "DELETE FROM b_book WHERE bookid=?";
-            //获取sql语句执行器对象
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bookid);
-            //执行sql语句
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

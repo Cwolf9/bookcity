@@ -39,7 +39,7 @@ import java.util.Date;
 
 public class UserDao {
     public static void main(String[] args) {
-        new UserDao().save("admin", "pwd","管理员","男","123");
+        new UserDao().save("Admin", "pwd","管理员","男","123");
     }
     /**
      * 在b_user表新增数据

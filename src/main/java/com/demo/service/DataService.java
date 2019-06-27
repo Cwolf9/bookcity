@@ -1,6 +1,7 @@
 package com.demo.service;
 
 import com.demo.model.Book;
+import com.demo.model.Orders;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ public interface DataService {
     List<Book> findAllBooks();
     void removeBookById(int id);
     void saveBI(String book, String img);
+    List<Orders> findAllOrders(String orderid2);
 }

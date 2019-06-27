@@ -102,7 +102,7 @@
         console.log(tmp);
         <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
         <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
-        window.location.href = "${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
+        window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
         if(${error}+"!" == "不能删除自己!") {
             alert("不能删除自己!");
         }

@@ -27,7 +27,9 @@ package com.demo.service.impl;
 
 import com.demo.dao.BookDao;
 import com.demo.dao.BookimgsDao;
+import com.demo.dao.OrdersDao;
 import com.demo.model.Book;
+import com.demo.model.Orders;
 import com.demo.service.DataService;
 
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.List;
 public class DataServiceImpl implements DataService {
     private static BookDao bdao = new BookDao();
     private static BookimgsDao bidao = new BookimgsDao();
+    private static OrdersDao ordao = new OrdersDao();
     public void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum, String bowner, String book) {
         bdao.save(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
     }
@@ -52,5 +55,9 @@ public class DataServiceImpl implements DataService {
 
     public void saveBI(String book, String img) {
         bidao.save(book,img);
+    }
+
+    public List<Orders> findAllOrders(String orderid2) {
+        return ordao.findAll(orderid2);
     }
 }

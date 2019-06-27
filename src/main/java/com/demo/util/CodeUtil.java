@@ -32,6 +32,14 @@ public class CodeUtil {
         String str = "ABCDEFGHJKLMNPQRSTUVWXY3456789";
         return str.charAt(new Random().nextInt(str.length()))+"";
     }
+    public static String rand() {
+        String str = "1234567890";
+        StringBuilder ans = new StringBuilder();
+        for(int i = 0; i < 15; ++i) {
+            ans.append(str.charAt(new Random().nextInt(str.length()))+"");
+        }
+        return ans.toString();
+    }
     public static void main(String[] args) {
         //System.out.println(new CodeUtil().str());
     }

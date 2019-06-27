@@ -30,6 +30,7 @@ import com.demo.dao.BookDao;
 import com.demo.dao.BookimgsDao;
 import com.demo.dao.UserDao;
 import com.demo.model.Book;
+import com.demo.model.Orders;
 import com.demo.model.User;
 import com.demo.service.DataService;
 import com.demo.service.LoginService;
@@ -43,9 +44,11 @@ import com.demo.util.MD5Util;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -79,7 +82,7 @@ public class WebServlet extends HttpServlet{
             response.sendRedirect(request.getContextPath()+"/page/view.jsp");
             return;
         }
-        //account=sss&pwd=admin&username=admin&sex=女&phonenumber=11111
+        //account=sss&pwd=Admin&username=Admin&sex=女&phonenumber=11111
         String account = request.getParameter("account");
         String pwd = request.getParameter("pwd");
         String username = request.getParameter("username");
@@ -258,7 +261,7 @@ public class WebServlet extends HttpServlet{
                 }
             }
             out.write("上传成功！");
-        }else if("/deletaall.do".equals(url)) {
+        }else if("/deleteall.do".equals(url)) {
             System.out.println("deleteall:");
             int ip = Integer.parseInt(request.getParameter("ip"));
             int userid = Integer.parseInt(request.getParameter("userid"));
@@ -269,6 +272,8 @@ public class WebServlet extends HttpServlet{
                     if(Integer.parseInt(tmp) == userid) flag = 1;
                     else ls.removeById(Integer.parseInt(tmp));
                 } else if(ip == 2) dts.removeBookById(Integer.parseInt(tmp));
+                else if(ip == 3) ;
+                else if(ip == 4);
             }
             String myurl = null;
             if(flag == 1) {
@@ -280,12 +285,22 @@ public class WebServlet extends HttpServlet{
                 List<User> list = ls.findAllUsers();
                 request.setAttribute("list", list);
                 myurl = "page/findAll.jsp";
-            } else {
+            } else if(ip == 2){
                 List<Book> list = dts.findAllBooks();
                 request.setAttribute("list", list);
                 myurl = "page/findAllbook.jsp";
-            }
+            }else if(ip == 3) ;
+            else if(ip == 4);
             request.getRequestDispatcher(myurl).forward(request, response);
+        }else if("/orders.do".equals(url)) {
+            System.out.println("获取订单: "+request.getParameter("orderid"));
+            String orderid2 = request.getParameter("orderid");
+            List<Orders> list = dts.findAllOrders(orderid2);
+            for(Orders x: list) {
+                System.out.println(x);
+            }
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("page/orders.jsp").forward(request, response);
         }
 
     }
