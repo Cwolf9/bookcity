@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <meta charset="utf-8">
+<style>
+    .circle-img_{
+        max-width: none;
+        border-radius: 100%;
+        vertical-align: middle;
+        border: 0;
+        box-sizing: border-box;
+        line-height: 26px;
+        cursor: pointer;
+        text-align: -webkit-match-parent;
+        width: 40px;
+        float: left;
+    }
+</style>
 <div class="mytop_bar">
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -42,13 +56,19 @@
                         </ul>
                     </li>
                     <li><a href="${pageContext.servletContext.contextPath}/orders.do?orderid=0"><i class="icon icon-book"></i>订单管理</a></li>
-                    <li><a href="${pageContext.servletContext.contextPath}/page/adminers.jsp"><i class="icon icon-user"></i>系统管理</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/adminers.do"><i class="icon icon-user"></i>系统管理</a></li>
                 </ul>
                 <!-- 右侧的导航项目 -->
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="${pageContext.servletContext.contextPath}/page/avatar.jsp" target="_self">更换头像</a></li>
-                    <li class="active"><a href="#">欢迎【${u.username}】登陆</a></li>
-                    <li><a href="${pageContext.servletContext.contextPath}/page/adminlogout.jsp" target="_self">退出 </a>
+                    <li class="dropdown active">
+                        <img src="${pageContext.servletContext.contextPath}/${u.avatar}" class="circle-img_" alt="">
+                        <a href="#" style="float: left;" class="dropdown-toggle " data-toggle="dropdown">
+                            欢迎【${u.username}】登录
+                            <b class="caret" style="margin-left: 5px;"></b></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="${pageContext.servletContext.contextPath}/page/adminlogout.jsp" target="_self">退出 </a></li>
+                        </ul>
                     </li>
                 </ul>
             </div><!-- END .navbar-collapse -->

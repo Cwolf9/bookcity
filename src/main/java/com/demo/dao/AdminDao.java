@@ -39,40 +39,22 @@ import java.util.Random;
 
 public class AdminDao {
     public static void main(String[] args) {
-        for(int i = 1; i <= 5; i+=2) {
-            new OrdersDao().saveOrder(i, i+1, new Random().nextInt(1000)*1.0, "长沙理工大学"+i, "1234"+i);
+        for(int i = 1; i <= 5; ++i) {
+            new AdminDao().saveAdmin(i,"admin"+i,"pwd"+i,"1239"+i);
         }
     }
+
     /**
-     * 插入admin
+     *
      * @param adminid
-     * @param args
+     * @param adminacc
+     * @param pwd
+     * @param phonenumber
      */
-    public void saveAdmin(int adminid, String... args){
-        Connection conn = null;
-        PreparedStatement pstm = null;
-        try {
-            conn = DBUtil.getConnection();
+    public void saveAdmin(int adminid, String adminacc, String pwd, String phonenumber){
             String sql = "INSERT INTO b_admin (Adminid, registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
                     "VALUES(?,NOW(),?,?,'imgs/admin0.jpg',?,'是')";
-            pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, adminid);
-            for (int i = 0, j = 2; i < args.length; ++i, ++j) {
-                pstm.setString(j, args[i]);
-            }
-            pstm.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstm.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+            DBUtil.insert(sql,adminid,adminacc,pwd,phonenumber);
     }
 
     /**
@@ -80,35 +62,14 @@ public class AdminDao {
      * @param Adminid
      */
     public void removeById(int Adminid){
-        Connection conn = DBUtil.getConnection();;
-        PreparedStatement pstmt = null;
-        try {
-            String sql = "DELETE FROM b_admin WHERE adminid=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, Adminid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        String sql = "DELETE FROM b_admin WHERE adminid=?";
+        DBUtil.delete(sql, Adminid);
     }
-
     public List<Admin> findAll(){
         List<Admin> list = new ArrayList<Admin>();
-        Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM b_admin";
-        PreparedStatement pstmt = null;
         try {
-            pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = DBUtil.select(sql);
             while(rs.next()){//指标往下移动一行
                 int adminid = rs.getInt(1);
                 String adminacc = rs.getString(2);
@@ -122,15 +83,6 @@ public class AdminDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return list;
     }
@@ -141,26 +93,8 @@ public class AdminDao {
      * @param adminid
      */
     public void modifyPwd(String pwd, int adminid){
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement pstmt = null;
         String sql = "UPDATE b_admin SET pwd = ? WHERE adminid=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, pwd);
-            pstmt.setInt(2, adminid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtil.update(sql,pwd,adminid);
     }
     /**
      * 修改权限
@@ -168,25 +102,7 @@ public class AdminDao {
      * @param adminid
      */
     public void modifyPer(String permission, int adminid){
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement pstmt = null;
         String sql = "UPDATE b_admin SET name = ? WHERE adminid=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, permission);
-            pstmt.setInt(2, adminid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtil.update(sql,permission,adminid);
     }
 }

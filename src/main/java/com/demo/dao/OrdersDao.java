@@ -51,34 +51,10 @@ public class OrdersDao {
      * @param uid
      * @param args
      */
-    public void saveOrder(int uid, int sid, double money, String... args){//订单编号系统随机生成
-        Connection conn = null;
-        PreparedStatement pstm = null;
-        try {
-            conn = DBUtil.getConnection();
-            String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name, express) " +
-                    "VALUES(?,?,?,?,?,?)";
-            pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, uid);
-            pstm.setInt(2,sid);
-            pstm.setDouble(3, money);
-            pstm.setString(4, CodeUtil.rand());
-            for (int i = 0, j = 5; i < args.length; ++i, ++j) {
-                pstm.setString(j, args[i]);
-            }
-            pstm.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstm.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+    public void saveOrder(int uid, int sid, double money,String name, String express){//订单编号系统随机生成
+        String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name, express) " +
+                "VALUES(?,?,?,?,?,?)";
+        DBUtil.insert(sql,uid,sid,money,CodeUtil.rand(),name,express);
     }
 
     /**
@@ -86,25 +62,8 @@ public class OrdersDao {
      * @param orderid
      */
     public void removeById(String orderid){
-        Connection conn = DBUtil.getConnection();;
-        PreparedStatement pstmt = null;
-        try {
-            String sql = "DELETE FROM b_orders WHERE orderid=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, orderid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        String sql = "DELETE FROM b_orders WHERE orderid=?";
+        DBUtil.delete(sql, orderid);
     }
 
     /**
@@ -112,25 +71,8 @@ public class OrdersDao {
      * @param orderindex
      */
     public void removeByIndex(int orderindex){
-        Connection conn = DBUtil.getConnection();;
-        PreparedStatement pstmt = null;
-        try {
-            String sql = "DELETE FROM b_orders WHERE orderindex=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, orderindex);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        String sql = "DELETE FROM b_orders WHERE orderindex=?";
+        DBUtil.delete(sql, orderindex);
     }
     /**
      * 查询orderid2的全部订单，orderid2为0时输出所有订单
@@ -139,18 +81,17 @@ public class OrdersDao {
      */
     public List<Orders> findAll(String orderid2){
         List<Orders> list = new ArrayList<Orders>();
-        Connection conn = DBUtil.getConnection();
-        String sql;
+        String sql = null;
         if(orderid2.equals("0")) {
-            System.out.println(1);
             sql = "SELECT * FROM b_orders";
-        }
-        else sql = "SELECT * FROM b_orders where orderid = ?";
-        PreparedStatement pstmt = null;
+        } else sql = "SELECT * FROM b_orders where orderid = ?";
         try {
-            pstmt = conn.prepareStatement(sql);
-            if(!orderid2.equals("0")) pstmt.setString(1, orderid2);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = null;
+            if(!orderid2.equals("0")) {
+                rs = DBUtil.select(sql,orderid2);
+            }else {
+                rs = DBUtil.select(sql);
+            }
             while(rs.next()){//指标往下移动一行
                 int orderindex = rs.getInt(1);
                 String orderid = rs.getString(2);
@@ -164,15 +105,6 @@ public class OrdersDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return list;
     }
@@ -183,25 +115,7 @@ public class OrdersDao {
      * @param orderid
      */
     public void modifyName(String name, String orderid){
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement pstmt = null;
         String sql = "UPDATE b_orders SET name = ? WHERE orderid=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, name);
-            pstmt.setString(2, orderid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtil.update(sql,name,orderid);
     }
 }

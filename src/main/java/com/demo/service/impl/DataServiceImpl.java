@@ -60,4 +60,8 @@ public class DataServiceImpl implements DataService {
     public List<Orders> findAllOrders(String orderid2) {
         return ordao.findAll(orderid2);
     }
+
+    public void removeOrderById(String orderid) {
+        ordao.removeById(orderid);
+    }
 }

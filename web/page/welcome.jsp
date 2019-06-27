@@ -33,5 +33,22 @@
 
 <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    // 创建 Messger 实例
+    var myMessager = new $.zui.Messager('欢迎 &nbsp;&nbsp; ${u.username} &nbsp;&nbsp; 登录！', {
+        icon: 'heart',
+        type: 'primary',
+        time: 0 // 不进行自动隐藏
+    });
+    // 先显示消息
+    if(document.referrer.match('view.jsp') ||document.referrer.match('smslogin.jsp')||document.referrer.match('adminlogout.do')) {
+        myMessager.show();
+        // 1 秒之后隐藏消息
+        setTimeout(function() {
+            myMessager.hide();
+        }, 2000);
+    }
+
+</script>
 </body>
 </html>

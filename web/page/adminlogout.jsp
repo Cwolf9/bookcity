@@ -30,6 +30,7 @@
 <script>
     $("#page1").load("${pageContext.servletContext.contextPath}/page/top.jsp");
 </script>
+
 <div class="myright_bar">
     <button type="button" class="btn btn-lg btn-primary" id="btn-lg" data-toggle="modal" data-target="#myModal"
             style="display: none;">启动对话框

@@ -27,14 +27,22 @@ package com.demo.util;
 
 import com.demo.dao.UserDao;
 import com.demo.model.User;
+import java.sql.ResultSet;
 import com.sun.org.apache.xml.internal.serialize.LineSeparator;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBUtil {
+    public static void main(String[] args) {
+        //getConnection();
+        List<User> a = new UserDao().findAll();
+        for(User x: a) {
+            System.out.println(x);
+        }
+    }
 //    private static Connection conn;
     public static Connection getConnection() {
         Connection conn = null;
@@ -52,11 +60,143 @@ public class DBUtil {
 //        }
 //        return conn;
     }
-    public static void main(String[] args) {
-        //getConnection();
-        List<User> a = new UserDao().findAll();
-        for(User x: a) {
-            System.out.println(x);
+
+    /**
+     *
+     * @param sql
+     * @param args
+     */
+    public static void insert(String sql, Object... args) {
+        Connection conn =  DBUtil.getConnection();
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(sql);
+            for(int i = 0; i < args.length; ++i) pstm.setObject(i+1, args[i]);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                pstm.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *
+     * @param sql
+     * @param args
+     */
+    public static void delete(String sql, Object... args) {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(sql);
+            for(int i = 0; i < args.length; ++i) pstm.setObject(i+1, args[i]);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                pstm.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *
+     * @param sql
+     * @param args
+     * @return
+     */
+    public static ResultSet select(String sql, Object... args) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            for(int i = 0; i < args.length; ++i) pstmt.setObject(i+1, args[i]);
+            rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }finally {
+//            try {
+///               conn.close();
+//                pstmt.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }catch (NullPointerException e) {
+//                e.printStackTrace();
+//            }
+        }
+        return rs;
+    }
+
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    public static ResultSet select(String sql) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }finally {
+//            try {
+///               conn.close();
+//                pstmt.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }catch (NullPointerException e) {
+//                e.printStackTrace();
+//            }
+        }
+        return rs;
+    }
+    /**
+     *
+     * @param sql
+     * @param args
+     */
+    public static void update(String sql, Object... args) {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(sql);
+            for(int i = 0; i < args.length; ++i) pstmt.setObject(i+1,args[i]);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -25,7 +25,9 @@
  */
 package com.demo.service.impl;
 
+import com.demo.dao.AdminDao;
 import com.demo.dao.UserDao;
+import com.demo.model.Admin;
 import com.demo.model.User;
 import com.demo.service.LoginService;
 import com.demo.util.CodeUtil;
@@ -40,6 +42,7 @@ import java.util.Random;
 
 public class LoginServiceImpl implements LoginService {
     private static UserDao udao = new UserDao();
+    private static AdminDao addao = new AdminDao();
     public void save(String account, String pwd, String username, String sex, String phonenumber) {
         udao.save(account, pwd, username, sex, phonenumber);
     }
@@ -98,5 +101,17 @@ public class LoginServiceImpl implements LoginService {
     }
     public void modifyAvatar(String newAva, int id) {
         udao.modifyAvatar(newAva, id);
+    }
+
+    public void removeAdminById(int adminid2) {
+        addao.removeById(adminid2);
+    }
+
+    public List<Admin> findAllAdmin() {
+        return addao.findAll();
+    }
+
+    public void modifyPwd(String pwd1, int userid) {
+        udao.modifyPwd(pwd1,userid);
     }
 }

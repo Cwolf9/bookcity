@@ -29,6 +29,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.demo.dao.BookDao;
 import com.demo.dao.BookimgsDao;
 import com.demo.dao.UserDao;
+import com.demo.model.Admin;
 import com.demo.model.Book;
 import com.demo.model.Orders;
 import com.demo.model.User;
@@ -137,7 +138,7 @@ public class WebServlet extends HttpServlet{
                     response.addCookie(cookie_pwd);
                     response.setContentType("text/html;charset=UTF-8");
                     //重定向
-                    response.sendRedirect(request.getContextPath()+"/page/welcome.jsp");
+                    response.sendRedirect(request.getContextPath()+"/page/person.jsp");
                     //转发
 //                    request.getRequestDispatcher("page/welcome.jsp").forward(request, response);
                 }
@@ -162,9 +163,8 @@ public class WebServlet extends HttpServlet{
                     request.setAttribute("error", "手机号错误!");
                     request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
                 }else{//登陆成功
-                    request.setAttribute("u", u);
                     session.setAttribute("u", u);
-                    response.sendRedirect(request.getContextPath()+"/page/welcome.jsp");
+                    response.sendRedirect(request.getContextPath()+"/page/person.jsp");
                 }
             }else{
                 request.setAttribute("error", "验证码错误!");
@@ -180,15 +180,10 @@ public class WebServlet extends HttpServlet{
             request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
         }else if("/del.do".equals(url)){
             ls.removeById(Integer.parseInt(request.getParameter("id")));
-            List<User> list = ls.findAllUsers();
-            request.setAttribute("list", list);
-            request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath()+"/findAll.do");
         }else if("/save.do".equals(url)){
             //取出浏览器提交过来的数据，然后调用dao将数据添加到数据库
             ls.save(account, pwd, username, sex, phonenumber);
-            List<User> list = ls.findAllUsers();
-            request.setAttribute("list", list);
-//            request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath()+"/findAll.do");
         }else if("/upload.do".equals(url)){
             response.setContentType("text/html;charset=UTF-8");
@@ -223,18 +218,14 @@ public class WebServlet extends HttpServlet{
         }else if("/savebook.do".equals(url)) {
             dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
             dts.changeImg(book);
-            List<Book> list = dts.findAllBooks();
-            request.setAttribute("list", list);
-            request.getRequestDispatcher("page/findAllbook.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath()+"/findAllbook.do");
         }else if("/findAllbook.do".equals(url)) {
             List<Book> list = dts.findAllBooks();
             request.setAttribute("list", list);
             request.getRequestDispatcher("page/findAllbook.jsp").forward(request, response);
         }else if("/delbook.do".equals(url)) {
             dts.removeBookById(Integer.parseInt(bookid));
-            List<Book> list = dts.findAllBooks();
-            request.setAttribute("list", list);
-            request.getRequestDispatcher("page/findAllbook.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath()+"/findAllbook.do");
         }else if("/uploadbookimgs.do".equals(url)) {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
@@ -264,7 +255,10 @@ public class WebServlet extends HttpServlet{
         }else if("/deleteall.do".equals(url)) {
             System.out.println("deleteall:");
             int ip = Integer.parseInt(request.getParameter("ip"));
-            int userid = Integer.parseInt(request.getParameter("userid"));
+            int userid = 0;
+            if(request.getParameter("userid") != null)userid=Integer.parseInt(request.getParameter("userid"));
+            int adminid2 = 0;
+            if(request.getParameter("adminid2") != null)adminid2=Integer.parseInt(request.getParameter("adminid2"));
             System.out.println("ip="+ip+",userid="+userid);
             int flag = 0;
             for(String tmp:request.getParameter("bookid").split(",")) {
@@ -272,35 +266,58 @@ public class WebServlet extends HttpServlet{
                     if(Integer.parseInt(tmp) == userid) flag = 1;
                     else ls.removeById(Integer.parseInt(tmp));
                 } else if(ip == 2) dts.removeBookById(Integer.parseInt(tmp));
-                else if(ip == 3) ;
-                else if(ip == 4);
+                else if(ip == 3) dts.removeOrderById(tmp);
+                else if(ip == 4) {
+                    if(Integer.parseInt(tmp) == adminid2) flag = 1;
+                    else ls.removeAdminById(Integer.parseInt(tmp));
+                }
             }
             String myurl = null;
-            if(flag == 1) {
-                request.setAttribute("error","\"不能删除自己\"");
-                List<User> list = ls.findAllUsers();
-                request.setAttribute("list", list);
-                myurl = "page/findAll.jsp";
-            }else if (ip == 1) {
-                List<User> list = ls.findAllUsers();
-                request.setAttribute("list", list);
-                myurl = "page/findAll.jsp";
+            if(flag == 1) request.setAttribute("error","\"不能删除自己\"");
+            if (ip == 1) {
+                myurl = "/findAll.do";
             } else if(ip == 2){
-                List<Book> list = dts.findAllBooks();
-                request.setAttribute("list", list);
-                myurl = "page/findAllbook.jsp";
-            }else if(ip == 3) ;
-            else if(ip == 4);
-            request.getRequestDispatcher(myurl).forward(request, response);
+                myurl = "/findAllbook.do";
+            }else if(ip == 3) {
+                myurl = "/orders.do";
+            } else if(ip == 4) {
+                myurl = "/adminers.do";
+            }
+            response.sendRedirect(request.getContextPath()+myurl);
         }else if("/orders.do".equals(url)) {
-            System.out.println("获取订单: "+request.getParameter("orderid"));
             String orderid2 = request.getParameter("orderid");
             List<Orders> list = dts.findAllOrders(orderid2);
-            for(Orders x: list) {
-                System.out.println(x);
-            }
             request.setAttribute("list", list);
-            request.getRequestDispatcher("page/orders.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath()+"/page/orders.jsp");
+        }else if("/delorder.do".equals(url)) {
+            String orderid = request.getParameter("orderid");
+            dts.removeOrderById(orderid);
+            response.sendRedirect(request.getContextPath()+"/orders.do");
+        }else if("/deladmin.do".equals(url)) {
+            String adminid2 = request.getParameter("adminid2");
+            ls.removeAdminById(Integer.parseInt(adminid2));
+            response.sendRedirect(request.getContextPath()+"/adminers.do");
+        }else if("/adminers.do".equals(url)) {
+            List<Admin> list = ls.findAllAdmin();
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("page/adminers.jsp").forward(request, response);
+        }else if("/changepwd.do".equals(url)) {
+            String pwd0 = request.getParameter("pwd0");
+            String pwd1 = request.getParameter("pwd1");
+            User user = (User) session.getAttribute("u");
+            System.out.println(MD5Util.MD5Encode(pwd0,"utf-8"));
+            System.out.println(user.getPwd());
+            if(MD5Util.MD5Encode(pwd0,"utf-8").equals(user.getPwd()) ) {
+//                session.setAttribute("changepwdAns","修改密码成功！");
+                request.setAttribute("changepwdAns","修改密码成功！");
+                System.out.println("what?");
+                ls.modifyPwd(MD5Util.MD5Encode(pwd1,"utf-8"), user.getUserid());
+            }else {
+//                session.setAttribute("changepwdAns","原密码错误！修改失败！");
+                request.setAttribute("changepwdAns","原密码错误！修改失败！");
+            }
+//            response.sendRedirect(request.getContextPath()+"/page/person.jsp");
+            request.getRequestDispatcher("page/person.jsp").forward(request,response);
         }
 
     }

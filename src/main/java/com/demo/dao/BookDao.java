@@ -51,61 +51,17 @@ public class BookDao {
      * @param booknum 数量
      */
     public void save(String bookname,String bookauthor,String bookinfo,double price,int booknum,String bowner,String book){
-        Connection conn = null;
-        PreparedStatement pstm = null;
-        try {
-            conn = DBUtil.getConnection();
-            //准备要执行的sql语句
-            String sql = "INSERT INTO b_book (bookname, bookauthor, bookinfo, pubdate, price, booknum,bowner,book) " +
-                    "VALUES(?,?,?,NOW(),?,?,?,?)";
-            //获取sql语句的执行器对象
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, bookname);
-            pstm.setString(2, bookauthor);
-            pstm.setString(3, bookinfo);
-            pstm.setDouble(4, price);
-            pstm.setInt(5, booknum);
-            pstm.setString(6, bowner);
-            pstm.setString(7, book);
-            pstm.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstm.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        String sql = "INSERT INTO b_book (bookname, bookauthor, bookinfo, pubdate, price, booknum,bowner,book) " +
+                "VALUES(?,?,?,NOW(),?,?,?,?)";
+        DBUtil.insert(sql,bookname,bookauthor,bookinfo,price,booknum,bowner,book);
     }
     /**
      * 根据bookid删除书籍
      * @param bookid
      */
     public void removeById(int bookid){
-        Connection conn = DBUtil.getConnection();;
-        PreparedStatement pstmt = null;
-        try {
-            String sql = "DELETE FROM b_book WHERE bookid=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, bookid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            //关闭资源，比如Connection对象
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        String sql = "DELETE FROM b_book WHERE bookid=?";
+        DBUtil.insert(sql,bookid);
     }
 
     /**查询所有书本数据
@@ -113,12 +69,9 @@ public class BookDao {
      */
     public List<Book> findAll(){
         List<Book> list = new ArrayList<Book>();
-        Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM b_book";
-        PreparedStatement pstmt = null;
         try {
-            pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = DBUtil.select(sql);
             while(rs.next()){//指标往下移动一行
                 int bookid = rs.getInt(1);
                 String bookname = rs.getString(2);
@@ -136,15 +89,6 @@ public class BookDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return list;
     }
@@ -154,14 +98,10 @@ public class BookDao {
      * @return 数据库对应bookid的一行数据，封装为java中的一个Book对象
      */
     public Book findById(int bookid){
-        Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM b_book where bookid=?";
-        PreparedStatement pstmt = null;
         Book bk = null;
         try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, bookid);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = DBUtil.select(sql, bookid);
             while(rs.next()){//指标往下移动一行
                 int bookid2 = rs.getInt(1);
                 String bookname = rs.getString(2);
@@ -178,15 +118,6 @@ public class BookDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return bk;
     }
@@ -197,14 +128,10 @@ public class BookDao {
      * @return
      */
     public Book findByBookName(String bookname){
-        Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM b_book where bookname=?";
-        PreparedStatement pstmt = null;
         Book bk = null;
         try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, bookname);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = DBUtil.select(sql,bookname);
             while(rs.next()){//指标往下移动一行
                 int bookid = rs.getInt(1);
                 String bookname2 = rs.getString(2);
@@ -221,15 +148,6 @@ public class BookDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return bk;
     }
@@ -240,14 +158,10 @@ public class BookDao {
      * @return
      */
     public Book findBybook(String book){
-        Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM b_book where book=?";
-        PreparedStatement pstmt = null;
         Book bk = null;
         try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, book);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = DBUtil.select(sql, book);
             while(rs.next()){//指标往下移动一行
                 int bookid = rs.getInt(1);
                 String bookname2 = rs.getString(2);
@@ -264,15 +178,6 @@ public class BookDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return bk;
     }
@@ -284,12 +189,9 @@ public class BookDao {
      */
     public List<Book> findBybowner(String bowner){
         List<Book> list = new ArrayList<Book>();
-        Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM b_book where bowner=?";
-        PreparedStatement pstmt = null;
         try {
-            pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();//查询数据，将结果保存在ResultSet结果集
+            ResultSet rs = DBUtil.select(sql);
             while(rs.next()){//指标往下移动一行
                 int bookid = rs.getInt(1);
                 String bookname = rs.getString(2);
@@ -307,15 +209,6 @@ public class BookDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
         return list;
     }
@@ -325,27 +218,8 @@ public class BookDao {
      * @param bookid
      */
     public void modifyBookinfo(String bookinfo, int bookid){
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        conn = DBUtil.getConnection();
         String sql = "UPDATE b_book SET bookinfo=? WHERE bookid=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, bookinfo);
-            pstmt.setInt(2, bookid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtil.update(sql,bookinfo,bookid);
     }
 
     /**
@@ -354,51 +228,13 @@ public class BookDao {
      * @param bookid
      */
     public void modifyPrice(double price, int bookid){
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        conn = DBUtil.getConnection();
         String sql = "UPDATE b_book SET price=? WHERE bookid=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setDouble(1, price);
-            pstmt.setInt(2, bookid);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtil.update(sql,price,bookid);
     }
 
     public void modifydfimg(String defaultimg, String book){
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        conn = DBUtil.getConnection();
         String sql = "UPDATE b_book SET defaultimg=? WHERE book=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, defaultimg);
-            pstmt.setString(2, book);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtil.update(sql, defaultimg,book);
     }
 
 }

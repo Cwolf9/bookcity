@@ -44,7 +44,7 @@
                 </div>
                 <div class="text-left p-t-8 p-b-31">
                     <a href="${pageContext.servletContext.contextPath}/page/smslogin.jsp">验证码登录</a>
-                    <a href="javascript:" style="float: right">忘记密码？</a>
+                    <a href="${pageContext.servletContext.contextPath}/page/smslogin.jsp" style="float: right">忘记密码？</a>
                 </div>
                 <%--<div class="text-right p-t-8 p-b-31">--%>
                 <%--</div>--%>

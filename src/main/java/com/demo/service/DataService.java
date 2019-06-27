@@ -12,4 +12,7 @@ public interface DataService {
     void removeBookById(int id);
     void saveBI(String book, String img);
     List<Orders> findAllOrders(String orderid2);
+
+    void removeOrderById(String orderid);
+
 }

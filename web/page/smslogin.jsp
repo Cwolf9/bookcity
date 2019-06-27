@@ -49,7 +49,6 @@
                 </div>
                 <div class="text-left p-t-8 p-b-31">
                     <a href="${pageContext.servletContext.contextPath}/page/view.jsp">账号密码登录</a>
-                    <a href="javascript:" style="float: right">忘记密码？</a>
                 </div>
                 <div class="text-center p-t-8 p-b-31" style="color: red">${error}</div>
                 <div class="container-login100-form-btn">

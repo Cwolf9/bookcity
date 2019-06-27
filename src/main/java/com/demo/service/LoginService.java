@@ -25,6 +25,7 @@
  */
 package com.demo.service;
 
+import com.demo.model.Admin;
 import com.demo.model.User;
 import com.demo.util.MD5Util;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -42,4 +43,10 @@ public interface LoginService {
     List findAllUsers();
     void removeById(int id);
     void modifyAvatar(String newAva, int id);
+
+    void removeAdminById(int adminid2);
+
+    List<Admin> findAllAdmin();
+
+    void modifyPwd(String pwd1, int userid);
 }
