@@ -38,7 +38,7 @@ public class test {
         // SendCodeUtil.sendsms("15172425261");
         List<User> users = new UserDao().findAll();
         for(User user: users) {
-            new UserDao().modifyPwd(MD5Util.MD5Encode(user.getPwd(),"utf-8"), user.getId());
+            new UserDao().modifyPwd(MD5Util.MD5Encode(user.getPwd(),"utf-8"), user.getUserid());
         }
     }
 }

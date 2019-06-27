@@ -68,7 +68,7 @@
         <div class="form-group">
             <label for="bookinfo" class="col-sm-2">简介</label>
             <div class="col-md-6 col-sm-10">
-                <input type="text" class="form-control" name="bookinfo" id="bookinfo" placeholder="简介(不得超过140字)" style="height: 100px;">
+                <textarea type="text" class="form-control" name="bookinfo" id="bookinfo" placeholder="简介(不得超过140字)" style="height: 100px;"></textarea>
             </div>
         </div>
         <input type="text" style="display: none;" id="upbook" name="book">

@@ -29,7 +29,7 @@ import java.util.Date;
 
 public class User {
     //属性-成员变量
-    private int id;
+    private int userid;
     private String account;
     private String pwd;
     private String username;
@@ -41,13 +41,15 @@ public class User {
     private String ismerchant;
     //无参数的构造器
 
-    public int getId() {
-        return id;
+
+    public int getUserid() {
+        return userid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
+
     public String getAccount() {
         return account;
     }
@@ -107,10 +109,10 @@ public class User {
         super();
     }
 
-    public User(int id, String account, String pwd, String username, String sex, String avatar, String phonenumber,
+    public User(int userid, String account, String pwd, String username, String sex, String avatar, String phonenumber,
                 Date registerdate,double grade, String ismerchant) {
         super();
-        this.id = id;
+        this.userid = userid;
         this.account = account;
         this.pwd = pwd;
         this.username = username;
@@ -125,7 +127,7 @@ public class User {
     @Override
     public String toString() {
         //return super.toString();
-        return "id:"+id+",account:"+account+",username:"+username;
+        return "userid:"+userid+",account:"+account+",username:"+username;
     }
 
 

@@ -28,6 +28,7 @@
 </script>
 <div class="myright_bar">
     <div style="height: 100px;"></div>
+    <button class="btn btn-danger" type="button" onclick="deleteallbook()" style="margin-left: 5px; margin-bottom: 3px;">删除所选</button>
     <table class="table datatable">
         <thead>
         <tr>
@@ -44,19 +45,19 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${list}" var="u">
+        <c:forEach items="${list}" var="ix">
             <tr>
-                <td>${u.bookid}</td>
-                <td>${u.bookname }</td>
-                <td>${u.bookauthor }</td>
-                <td><img src="${u.defaultimg}" alt="缩略图" style="height: 40px;"></td>
-                <td>${u.bookinfo }</td>
-                <td>${u.pubdate }</td>
-                <td>${u.price }</td>
-                <td>${u.booknum }</td>
-                <td>${u.bowner }</td>
+                <td>${ix.bookid}</td>
+                <td>${ix.bookname }</td>
+                <td>${ix.bookauthor }</td>
+                <td><img src="${ix.defaultimg}" alt="缩略图" style="height: 40px;"></td>
+                <td>${ix.bookinfo }</td>
+                <td>${ix.pubdate }</td>
+                <td>${ix.price }</td>
+                <td>${ix.booknum }</td>
+                <td>${ix.bowner }</td>
                 <td>
-                    <button class="btn btn-danger btn-sm" type="button" onclick="del(${u.bookid})">删除</button>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.bookid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button">修改</button>
                 </td>
             </tr>
@@ -89,6 +90,25 @@
                 }
             }
         });
+    }
+    //***
+    function deleteallbook() {
+        // 获取数据表格实例对象
+        var myDatatable = $('table.datatable').data('zui.datatable');
+        // 获取行选中数据
+        var checksStatus = myDatatable.checks.checks;
+        var tmp = "";
+        for(var x in checksStatus) {
+            tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
+            if(x != checksStatus.length-1) tmp += ','
+        }
+        console.log(tmp);
+        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
+        window.location.href = "${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
+        if(${error}+"!" == "不能删除自己!") {
+            alert("不能删除自己!");
+        }
     }
 </script>
 </body>

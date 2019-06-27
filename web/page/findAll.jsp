@@ -44,17 +44,17 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${list}" var="u" varStatus="stauts">
+        <c:forEach items="${list}" var="ix" varStatus="stauts">
             <tr>
-                <td id="mytl${stauts.index}">${u.id}</td>
-                <td>${u.account }</td>
-                <td>${u.username }</td>
-                <td>${u.sex }</td>
-                <td><img src="${u.avatar }" height="40px"/></td>
-                <td>${u.phonenumber }</td>
-                <td>${u.registerdate }</td>
+                <td id="mytl${stauts.index}">${ix.userid}</td>
+                <td>${ix.account }</td>
+                <td>${ix.username }</td>
+                <td>${ix.sex }</td>
+                <td><img src="${ix.avatar }" height="40px"/></td>
+                <td>${ix.phonenumber }</td>
+                <td>${ix.registerdate }</td>
                 <td>
-                    <button class="btn btn-danger btn-sm" type="button" onclick="del(${u.id})">删除</button>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.userid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button">修改</button>
                 </td>
             </tr>
@@ -68,6 +68,7 @@
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $('table.datatable').datatable({sortable: true, checkable: true});
+
     function del(id) {
         bootbox.confirm({
             message: "确定要删除数据?",
@@ -100,7 +101,11 @@
         }
         console.log(tmp);
         <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-        $.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp)
+        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
+        window.location.href = "${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
+        if(${error}+"!" == "不能删除自己!") {
+            alert("不能删除自己!");
+        }
     }
 
 </script>
