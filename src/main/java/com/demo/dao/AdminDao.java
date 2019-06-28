@@ -86,7 +86,26 @@ public class AdminDao {
         }
         return list;
     }
-
+    public Admin findAdminByAccount(String adminacc) {
+        String sql = "SELECT * FROM b_admin where adminacc=?";
+        try {
+            ResultSet rs = DBUtil.select(sql,adminacc);
+            while(rs.next()){//指标往下移动一行
+                int adminid = rs.getInt(1);
+                String adminacc2 = rs.getString(2);
+                String pwd = rs.getString(3);
+                String avatar = rs.getString(4);
+                String phonenumber = rs.getString(5);
+                Date registerdate = rs.getDate(6);
+                String permission = rs.getString(7);
+                Admin ors = new Admin(adminid,adminacc2,pwd,avatar,phonenumber,registerdate,permission);
+                return ors;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * 修改密码
      * @param pwd
@@ -96,13 +115,13 @@ public class AdminDao {
         String sql = "UPDATE b_admin SET pwd = ? WHERE adminid=?";
         DBUtil.update(sql,pwd,adminid);
     }
-    /**
-     * 修改权限
-     * @param permission
-     * @param adminid
-     */
-    public void modifyPer(String permission, int adminid){
-        String sql = "UPDATE b_admin SET name = ? WHERE adminid=?";
-        DBUtil.update(sql,permission,adminid);
+
+    public void modifyAdminPer(String newPermission, int adminid) {
+        String sql = "UPDATE b_admin SET permission = ? WHERE adminid=?";
+        DBUtil.update(sql,newPermission,adminid);
+    }
+    public void modifyAdminPwd(String md5Encode, int adminid) {
+        String sql = "UPDATE b_admin SET pwd = ? WHERE adminid=?";
+        DBUtil.update(sql,md5Encode,adminid);
     }
 }

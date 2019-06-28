@@ -94,6 +94,7 @@ public class WebServlet extends HttpServlet{
         String bookname = request.getParameter("bookname");
         String bookauthor = request.getParameter("bookauthor");
         String bookinfo = request.getParameter("bookinfo");
+        String orderid = request.getParameter("orderid");
         double price = 0;
         if(request.getParameter("price") != null)price = Double.parseDouble(request.getParameter("price"));
         int booknum = 0;
@@ -171,7 +172,7 @@ public class WebServlet extends HttpServlet{
                 request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
             }
         }else if("/person.do".equals(url)) {
-            User user = ls.findById(((User) session.getAttribute("u")).getUserid());
+            User user = ls.findUserById(((User) session.getAttribute("u")).getUserid());
             request.setAttribute("user", user);
             request.getRequestDispatcher("page/person.jsp").forward(request, response);
         }else if("/findAll.do".equals(url)){//查询所有的数据
@@ -179,7 +180,7 @@ public class WebServlet extends HttpServlet{
             request.setAttribute("list", list);
             request.getRequestDispatcher("page/findAll.jsp").forward(request, response);
         }else if("/del.do".equals(url)){
-            ls.removeById(Integer.parseInt(request.getParameter("id")));
+            ls.removeUserById(Integer.parseInt(request.getParameter("id")));
             response.sendRedirect(request.getContextPath()+"/findAll.do");
         }else if("/save.do".equals(url)){
             //取出浏览器提交过来的数据，然后调用dao将数据添加到数据库
@@ -203,7 +204,7 @@ public class WebServlet extends HttpServlet{
                             item.write(new File(path,name));
                             //跟新用户头像为新的图片路径
                             ls.modifyAvatar("upload/"+name, u.getUserid());
-                            session.setAttribute("u",ls.findById(u.getUserid()));
+                            session.setAttribute("u",ls.findUserById(u.getUserid()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -262,9 +263,10 @@ public class WebServlet extends HttpServlet{
             System.out.println("ip="+ip+",userid="+userid);
             int flag = 0;
             for(String tmp:request.getParameter("bookid").split(",")) {
+                System.out.println(tmp);
                 if(ip == 1) {
                     if(Integer.parseInt(tmp) == userid) flag = 1;
-                    else ls.removeById(Integer.parseInt(tmp));
+                    else ls.removeUserById(Integer.parseInt(tmp));
                 } else if(ip == 2) dts.removeBookById(Integer.parseInt(tmp));
                 else if(ip == 3) dts.removeOrderById(tmp);
                 else if(ip == 4) {
@@ -273,24 +275,25 @@ public class WebServlet extends HttpServlet{
                 }
             }
             String myurl = null;
-            if(flag == 1) request.setAttribute("error","\"不能删除自己\"");
+            if(flag == 1) request.setAttribute("error","不能删除自己!");
             if (ip == 1) {
-                myurl = "/findAll.do";
+                myurl = "findAll.do";
             } else if(ip == 2){
-                myurl = "/findAllbook.do";
+                myurl = "findAllbook.do";
             }else if(ip == 3) {
-                myurl = "/orders.do";
+                myurl = "orders.do";
             } else if(ip == 4) {
-                myurl = "/adminers.do";
+                myurl = "adminers.do";
             }
-            response.sendRedirect(request.getContextPath()+myurl);
+            request.getRequestDispatcher(myurl).forward(request,response);
+//            response.sendRedirect(request.getContextPath()+myurl);
         }else if("/orders.do".equals(url)) {
-            String orderid2 = request.getParameter("orderid");
-            List<Orders> list = dts.findAllOrders(orderid2);
+            String orderid2 = request.getParameter("single");
+            if(orderid2 == null || orderid2 == "") orderid2 = "0";
+            List<Orders> list = dts.findAllOrders(Integer.parseInt(orderid2), orderid2);
             request.setAttribute("list", list);
-            response.sendRedirect(request.getContextPath()+"/page/orders.jsp");
+            request.getRequestDispatcher("page/orders.jsp").forward(request, response);
         }else if("/delorder.do".equals(url)) {
-            String orderid = request.getParameter("orderid");
             dts.removeOrderById(orderid);
             response.sendRedirect(request.getContextPath()+"/orders.do");
         }else if("/deladmin.do".equals(url)) {
@@ -301,6 +304,7 @@ public class WebServlet extends HttpServlet{
             List<Admin> list = ls.findAllAdmin();
             request.setAttribute("list", list);
             request.getRequestDispatcher("page/adminers.jsp").forward(request, response);
+            return;
         }else if("/changepwd.do".equals(url)) {
             String pwd0 = request.getParameter("pwd0");
             String pwd1 = request.getParameter("pwd1");
@@ -311,13 +315,56 @@ public class WebServlet extends HttpServlet{
 //                session.setAttribute("changepwdAns","修改密码成功！");
                 request.setAttribute("changepwdAns","修改密码成功！");
                 System.out.println("what?");
-                ls.modifyPwd(MD5Util.MD5Encode(pwd1,"utf-8"), user.getUserid());
+                ls.modifyUserPwd(MD5Util.MD5Encode(pwd1,"utf-8"), user.getUserid());
             }else {
 //                session.setAttribute("changepwdAns","原密码错误！修改失败！");
                 request.setAttribute("changepwdAns","原密码错误！修改失败！");
             }
 //            response.sendRedirect(request.getContextPath()+"/page/person.jsp");
             request.getRequestDispatcher("page/person.jsp").forward(request,response);
+        }else if("/cgeUser.do".equals(url)) {
+            account = request.getParameter("account");
+            int userid = ls.findByAccount(account).getUserid();
+            pwd = request.getParameter("newPwd");
+            username = request.getParameter("newUserName");
+            sex = request.getParameter("newSex");
+            System.out.println(account+","+pwd+","+username+","+sex);
+            if(pwd!=null && pwd!="")ls.modifyUserPwd(MD5Util.MD5Encode(pwd,"utf-8"),userid);
+            if(username!=null &&username!="")ls.modifyUsername(username,userid);
+            if(sex!=null) ls.modifyUserSex(sex,userid);
+            request.getRequestDispatcher("findAll.do").forward(request,response);
+            return;
+        }else if("/cgeAdmin.do".equals(url)) {
+            String adminacc = request.getParameter("adminacc");
+            int adminid = ls.findAdminByAccount(adminacc).getAdminid();
+            pwd = request.getParameter("newPwd");
+            String newPermission = request.getParameter("newPermission");
+            System.out.println(adminacc+","+adminid+","+pwd+","+newPermission);
+            if(pwd!=null && pwd!="")ls.modifyAdminPwd(MD5Util.MD5Encode(pwd,"utf-8"),adminid);
+            if(newPermission!=null) ls.modifyAdminPer(newPermission,adminid);
+            request.getRequestDispatcher("adminers.do").forward(request,response);
+            return;
+        }else if("/cgeBook.do".equals(url)) {
+            int _bookid = Integer.parseInt(bookid);
+            bookname = request.getParameter("newBkNm");
+            bookinfo = request.getParameter("newBkIf");
+            String newPrice = request.getParameter("newPrice");
+            System.out.println(_bookid+","+booknum+","+bookinfo+","+price);
+            if(bookname!=null&&bookname!="") dts.modifyBookNameById(bookname,_bookid);
+            if(bookinfo!=null&&bookinfo!="") dts.modifyBookInfoById(bookinfo,_bookid);
+            if(newPrice!=null&&newPrice!="") dts.modifyBookPriById(Double.parseDouble(newPrice),_bookid);
+            request.getRequestDispatcher("findAllbook.do").forward(request,response);
+            return;
+        }else if("/cgeOrder.do".equals(url)) {
+            String name = request.getParameter("newName");
+            System.out.println(name);
+            if(name!=null&&name!="") dts.modifydzNameById(name,orderid);
+            request.getRequestDispatcher("orders.do").forward(request,response);
+            return;
+        }else if("/fahuo.do".equals(url)) {
+            dts.modifyOrderExpress(CodeUtil.rand(), orderid);
+            request.getRequestDispatcher("orders.do").forward(request,response);
+            return;
         }
 
     }

@@ -53,15 +53,35 @@ public class DataServiceImpl implements DataService {
         bdao.removeById(id);
     }
 
+    public void modifyBookInfoById(String BookInfo, int bookid) {
+        bdao.modifyBookinfo(BookInfo, bookid);
+    }
+
+    public void modifyBookNameById(String BookName, int bookid) {
+        bdao.modifyBookName(BookName, bookid);
+    }
+
+    public void modifyBookPriById(double price, int bookid) {
+        bdao.modifyBookPri(price, bookid);
+    }
+
     public void saveBI(String book, String img) {
         bidao.save(book,img);
     }
 
-    public List<Orders> findAllOrders(String orderid2) {
-        return ordao.findAll(orderid2);
+    public List<Orders> findAllOrders(int ip, String orderid2) {
+        return ordao.findAll(ip, orderid2);
     }
 
     public void removeOrderById(String orderid) {
         ordao.removeById(orderid);
+    }
+
+    public void modifydzNameById(String name, String orderid) {
+        ordao.modifyName(name, orderid);
+    }
+
+    public void modifyOrderExpress(String express, String orderid) {
+        ordao.modifyOrderExpress(express, orderid);
     }
 }

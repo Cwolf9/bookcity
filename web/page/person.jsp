@@ -72,6 +72,20 @@
         </div>
     </div>
 </div>
+<div class="comment">
+    <a href="###" class="avatar">
+        <i class="icon-user icon-2x"></i>
+    </a>
+    <div class="content">
+        <div class="pull-right text-muted">2019-06-17</div>
+        <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
+        <div class="text">生存还是毁灭？这时一个问题</div>
+        <div class="actions">
+            <a href="##">编辑</a>
+            <a href="##">删除</a>
+        </div>
+    </div>
+</div>
 <div class="document">
 
 </div>

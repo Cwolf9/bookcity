@@ -29,33 +29,36 @@
         <div class="form-group">
             <label for="account" class="col-sm-2">账号</label>
             <div class="col-md-6 col-sm-10">
-                <input type="text" class="form-control" id="account" name="account" placeholder="账号"><span
-                    id="accountTip"
-                    style="color:red;font-size: 12px"></span>
+                <input type="text" class="form-control" id="account" name="account" placeholder="账号">
+                <span id="accountTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="pwd" class="col-sm-2">密码</label>
             <div class="col-md-6 col-sm-10">
-                <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码">
+                <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码(只能包含字母，数字和{+-*/@#$%})">
+                <span id="pwdTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="repwd" class="col-sm-2">重复密码</label>
             <div class="col-md-6 col-sm-10">
                 <input type="password" class="form-control" name="repwd" id="repwd" placeholder="重复密码">
+                <span id="repwdTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="username" class="col-sm-2">姓名</label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="username" id="username" placeholder="姓名">
+                <span id="unTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="phonenumber" class="col-sm-2">手机号码</label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="phonenumber" id="phonenumber" placeholder="手机号码">
+                <span id="pnTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
@@ -85,26 +88,51 @@
         //js获取html标签对象
         //document.querySelectorAll(".account");
         var success = true;
-        var account = document.querySelector("#account");
+        var jgpattern =/^[A-Za-z0-9]+$/;
+        var jgpattern2 =/^[A-Za-z0-9-*/@#$%+]+$/;
+        var account = $("#account").val();
+        var pwd = $("#pwd").val();
+        var repwd = $("#repwd").val();
+        var un = $("#username").val();
+        var pn = $("#phonenumber").val();
         var accountTip = document.querySelector("#accountTip");
-        accountTip.innerText = "";
-        if (account.value == "") {
+        var pwdTip = document.querySelector("#pwdTip");
+        var repwdTip = document.querySelector("#repwdTip");
+        var unTip = document.querySelector("#unTip");
+        var pnTip = document.querySelector("#pnTip");
+        accountTip.innerText = ""
+        pwdTip.innerText = ""
+        repwdTip.innerText = ""
+        unTip.innerText = ""
+        pnTip.innerText = ""
+        if (account == "") {
             accountTip.innerText = "账号不能为空";
             success = false;
-        } else {
-            for(var ind in account) {
-                if(account[ind] == '<' || account[ind] == '>') success = false;
-            }
-            if(success == false) {
-                accountTip.innerText = "包含非法字符！";
-            }
+        } else if(!jgpattern.test(account)){
+            success = false
+            accountTip.innerText = "包含非法字符！";
+        }else if(pwd == "") {
+            pwdTip.innerText = "密码不能为空"
+            success = false;
+        }else if(repwd == "") {
+            repwdTip.innerText = "密码不能为空"
+            success = false;
+        }else if(pwd!=repwd) {
+            repwdTip.innerText = "两次密码不一致！";
+            success = false;
+        }else if(!jgpattern2.test(pwd)) {
+            pwdTip.innerText = "包含非法字符！";
+            success = false;
+        }else if(!jgpattern2.test(repwd)) {
+            repwdTip.innerText = "包含非法字符！";
+            success = false;
+        }else if(un == "") {
+            unTip.innerText = "姓名不能为空"
+            success = false;
         }
-        //
-
         if (success) {
             document.querySelector("#saveForm").submit();
         }
-
     }
 </script>
 </body>

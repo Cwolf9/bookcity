@@ -139,7 +139,29 @@ public class UserDao {
         }
         return null;
     }
-
+    public User findByAccount(String account2) {
+        String sql = "SELECT * FROM b_user where account=?";
+        ResultSet rs = DBUtil.select(sql,account2);
+        try {
+            while (rs.next()) {//指标往下移动一行
+                int id2 = rs.getInt(1);
+                String account = rs.getString(2);
+                String pwd = rs.getString(3);
+                String username = rs.getString(4);
+                String sex = rs.getString(5);
+                String avatar = rs.getString(6);
+                String phonenumber = rs.getString(7);
+                Date registerdate = rs.getDate(8);
+                double grade = rs.getDouble(9);
+                String ismerchant = rs.getString(10);
+                User u = new User(id2, account, pwd, username, sex, avatar, phonenumber, registerdate, grade, ismerchant);
+                return u;
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * 通过account和pwd找用户
      * @param account2
@@ -169,6 +191,7 @@ public class UserDao {
         }
         return null;
     }
+
     /**
      * 通过phonenumber找用户
      * @param phonenumber2
@@ -218,12 +241,12 @@ public class UserDao {
     }
 
     /**
-     * 根据id增加信誉积分
-     * @param grade2 +=grade2
+     * 根据id改变信誉积分
+     * @param grade2
      * @param id
      */
     public void modifyGrade(double grade2, int id) {
-        String sql = "UPDATE b_user SET grade = grade + ? WHERE userid=?";
+        String sql = "UPDATE b_user SET grade = ? WHERE userid=?";
         DBUtil.update(sql,grade2, id);
     }
 
@@ -235,5 +258,16 @@ public class UserDao {
     public void modifyIsm(String ism, int id) {
         String sql = "UPDATE b_user SET ismerchant =? WHERE userid=?";
         DBUtil.update(sql,ism, id);
+    }
+
+
+    public void modifyUsername(String username, int userid) {
+        String sql = "UPDATE b_user SET username =? WHERE userid=?";
+        DBUtil.update(sql,username, userid);
+    }
+
+    public void modifyUserSex(String sex, int userid) {
+        String sql = "UPDATE b_user SET sex =? WHERE userid=?";
+        DBUtil.update(sql,sex, userid);
     }
 }

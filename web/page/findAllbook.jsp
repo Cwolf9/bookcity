@@ -58,14 +58,70 @@
                 <td>${ix.bowner }</td>
                 <td>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.bookid})">删除</button>
-                    <button class="btn btn-primary btn-sm" type="button">修改</button>
+                    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showBookInfo('${ix.bookid}','${ix.bowner}')">修改</button>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-
+<!-- 对话框HTML -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改个人信息</h4>
+            </div>
+            <div class="modal-body">
+                bookid:
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample0" type="text" class="form-control" placeholder="bookid" readonly="readonly">
+                    <label for="inputEmailExample1" class="input-control-icon-left"><i
+                            class="icon icon-android "></i></label>
+                    <label for="inputEmailExample1" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+                上传者:
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample1" type="text" class="form-control" placeholder="上传者" readonly="readonly">
+                    <label for="inputEmailExample1" class="input-control-icon-left"><i
+                            class="icon icon-qq "></i></label>
+                    <label for="inputEmailExample1" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+                书名:
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample2" type="text" class="form-control" placeholder="书名">
+                    <label for="inputEmailExample2" class="input-control-icon-left"><i
+                            class="icon icon-user "></i></label>
+                    <label for="inputEmailExample2" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+                简介：
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample3" type="text" class="form-control" placeholder="简介">
+                    <label for="inputEmailExample3" class="input-control-icon-left"><i
+                            class="icon icon-edit "></i></label>
+                    <label for="inputEmailExample3" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+                价格：
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample4" type="text" class="form-control" placeholder="价格">
+                    <label for="inputEmailExample4" class="input-control-icon-left"><i
+                            class="icon icon-sun "></i></label>
+                    <label for="inputEmailExample4" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="changeBookInfo()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
@@ -106,6 +162,14 @@
         <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
         <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
         window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=2";
+    }
+    function showBookInfo(o, id) {
+        document.getElementById('inputEmailExample0').value = o;
+        document.getElementById('inputEmailExample1').value = id;
+    }
+    function changeBookInfo() {
+        var url = "${pageContext.servletContext.contextPath}/cgeBook.do?bookid=" + $('#inputEmailExample0').val()+"&newBkNm="+$('#inputEmailExample2').val()+"&newBkIf="+$('#inputEmailExample3').val()+"&newPrice="+$('#inputEmailExample4').val();
+        location.href = url;
     }
 </script>
 </body>

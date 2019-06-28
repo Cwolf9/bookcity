@@ -60,21 +60,66 @@
                 <td>${ix.permission }</td>
                 <td>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.adminid})">删除</button>
-                    <button class="btn btn-primary btn-sm" type="button">修改</button>
+                    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showAdminInfo('${ix.adminacc}')">修改</button>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-
+<!-- 对话框HTML -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改个人信息</h4>
+            </div>
+            <div class="modal-body">
+                管理员账号:
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample1" type="text" class="form-control" placeholder="管理员账号" readonly="readonly">
+                    <label for="inputEmailExample1" class="input-control-icon-left"><i
+                            class="icon icon-qq "></i></label>
+                    <label for="inputEmailExample1" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+                管理员密码:
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample2" type="password" class="form-control" placeholder="新密码">
+                    <label for="inputEmailExample2" class="input-control-icon-left"><i
+                            class="icon icon-key "></i></label>
+                    <label for="inputEmailExample2" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
+                <div class="wrap-input100" style="margin-bottom: 50px;">
+                    <span class="label-input100" style="margin-top: 15px;float: left;">管理员权限:</span>
+                    <%--<input class="input100" type="text" name="username" placeholder="请输入姓名">--%>
+                    <div class="input100" style="padding-top: 15px; float: left">
+                        <div class="radio-primary" style="float:left; margin: 0 10px">
+                            <input checked="checked" type="radio" name="sex" id="sex1" value="是">
+                            <label for="sex1">是</label></div>
+                        <div class="radio-primary" style="float:left;">
+                            <input type="radio" name="sex" id="sex2" value="否">
+                            <label for="sex2">否</label></div>
+                    </div>
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="changeAdminInfo()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $('table.datatable').datatable({sortable: true, checkable: true});
 
-    function del(adminid) {
+    function del(adminid2) {
         bootbox.confirm({
             message: "确定要删除数据?",
             buttons: {
@@ -89,7 +134,7 @@
             },
             callback: function (result) {
                 if (result) {//确定删除数据
-                    location.href = "${pageContext.servletContext.contextPath}/deladmin.do?adminid2=" + adminid;
+                    location.href = "${pageContext.servletContext.contextPath}/deladmin.do?adminid2=" + adminid2;
                 }
             }
         });
@@ -100,19 +145,28 @@
         // 获取行选中数据
         var checksStatus = myDatatable.checks.checks;
         var tmp = "";
-        for(var x in checksStatus) {
+        for(var x in checksStatus) {x
             tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
             if(x != checksStatus.length-1) tmp += ','
         }
         console.log(tmp);
         <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
         <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
-        window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=4&adminid2="+${u.adminid};
+        // TODO: change userid to adminid
+        window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=4&adminid2="+${u.userid};
         if(${error}+"!" == "不能删除自己!") {
             alert("不能删除自己!");
         }
     }
-
+    function showAdminInfo(o, id) {
+        document.getElementById('inputEmailExample1').value = o;
+    }
+    function changeAdminInfo() {
+        var url = "${pageContext.servletContext.contextPath}/cgeAdmin.do?adminacc=" + $('#inputEmailExample1').val()+"&newPwd="+$('#inputEmailExample2').val()+"&newPermission=";
+        if(document.getElementById("sex2").checked) url = url + "否";
+        else url = url + "是";
+        location.href = url;
+    }
 </script>
 </body>
 </html>

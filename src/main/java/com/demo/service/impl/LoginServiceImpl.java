@@ -88,7 +88,7 @@ public class LoginServiceImpl implements LoginService {
         return udao.findByPhonenumber(phonenumber);
     }
 
-    public User findById(int id) {
+    public User findUserById(int id) {
         return udao.findById(id);
     }
 
@@ -96,11 +96,19 @@ public class LoginServiceImpl implements LoginService {
         return udao.findAll();
     }
 
-    public void removeById(int id) {
+    public void removeUserById(int id) {
         udao.removeById(id);
     }
     public void modifyAvatar(String newAva, int id) {
         udao.modifyAvatar(newAva, id);
+    }
+
+    public void modifyUsername(String username, int userid) {
+        udao.modifyUsername(username, userid);
+    }
+
+    public void modifyUserSex(String sex, int userid) {
+        udao.modifyUserSex(sex, userid);
     }
 
     public void removeAdminById(int adminid2) {
@@ -111,7 +119,23 @@ public class LoginServiceImpl implements LoginService {
         return addao.findAll();
     }
 
-    public void modifyPwd(String pwd1, int userid) {
+    public void modifyUserPwd(String pwd1, int userid) {
         udao.modifyPwd(pwd1,userid);
+    }
+
+    public User findByAccount(String account) {
+        return udao.findByAccount(account);
+    }
+
+    public Admin findAdminByAccount(String adminacc) {
+        return addao.findAdminByAccount(adminacc);
+    }
+
+    public void modifyAdminPer(String newPermission, int adminid) {
+        addao.modifyAdminPer(newPermission,adminid);
+    }
+
+    public void modifyAdminPwd(String md5Encode, int adminid) {
+        addao.modifyAdminPwd(md5Encode,adminid);
     }
 }

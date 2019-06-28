@@ -42,19 +42,22 @@ import java.util.Random;
 
 public class OrdersDao {
     public static void main(String[] args) {
-        for(int i = 1; i <= 5; i+=2) {
-            new OrdersDao().saveOrder(i, i+1, new Random().nextInt(1000)*1.0, "长沙理工大学"+i, "1234"+i);
+        for(int i = 100; i <= 130; i+=2) {
+            new OrdersDao().saveOrder(i, i+1, new Random().nextInt(1000)*1.0, "长沙理工大学"+i);
         }
     }
+
     /**
      * 生成一个订单
      * @param uid
-     * @param args
+     * @param sid
+     * @param money
+     * @param name
      */
-    public void saveOrder(int uid, int sid, double money,String name, String express){//订单编号系统随机生成
-        String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name, express) " +
-                "VALUES(?,?,?,?,?,?)";
-        DBUtil.insert(sql,uid,sid,money,CodeUtil.rand(),name,express);
+    public void saveOrder(int uid, int sid, double money,String name){//订单编号系统随机生成
+        String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name) " +
+                "VALUES(?,?,?,?,?)";
+        DBUtil.insert(sql,uid,sid,money,CodeUtil.rand(),name);
     }
 
     /**
@@ -79,19 +82,16 @@ public class OrdersDao {
      * @param orderid2
      * @return
      */
-    public List<Orders> findAll(String orderid2){
+    public List<Orders> findAll(int ip,String orderid2){
         List<Orders> list = new ArrayList<Orders>();
         String sql = null;
-        if(orderid2.equals("0")) {
-            sql = "SELECT * FROM b_orders";
-        } else sql = "SELECT * FROM b_orders where orderid = ?";
+        if(ip == 0) sql = "SELECT * FROM b_orders";
+        else if(ip == 1) sql = "SELECT * FROM b_orders where uid = ?";
+        else sql = "SELECT * FROM b_orders where sid = ?";
         try {
             ResultSet rs = null;
-            if(!orderid2.equals("0")) {
-                rs = DBUtil.select(sql,orderid2);
-            }else {
-                rs = DBUtil.select(sql);
-            }
+            if(ip == 0) rs = DBUtil.select(sql);
+            else rs = DBUtil.select(sql,orderid2);
             while(rs.next()){//指标往下移动一行
                 int orderindex = rs.getInt(1);
                 String orderid = rs.getString(2);
@@ -117,5 +117,10 @@ public class OrdersDao {
     public void modifyName(String name, String orderid){
         String sql = "UPDATE b_orders SET name = ? WHERE orderid=?";
         DBUtil.update(sql,name,orderid);
+    }
+
+    public void modifyOrderExpress(String express, String orderid) {
+        String sql = "UPDATE b_orders SET express = ? WHERE orderid=?";
+        DBUtil.update(sql,express,orderid);
     }
 }

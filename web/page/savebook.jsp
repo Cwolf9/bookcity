@@ -37,7 +37,7 @@
         <div class="form-group">
             <label for="bowner" class="col-sm-2">你的账号</label>
             <div class="col-md-6 col-sm-10">
-                <input type="text" class="form-control" name="bowner" id="bowner" placeholder="你的账号" value="${u.account}">
+                <input type="text" class="form-control" name="bowner" id="bowner" placeholder="你的账号" readonly value="${u.account}">
             </div>
         </div>
         <div class="form-group">

@@ -237,4 +237,13 @@ public class BookDao {
         DBUtil.update(sql, defaultimg,book);
     }
 
+    public void modifyBookName(String bookName, int bookid) {
+        String sql = "UPDATE b_book SET bookname=? WHERE bookid=?";
+        DBUtil.update(sql, bookName,bookid);
+    }
+
+    public void modifyBookPri(double price, int bookid) {
+        String sql = "UPDATE b_book SET price=? WHERE bookid=?";
+        DBUtil.update(sql, price,bookid);
+    }
 }

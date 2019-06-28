@@ -25,7 +25,9 @@
  */
 package com.demo.util;
 
+import com.demo.dao.AdminDao;
 import com.demo.dao.UserDao;
+import com.demo.model.Admin;
 import com.demo.model.User;
 import java.sql.ResultSet;
 import com.sun.org.apache.xml.internal.serialize.LineSeparator;
@@ -41,6 +43,10 @@ public class DBUtil {
         List<User> a = new UserDao().findAll();
         for(User x: a) {
             System.out.println(x);
+        }
+        List<Admin> b = new AdminDao().findAll();
+        for(Admin x: b) {
+            System.out.println(x.getAdminid());
         }
     }
 //    private static Connection conn;
@@ -134,7 +140,7 @@ public class DBUtil {
             e.printStackTrace();
         }finally {
 //            try {
-///               conn.close();
+//                conn.close();
 //                pstmt.close();
 //            } catch (SQLException e) {
 //                e.printStackTrace();
@@ -164,7 +170,7 @@ public class DBUtil {
             e.printStackTrace();
         }finally {
 //            try {
-///               conn.close();
+//                conn.close();
 //                pstmt.close();
 //            } catch (SQLException e) {
 //                e.printStackTrace();

@@ -3,16 +3,9 @@
 <meta charset="utf-8">
 <style>
     .circle-img_{
-        max-width: none;
-        border-radius: 100%;
-        vertical-align: middle;
-        border: 0;
-        box-sizing: border-box;
-        line-height: 26px;
-        cursor: pointer;
-        text-align: -webkit-match-parent;
-        width: 40px;
-        float: left;
+        border-radius: 100%;vertical-align: middle;border: 0;box-sizing: border-box;
+        line-height: 40px;cursor: pointer;text-align: -webkit-match-parent;
+        height: 40px;float: left;
     }
 </style>
 <div class="mytop_bar">
@@ -55,7 +48,7 @@
                             <li><a href="${pageContext.servletContext.contextPath}/page/savebook.jsp">添加书籍</a></li>
                         </ul>
                     </li>
-                    <li><a href="${pageContext.servletContext.contextPath}/orders.do?orderid=0"><i class="icon icon-book"></i>订单管理</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/orders.do?single=0"><i class="icon icon-book"></i>订单管理</a></li>
                     <li><a href="${pageContext.servletContext.contextPath}/adminers.do"><i class="icon icon-user"></i>系统管理</a></li>
                 </ul>
                 <!-- 右侧的导航项目 -->

@@ -39,14 +39,26 @@ public interface LoginService {
     User findByAccountAndPwd(String account, String pwd);
     String getSmscode(String phone);
     User findByPhonenumber(String phonenumber);
-    User findById(int id);
+    User findUserById(int id);
     List findAllUsers();
-    void removeById(int id);
+    void removeUserById(int id);
     void modifyAvatar(String newAva, int id);
 
     void removeAdminById(int adminid2);
 
     List<Admin> findAllAdmin();
 
-    void modifyPwd(String pwd1, int userid);
+    void modifyUserPwd(String pwd1, int userid);
+
+    User findByAccount(String account);
+
+    void modifyUsername(String username, int userid);
+
+    void modifyUserSex(String sex, int userid);
+
+    Admin findAdminByAccount(String adminacc);
+
+    void modifyAdminPwd(String md5Encode, int adminid);
+
+    void modifyAdminPer(String newPermission, int adminid);
 }
