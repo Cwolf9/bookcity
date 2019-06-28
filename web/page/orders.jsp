@@ -36,7 +36,7 @@
     <table class="table datatable">
         <thead>
         <tr>
-            <th>订单序号</th>
+            <%--<th>订单序号</th>--%>
             <th>订单编号</th>
             <th>买家</th>
             <th>卖家</th>
@@ -49,15 +49,16 @@
         <tbody>
         <c:forEach items="${list}" var="ix" varStatus="stauts">
             <tr>
-                <td style="padding-left: 10px;">${ix.orderindex}</td>
-                <td id="mytl${stauts.index}">${ix.orderid}</td>
+                <%--<td style="padding-left: 10px;">${ix.orderindex}</td>--%>
+                <td id="mytl${stauts.index}" style="padding-left: 10px">${ix.orderid}</td>
                 <td>${ix.uid }</td>
                 <td>${ix.sid }</td>
                 <td>${ix.money}</td>
                 <td>${ix.name }</td>
                 <td>${ix.express }</td>
                 <td>
-                    <button class="btn btn-info btn-sm" type="button" onclick="showMoreInfo('${ix.order.id}')">信息</button>
+                    <button type="button" class="btn btn-info btn-sm" data-remote="${pageContext.servletContext.contextPath}/showMoreInfo.do?orderid=${ix.orderid}" data-toggle="modal">
+                        信息</button>
                     <button class="btn btn-success btn-sm" type="button" onclick="fahuo(${ix.orderid},'${ix.express }')">发货</button>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.orderid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showOrderInfo('${ix.orderid}','${ix.uid}','${ix.sid}')">修改</button>
@@ -112,6 +113,42 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary" onclick="changeOrderInfo()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 对话框HTML -->
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">查看订单信息</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>书籍编号</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>单项合计</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${oitems}" var="ix">
+                        <tr>
+                            <td style="padding-left: 10px">${ix.bookid}</td>
+                            <td>${ix.singleprice }</td>
+                            <td>${ix.booknum }</td>
+                            <td>${ix.allmoney}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal2">关闭</button>
             </div>
         </div>
     </div>
@@ -174,8 +211,9 @@
             alert("该订单已发货，不能重复发货！")
         }
     }
-    function showMoreInfo() {
-
+    function showMoreInfo(e) {
+        $.post("${pageContext.servletContext.contextPath}/showMoreInfo.do?orderid=" + e);
+        <%--location.href = "${pageContext.servletContext.contextPath}/showMoreInfo.do?orderid=" + e;--%>
     }
 </script>
 </body>

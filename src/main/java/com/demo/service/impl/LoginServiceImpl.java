@@ -138,4 +138,8 @@ public class LoginServiceImpl implements LoginService {
     public void modifyAdminPwd(String md5Encode, int adminid) {
         addao.modifyAdminPwd(md5Encode,adminid);
     }
+
+    public void modifyPhonenumber(String mobile, int userid) {
+        udao.modifyPhonenumber(mobile,userid);
+    }
 }

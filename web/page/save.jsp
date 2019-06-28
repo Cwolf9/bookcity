@@ -129,6 +129,9 @@
         }else if(un == "") {
             unTip.innerText = "姓名不能为空"
             success = false;
+        }else if(pn.length != 11) {
+            pnTip.innerText = "手机号必须是11位！"
+            success = false;
         }
         if (success) {
             document.querySelector("#saveForm").submit();

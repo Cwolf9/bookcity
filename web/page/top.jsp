@@ -7,6 +7,14 @@
         line-height: 40px;cursor: pointer;text-align: -webkit-match-parent;
         height: 40px;float: left;
     }
+    .mytop_bar{
+        height: 40px;
+        width: 100%;z-index: 900;position: relative;
+        display: block;
+        outline: 0;
+        list-style: none;
+        box-sizing: border-box;
+        box-shadow: 0px 0px 0px 3px #93a1a1;}
 </style>
 <div class="mytop_bar">
     <nav class="navbar navbar-default" role="navigation">

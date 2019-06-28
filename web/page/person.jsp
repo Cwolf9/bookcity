@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,17 +8,15 @@
     <title>个人首页</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <style>
-        .mytop_bar {
-            height: 40px;
-            width: 100%;
-        }
         .myright_bar {
-            height: 450px;
+            height: 500px;
             width: 1422px;
             margin-left: 530px;
         }
         .input-control {margin-top: 10px;margin-bottom: 5px;}
         .div_record .div_little_func #xiugaimima{margin-left: 120px;}
+        .div_record .div_little_func #setMobile{margin-left: 120px;}
+        .div_record .div_little_func #changeMobile{margin-left: 120px;}
         .comment{width: 950px;margin-left: 220px;}
     </style>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/person.css">
@@ -29,6 +28,7 @@
 <script>
     $("#page1").load("${pageContext.servletContext.contextPath}/page/top.jsp");
 </script>
+<img src="" style="display: none" id = "smsimg">
 <div class="myright_bar">
     <div class="col-xs-3 div_record ">
         <!-- 用户信息 -->
@@ -52,15 +52,25 @@
         <hr>
         <!-- 小功能列表 -->
         <div class="row div_little_func">
-            <button id="xiugaimima" type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">修改密码</button>
-            <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>
+            <div>
+                <button id="xiugaimima" type="button" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal">修改&nbsp;&nbsp;&nbsp;密码</button>
+                <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>
+            </div>
+            <div>
+                <button id="setMobile" type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal2" onclick="checkM()">绑定手机号</button>
+                <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${setMbAns}</div>
+            </div>
+            <div>
+                <button id="changeMobile" type="button" class="btn btn-lg btn-info" data-toggle="modal" data-target="#myModal3">修改手机号</button>
+                <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changeMbAns}</div>
+            </div>
         </div>
     </div>
 </div>
 <br> <br>
 <div class="comment">
     <a href="###" class="avatar">
-        <i class="icon-user icon-2x"></i>
+        <img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">
     </a>
     <div class="content">
         <div class="pull-right text-muted">2019-06-17</div>
@@ -74,7 +84,7 @@
 </div>
 <div class="comment">
     <a href="###" class="avatar">
-        <i class="icon-user icon-2x"></i>
+        <img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">
     </a>
     <div class="content">
         <div class="pull-right text-muted">2019-06-17</div>
@@ -98,7 +108,7 @@
             '    </a>\n' +
             '    <div class="content">\n' +
             '        <div class="pull-right text-muted">'+
-            new Date()+
+            new Date().format("yyyy-MM-dd-hh:mm:ss")+
             '</div>\n' +
             '        <div><a href="###"><strong>${u.username}:&nbsp;</strong></a> <span class="text-muted">'+
             document.getElementById("biaoti").value+
@@ -115,7 +125,7 @@
         $('.document').append(popContent);
     }
 </script>
-<!-- 对话框HTML -->
+<!-- 修改密码 -->
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -147,7 +157,71 @@
         </div>
     </div>
 </div>
-
+<!-- 绑定手机号 -->
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">绑定手机号</h4>
+            </div>
+            <div class="modal-body">
+                手机号:<div class="input-control has-icon-left has-icon-right">
+                <input id="inputExample1" type="text" class="form-control" placeholder="手机号">
+                <label for="inputExample1" class="input-control-icon-left"><i class="icon icon-key "></i></label>
+                <label for="inputExample1" class="input-control-icon-right"><i class="icon icon-check"></i></label>
+            </div>
+                <div class="input-control has-icon-left has-icon-right">
+                    <button type="button" class="btn btn-success" onclick="sendsms(1)">发送验证码</button>
+            </div>
+                验证码:<div class="input-control has-icon-left has-icon-right">
+                <input id="inputExample3" type="text" class="form-control" placeholder="验证码">
+                <label for="inputExample3" class="input-control-icon-left"><i class="icon icon-key "></i></label>
+                <label for="inputExample3" class="input-control-icon-right"><i class="icon icon-check"></i></label>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="setMobile()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改手机号 -->
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改手机号</h4>
+            </div>
+            <div class="modal-body">
+                原手机号:<div class="input-control has-icon-left has-icon-right">
+                <input id="input3Example1" type="text" class="form-control" value="${u.phonenumber}" readonly>
+                <label for="input3Example1" class="input-control-icon-left"><i class="icon icon-key "></i></label>
+                <label for="input3Example1" class="input-control-icon-right"><i class="icon icon-check"></i></label>
+            </div>
+                新手机号:<div class="input-control has-icon-left has-icon-right">
+                <input id="input3Example2" type="text" class="form-control" placeholder="新手机号">
+                <label for="input3Example2" class="input-control-icon-left"><i class="icon icon-key "></i></label>
+                <label for="input3Example2" class="input-control-icon-right"><i class="icon icon-check"></i></label>
+            </div>
+                <div class="input-control has-icon-left has-icon-right">
+                    <button type="button" class="btn btn-success" onclick="sendsms(2)">发送验证码</button>
+                </div>
+                验证码:<div class="input-control has-icon-left has-icon-right">
+                <input id="input3Example3" type="text" class="form-control" placeholder="验证码">
+                <label for="input3Example3" class="input-control-icon-left"><i class="icon icon-key "></i></label>
+                <label for="input3Example3" class="input-control-icon-right"><i class="icon icon-check"></i></label>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="changeMobile()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- sometime later, probably inside your on load event callback -->
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
@@ -160,7 +234,49 @@ function changepwd() {
     if(pwd1 != pwd2) {
         alert("新密码与确认密码不相同！")
     }else {
-        location.href = "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1
+        document.getElementById("smsimg").setAttribute("src", "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1)
+        // location.href =
+    }
+}
+function sendsms(o) {
+    var phone = "";
+    if(o == 1) phone = document.getElementById("inputExample1").value;
+    else phone = document.getElementById("input3Example2").value;
+    if(phone == "") {
+        alert("请输入手机号")
+    }else if(phone.length != 11) {
+        alert("手机格式不正确")
+    }else {
+        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+        $.post("${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone)
+    }
+}
+
+function setMobile() {
+    var Mobile = $("#inputExample1").val()
+    var Msmscode = $("#inputExample3").val()
+    if(Mobile.length != 11) {
+        alert("手机号格式不正确")
+    }else {
+        location.href = "${pageContext.servletContext.contextPath}/setMobile.do?Mobile="+Mobile+"&Msmscode="+Msmscode+"&userid="+"${u.userid}";
+    }
+}
+function changeMobile() {
+    var a = $("#input3Example1").val()
+    if(a == "") {
+        alert("请先绑定手机号！")
+    }else {
+        var b = $("#input3Example2").val()
+        var c = $("#input3Example3").val()
+        if(a == b) {
+            alert("请不要输入相同的手机号！")
+        }else location.href = "${pageContext.servletContext.contextPath}/changeMobile.do?userid="+"${u.userid}"+"&Mobile2="+b+"&smscode1="+c;
+    }
+}
+function checkM() {
+    if("${u.phonenumber}" != "") {
+        document.getElementById("inputExample1").value = "${u.phonenumber}";
+        document.getElementById("inputExample1").setAttribute("readonly", "true")
     }
 }
 </script>

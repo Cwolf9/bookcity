@@ -56,7 +56,7 @@
                 <td>${ix.registerdate }</td>
                 <td>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.userid})">删除</button>
-                    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showUserInfo('${ix.account}')">修改</button>
+                    <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showUserInfo('${ix.account}','${ix.phonenumber}')">修改</button>
                 </td>
             </tr>
         </c:forEach>
@@ -72,6 +72,14 @@
                 <h4 class="modal-title">修改个人信息</h4>
             </div>
             <div class="modal-body">
+                手机号:
+                <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                    <input id="inputEmailExample0" type="text" class="form-control" placeholder="手机号" readonly="readonly">
+                    <label for="inputEmailExample0" class="input-control-icon-left"><i
+                            class="icon icon-mobile "></i></label>
+                    <label for="inputEmailExample0" class="input-control-icon-right"><i
+                            class="icon icon-check"></i></label>
+                </div>
                 账号:
                 <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
                     <input id="inputEmailExample1" type="text" class="form-control" placeholder="账号" readonly="readonly">
@@ -148,27 +156,46 @@
         }
     }
     function deleteall() {
-        // 获取数据表格实例对象
-        var myDatatable = $('table.datatable').data('zui.datatable');
-        // 获取行选中数据
-        var checksStatus = myDatatable.checks.checks;
-        var tmp = "";
-        var flag = 0;
-        for(var x in checksStatus) {
-            tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
-            if(document.getElementById("mytl"+checksStatus[x]).innerHTML == "${u.userid}") flag = 1;
-            if(x != checksStatus.length-1) tmp += ','
-        }
-        console.log(tmp);
-        if(flag == 1) {
-            alert("不能删除自己！")
-        }else {
-            <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-            <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
-            location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
-        }
+        bootbox.confirm({
+            message: "确定要删除数据?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {//确定删除数据
+                    // 获取数据表格实例对象
+                    var myDatatable = $('table.datatable').data('zui.datatable');
+                    // 获取行选中数据
+                    var checksStatus = myDatatable.checks.checks;
+                    var tmp = "";
+                    var flag = 0;
+                    for(var x in checksStatus) {
+                        tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
+                        if(document.getElementById("mytl"+checksStatus[x]).innerHTML == "${u.userid}") flag = 1;
+                        if(x != checksStatus.length-1) tmp += ','
+                    }
+                    console.log(tmp);
+                    if(flag == 1) {
+                        alert("不能删除自己！")
+                    }else {
+                        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+                        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
+                        location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
+                    }
+                }
+            }
+        });
+
     }
     function showUserInfo(o, id) {
+        document.getElementById('inputEmailExample0').value = id;
         document.getElementById('inputEmailExample1').value = o;
     }
 function changeUserInfo() {

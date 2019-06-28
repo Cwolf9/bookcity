@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/login_util.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/login_main.css">
+    <script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
 </head>
 
 <body>
@@ -24,7 +25,7 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('${pageContext.servletContext.contextPath}/imgs/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form class="login100-form validate-form" action="${pageContext.servletContext.contextPath}/register.do" method="post">
+            <form class="login100-form validate-form" action="${pageContext.servletContext.contextPath}/register.do" method="post" id="regForm">
                 <span class="login100-form-title p-b-49">注册</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
@@ -57,12 +58,6 @@
                     </div>
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
-                <div class="wrap-input100 validate-input" data-validate="请输入手机号码">
-                    <span class="label-input100" style="margin-top: 5px;">手机号码</span>
-                    <input class="input100" type="text" name="phonenumber" placeholder="请输入手机号码">
-                    <span class="focus-input100" data-symbol="&#xf190;"></span>
-                </div>
-
                 <br/><br/>
                 <div class="text-left p-t-8 p-b-31">
                     <a href="${pageContext.servletContext.contextPath}/page/smslogin.jsp">验证码登录</a>
@@ -70,6 +65,7 @@
                 </div>
                 <%--<div class="text-right p-t-8 p-b-31">--%>
                 <%--</div>--%>
+                <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${error}</div>
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
@@ -105,11 +101,8 @@
 <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script>
-    //改变验证码
-    function changeCode(o) {
-        //修改img的src的值
-        o.src = "${pageContext.servletContext.contextPath}/code.do?"+new Date().getTime();
-    }
+    var password= hex_md5("123dafd");
+    alert(password)
 </script>
 </body>
 

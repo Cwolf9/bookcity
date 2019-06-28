@@ -270,4 +270,9 @@ public class UserDao {
         String sql = "UPDATE b_user SET sex =? WHERE userid=?";
         DBUtil.update(sql,sex, userid);
     }
+
+    public void modifyPhonenumber(String mobile, int userid) {
+        String sql = "UPDATE b_user SET phonenumber =? WHERE userid=?";
+        DBUtil.update(sql,mobile, userid);
+    }
 }

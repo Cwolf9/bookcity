@@ -29,10 +29,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.demo.dao.BookDao;
 import com.demo.dao.BookimgsDao;
 import com.demo.dao.UserDao;
-import com.demo.model.Admin;
-import com.demo.model.Book;
-import com.demo.model.Orders;
-import com.demo.model.User;
+import com.demo.model.*;
 import com.demo.service.DataService;
 import com.demo.service.LoginService;
 import com.demo.service.UploadService;
@@ -63,11 +60,15 @@ import java.io.OutputStream;
 //import javax.servlet.http.HttpSession;
 import javax.servlet.http.*;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 public class WebServlet extends HttpServlet{
+    static LoginService ls = new LoginServiceImpl();
+    static UploadService ups = new UploadServiceImpl();
+    static DataService dts = new DataServiceImpl();
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
@@ -102,13 +103,15 @@ public class WebServlet extends HttpServlet{
         String bowner = request.getParameter("bowner");
         String book = request.getParameter("book");
 
-        LoginService ls = new LoginServiceImpl();
-        UploadService ups = new UploadServiceImpl();
-        DataService dts = new DataServiceImpl();
         if("/register.do".equals(url)){//注册
-            ls.save(account, pwd, username, sex, phonenumber);
-            request.setAttribute("error", "注册成功，请登录！");
-            request.getRequestDispatcher("page/view.jsp").forward(request, response);
+            if(haveUserAccount(account) >= 1) {
+                request.setAttribute("error", "注册失败，账号重复！");
+                request.getRequestDispatcher("page/register.jsp").forward(request, response);
+            }else {
+                ls.save(account, pwd, username, sex, phonenumber);
+                request.setAttribute("error", "注册成功，请登录！");
+                request.getRequestDispatcher("page/view.jsp").forward(request, response);
+            }
         }else if("/code.do".equals(url)) {
             List a = ls.getCode();
             session.setAttribute("code", (String)a.get(0));
@@ -154,7 +157,7 @@ public class WebServlet extends HttpServlet{
             JSONObject jo = (JSONObject)JSONObject.parse(smscode);
             session.setAttribute("smscode", jo.getString("obj"));
             request.setAttribute("myphone", phonenumber);
-            request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
+//            request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
         }else if("/smslogin.do".equals(url)) {
             String smscode = request.getParameter("smscode");
             String code = (String) session.getAttribute("smscode");
@@ -174,6 +177,7 @@ public class WebServlet extends HttpServlet{
         }else if("/person.do".equals(url)) {
             User user = ls.findUserById(((User) session.getAttribute("u")).getUserid());
             request.setAttribute("user", user);
+            session.setAttribute("u", user);
             request.getRequestDispatcher("page/person.jsp").forward(request, response);
         }else if("/findAll.do".equals(url)){//查询所有的数据
             List<User> list = ls.findAllUsers();
@@ -365,10 +369,66 @@ public class WebServlet extends HttpServlet{
             dts.modifyOrderExpress(CodeUtil.rand(), orderid);
             request.getRequestDispatcher("orders.do").forward(request,response);
             return;
+        }else if("/showMoreInfo.do".equals(url)) {
+            List<OrderItem> ans = dts.findOIByOrderId(orderid);
+            Collections.sort(ans, C);
+            request.setAttribute("oitems", ans);
+            request.getRequestDispatcher("page/showMoreInfo.jsp").forward(request,response);
+            return;
+        }else if("/setMobile.do".equals(url)) {
+            String Mobile = request.getParameter("Mobile");
+            String Msmscode = request.getParameter("Msmscode");
+            int userid = Integer.parseInt(request.getParameter("userid"));
+            if(haveUserMobile(Mobile) >= 1) {
+                request.setAttribute("setMbAns", "手机号重复");
+            }else if(Msmscode.equals(session.getAttribute("smscode"))) {
+                request.setAttribute("setMbAns", "绑定成功");
+                ls.modifyPhonenumber(Mobile, userid);
+            }else {
+                request.setAttribute("setMbAns", "验证码错误");
+            }
+            request.getRequestDispatcher("page/person.jsp").forward(request,response);
+        }else if("/changeMobile.do".equals(url)){
+            String Mobile2 = request.getParameter("Mobile2");
+            String smscode1 = request.getParameter("smscode1");
+            int userid = Integer.parseInt(request.getParameter("userid"));
+            if(haveUserMobile(Mobile2) >= 2) {
+                request.setAttribute("changeMbAns", "手机号重复");
+            }else if(smscode1.equals(session.getAttribute("smscode"))) {
+                request.setAttribute("changeMbAns", "修改手机号成功");
+                ls.modifyPhonenumber(Mobile2, userid);
+            }else {
+                request.setAttribute("changeMbAns", "验证码错误");
+            }
+            request.getRequestDispatcher("page/person.jsp").forward(request,response);
         }
 
     }
 
+
+    static Comparator<OrderItem> C = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            OrderItem x1 = (OrderItem)o1;
+            OrderItem x2 = (OrderItem)o2;
+            return x1.getBookid()-x2.getBookid();
+        }
+    };
+    public static int haveUserMobile(String m) {
+        int cnt = 0;
+        List<User> lu = ls.findAllUsers();
+        for(User a: lu) {
+            if(a.getPhonenumber().equals(m)) ++ cnt;
+        }
+        return cnt;
+    }
+    public static int haveUserAccount(String m) {
+        int cnt = 0;
+        List<User> lu = ls.findAllUsers();
+        for(User a: lu) {
+            if(a.getAccount().equals(m)) ++ cnt;
+        }
+        return cnt;
+    }
 }
 
 /*

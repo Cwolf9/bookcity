@@ -1,6 +1,7 @@
 package com.demo.service;
 
 import com.demo.model.Book;
+import com.demo.model.OrderItem;
 import com.demo.model.Orders;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface DataService {
     void modifydzNameById(String name, String orderid);
 
     void modifyOrderExpress(String rand, String orderid);
+    List<OrderItem> findOIByOrderId(String orderid);
 }

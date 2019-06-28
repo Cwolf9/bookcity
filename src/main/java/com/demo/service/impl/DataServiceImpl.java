@@ -27,8 +27,10 @@ package com.demo.service.impl;
 
 import com.demo.dao.BookDao;
 import com.demo.dao.BookimgsDao;
+import com.demo.dao.OrderItemDao;
 import com.demo.dao.OrdersDao;
 import com.demo.model.Book;
+import com.demo.model.OrderItem;
 import com.demo.model.Orders;
 import com.demo.service.DataService;
 
@@ -38,6 +40,7 @@ public class DataServiceImpl implements DataService {
     private static BookDao bdao = new BookDao();
     private static BookimgsDao bidao = new BookimgsDao();
     private static OrdersDao ordao = new OrdersDao();
+    private static OrderItemDao oidao = new OrderItemDao();
     public void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum, String bowner, String book) {
         bdao.save(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
     }
@@ -83,5 +86,9 @@ public class DataServiceImpl implements DataService {
 
     public void modifyOrderExpress(String express, String orderid) {
         ordao.modifyOrderExpress(express, orderid);
+    }
+
+    public List<OrderItem> findOIByOrderId(String orderid) {
+        return oidao.findOIByOrderId(orderid);
     }
 }

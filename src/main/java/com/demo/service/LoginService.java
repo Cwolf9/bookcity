@@ -61,4 +61,6 @@ public interface LoginService {
     void modifyAdminPwd(String md5Encode, int adminid);
 
     void modifyAdminPer(String newPermission, int adminid);
+
+    void modifyPhonenumber(String mobile, int userid);
 }
