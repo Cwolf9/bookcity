@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8">
     <title>个人首页</title>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <style>
         .myright_bar {
@@ -34,7 +35,7 @@
         <!-- 用户信息 -->
         <div class="jumbotron div_userinfo">
             <img class="iv_user_head img-circle" src="${pageContext.servletContext.contextPath}/${u.avatar}">
-            <div style="display: inline-block; margin-left: 12px;font-size: 18px;">${u.username}</div>
+            <div style="display: inline-block; margin-left: 12px;font-size: 18px;">${u.adminacc}</div>
         </div>
         <!-- 随手记录 -->
         <div style="display: flex;">
@@ -75,7 +76,7 @@
     <div class="content">
         <div class="pull-right text-muted">2019-06-17</div>
         <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
-        <div class="text">生存还是毁灭？这时一个问题</div>
+        <div class="text">生存还是毁灭？这是一个问题</div>
         <div class="actions">
             <a href="##">编辑</a>
             <a href="##">删除</a>
@@ -89,7 +90,21 @@
     <div class="content">
         <div class="pull-right text-muted">2019-06-17</div>
         <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
-        <div class="text">生存还是毁灭？这时一个问题</div>
+        <div class="text">生存还是毁灭？这是一个问题</div>
+        <div class="actions">
+            <a href="##">编辑</a>
+            <a href="##">删除</a>
+        </div>
+    </div>
+</div>
+<div class="comment">
+    <a href="###" class="avatar">
+        <img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">
+    </a>
+    <div class="content">
+        <div class="pull-right text-muted">2019-06-17</div>
+        <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
+        <div class="text">生存还是毁灭？这是一个问题</div>
         <div class="actions">
             <a href="##">编辑</a>
             <a href="##">删除</a>
@@ -109,13 +124,13 @@
             var popContent =
                 '<div class="comment">' +
                 '<a href="###" class="avatar">' +
-                '<i class="icon-user icon-2x"></i>\n' +
+                '<img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">' +
                 '    </a>\n' +
                 '    <div class="content">\n' +
                 '        <div class="pull-right text-muted">'+
                 new Date().format("yyyy-MM-dd-hh:mm:ss")+
                 '</div>\n' +
-                '        <div><a href="###"><strong>${u.username}:&nbsp;</strong></a> <span class="text-muted">'+
+                '        <div><a href="###"><strong>${u.adminacc}:&nbsp;</strong></a> <span class="text-muted">'+
                 document.getElementById("biaoti").value+
                 '</span></div>\n' +
                 '        <div class="text">'+
@@ -260,8 +275,12 @@ function sendsms(o) {
     }else if(phone.length != 11) {
         alert("手机格式不正确")
     }else {
-        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-        $.post("${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone)
+        if("${u.phonenumber}" != "" && o == 1) {
+            alert("您已绑定过手机号了！请勿重复绑定！")
+        }else {
+            <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+            $.post("${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone)
+        }
     }
 }
 
@@ -270,8 +289,12 @@ function setMobile() {
     var Msmscode = $("#inputExample3").val()
     if(Mobile.length != 11) {
         alert("手机号格式不正确")
-    }else {
-        location.href = "${pageContext.servletContext.contextPath}/setMobile.do?Mobile="+Mobile+"&Msmscode="+Msmscode+"&userid="+"${u.userid}";
+    }else if(Msmscode == "") {
+        alert("请输入验证码")
+    }else if("${u.phonenumber}" != "") {
+        alert("您已绑定过手机号了！请勿重复绑定！")
+    }else{
+        location.href = "${pageContext.servletContext.contextPath}/setMobile.do?Mobile="+Mobile+"&Msmscode="+Msmscode+"&adminid="+"${u.adminid}";
     }
 }
 function changeMobile() {
@@ -283,7 +306,7 @@ function changeMobile() {
         var c = $("#input3Example3").val()
         if(a == b) {
             alert("请不要输入相同的手机号！")
-        }else location.href = "${pageContext.servletContext.contextPath}/changeMobile.do?userid="+"${u.userid}"+"&Mobile2="+b+"&smscode1="+c;
+        }else location.href = "${pageContext.servletContext.contextPath}/changeMobile.do?adminid="+"${u.adminid}"+"&Mobile2="+b+"&smscode1="+c;
     }
 }
 function checkM() {
@@ -292,6 +315,23 @@ function checkM() {
         document.getElementById("inputExample1").setAttribute("readonly", "true")
     }
 }
+</script>
+<script>
+    // 创建 Messger 实例
+    var myMessager = new $.zui.Messager('欢迎管理员 &nbsp;&nbsp; ${u.adminacc} &nbsp;&nbsp; 登录！', {
+        icon: 'heart',
+        type: 'primary',
+        time: 0 // 不进行自动隐藏
+    });
+    // 先显示消息
+    if(document.referrer.match('view.jsp') ||document.referrer.match('smslogin.jsp')||document.referrer.match('adminlogout.do')) {
+        myMessager.show();
+        // 1 秒之后隐藏消息
+        setTimeout(function() {
+            myMessager.hide();
+        }, 2000);
+    }
+
 </script>
 </body>
 </html>

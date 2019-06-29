@@ -6,11 +6,8 @@
     <meta charset="utf-8">
     <title>后台欢迎界面</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <style>
-        .mytop_bar {
-            height: 40px;
-            width: 100%;
-        }
         .myright_bar {
             float: left;
             margin: 0 auto;
@@ -35,7 +32,7 @@
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script>
     // 创建 Messger 实例
-    var myMessager = new $.zui.Messager('欢迎 &nbsp;&nbsp; ${u.username} &nbsp;&nbsp; 登录！', {
+    var myMessager = new $.zui.Messager('欢迎管理员 &nbsp;&nbsp; ${u.adminacc} &nbsp;&nbsp; 登录！', {
         icon: 'heart',
         type: 'primary',
         time: 0 // 不进行自动隐藏

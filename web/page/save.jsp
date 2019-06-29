@@ -6,11 +6,8 @@
     <meta charset="utf-8">
     <title>添加用户</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <style>
-        .mytop_bar {
-            height: 40px;
-            width: 100%;
-        }
         .myright_bar {
             margin: 0 auto;
         }

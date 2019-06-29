@@ -9,3 +9,15 @@ https://www.docin.com/p-1686385103.html
 
 
 er图：https://blog.csdn.net/qq_36812792/article/details/85749396
+
+笔记：
+//获取id为p的标签的属性值
+$('#p').attr('class')
+//如果存在就是修改，如果不存在就是添加
+$('#p').attr('class','red')
+$('#p').removeAttr('name')
+$('#p').addClass('blue')
+$('#p').removeClass('yellow')
+有class就删除 没有就添加
+$('#p').toggleClass('asdf')
+var s = $('input[name="user"]').val()

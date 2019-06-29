@@ -31,6 +31,7 @@ import com.demo.util.MD5Util;
 import com.demo.util.SendCodeUtil;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class test {
     public static void main(String[] args) {
@@ -40,6 +41,10 @@ public class test {
 //        for(User user: users) {
 //            new UserDao().modifyPwd(MD5Util.MD5Encode(user.getPwd(),"utf-8"), user.getUserid());
 //        }
-        System.out.println(MD5Util.MD5Encode("123dafd-*/@#$%+...kjgjkhgjh","utf-8"));
+        System.out.println(getMd5("8ecc6960abbf70f7a5a70d9bfaae585c"));
+        System.out.println(getMd5(getMd5("lh")));
+    }
+    public static String getMd5(String a) {
+        return MD5Util.MD5Encode(a, "utf-8");
     }
 }

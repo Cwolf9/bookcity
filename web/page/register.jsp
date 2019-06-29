@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <title>注册页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
@@ -26,7 +27,7 @@
     <div class="container-login100" style="background-image: url('${pageContext.servletContext.contextPath}/imgs/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
             <form class="login100-form validate-form" action="${pageContext.servletContext.contextPath}/register.do" method="post" id="regForm">
-                <span class="login100-form-title p-b-49">注册</span>
+                <span class="login100-form-title p-b-49">普通用户注册</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
@@ -60,7 +61,7 @@
                 </div>
                 <br/><br/>
                 <div class="text-left p-t-8 p-b-31">
-                    <a href="${pageContext.servletContext.contextPath}/page/smslogin.jsp">验证码登录</a>
+                    <a href="${pageContext.servletContext.contextPath}/page/smslogin.jsp">短信验证码登录</a>
                     <a href="${pageContext.servletContext.contextPath}/page/view.jsp" style="float: right">账号密码登录</a>
                 </div>
                 <%--<div class="text-right p-t-8 p-b-31">--%>
@@ -103,11 +104,8 @@
 <script>
     function save() {
         var account = $('#raccount').val()
-        var pwd = hex_md5($("#rpwd").val())
+        var pwd = $("#rpwd").val()
         var username = $('#rusername').val()
-        var url = "${pageContext.servletContext.contextPath}/register.do?account="+account+"&pwd="+pwd+"&username="+username+"&sex=";
-        if (document.getElementById("sex2").checked) url = url + "女";
-        else url = url + "男";
         var jgpattern =/^[A-Za-z0-9]+$/;
         var jgpattern2 =/^[A-Za-z0-9-*/@#$%+]+$/;
         var success = true;
@@ -125,6 +123,10 @@
             alert('密码(只能包含字母，数字和{+-*/@#$%})')
         }
         $("#rpwd").val(pwd)
+        pwd = $("#rpwd").val()
+        var url = "${pageContext.servletContext.contextPath}/register.do?account="+account+"&pwd="+pwd+"&username="+username+"&sex=";
+        if (document.getElementById("sex2").checked) url = url + "女";
+        else url = url + "男";
         if(success) document.querySelector("#regForm").submit();
     }
 </script>

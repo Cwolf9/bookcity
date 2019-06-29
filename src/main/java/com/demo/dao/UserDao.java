@@ -224,6 +224,30 @@ public class UserDao {
         }
         return null;
     }
+    public List<User> findMerchant(){
+        List<User> list = new ArrayList<User>();
+        String sql = "SELECT * FROM b_user where ismerchant like '是' ";
+        ResultSet rs = DBUtil.select(sql);
+        try {
+            while (rs.next()) {//指标往下移动一行
+                int id2 = rs.getInt(1);
+                String account = rs.getString(2);
+                String pwd = rs.getString(3);
+                String username = rs.getString(4);
+                String sex = rs.getString(5);
+                String avatar = rs.getString(6);
+                String phonenumber = rs.getString(7);
+                Date registerdate = rs.getDate(8);
+                double grade = rs.getDouble(9);
+                String ismerchant = rs.getString(10);
+                User u = new User(id2, account, pwd, username, sex, avatar, phonenumber, registerdate, grade, ismerchant);
+                list.add(u);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     /**
      * 根据id修改b_user表的密码数据
      * @param newPwd 要更改的新密码

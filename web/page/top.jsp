@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <meta charset="utf-8">
-<script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/bg.js"></script>
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/click.js"></script>
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/changeTitle.js"></script>
+
 <style>
     .circle-img_{
         border-radius: 100%;vertical-align: middle;border: 0;box-sizing: border-box;
@@ -69,15 +66,43 @@
                     <li class="dropdown active">
                         <img src="${pageContext.servletContext.contextPath}/${u.avatar}" class="circle-img_" alt="">
                         <a href="#" style="float: left;" class="dropdown-toggle " data-toggle="dropdown">
-                            欢迎【${u.username}】登录
+                            欢迎管理员【${u.adminacc}】登录
                             <b class="caret" style="margin-left: 5px;"></b></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="${pageContext.servletContext.contextPath}/page/avatar.jsp" target="_self">更换头像</a></li>
-                            <li><a href="${pageContext.servletContext.contextPath}/page/adminlogout.jsp" target="_self">退出 </a></li>
-                            </ul>
+                            <li><a onclick="AdminLogout()" target="_self">退出 </a></li>
+                        </ul>
                     </li>
                 </ul>
             </div><!-- END .navbar-collapse -->
         </div>
     </nav>
+    <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/bg.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/click.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/changeTitle.js"></script>
 </div>
+<script>
+    function AdminLogout() {
+        bootbox.confirm({
+            message: "确定要退出后台系统吗?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {//确定删除数据
+                    window.location.href = "${pageContext.servletContext.contextPath}/adminlogout.do";
+                }
+            }
+        });
+    }
+
+</script>

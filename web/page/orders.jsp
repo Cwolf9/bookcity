@@ -13,11 +13,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.css"/>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <style>
-        .mytop_bar {
-            height: 40px;
-            width: 100%;
-        }
         .myright_bar {
             margin: 0 auto;
         }
@@ -179,19 +176,37 @@
         });
     }
     function deleteallbook() {
-        // 获取数据表格实例对象
-        var myDatatable = $('table.datatable').data('zui.datatable');
-        // 获取行选中数据
-        var checksStatus = myDatatable.checks.checks;
-        var tmp = "";
-        for(var x in checksStatus) {
-            tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
-            if(x != checksStatus.length-1) tmp += ','
-        }
-        console.log(tmp);
-        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
-        window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=3";
+        bootbox.confirm({
+            message: "确定要删除数据?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {//确定删除数据
+                    // 获取数据表格实例对象
+                    var myDatatable = $('table.datatable').data('zui.datatable');
+                    // 获取行选中数据
+                    var checksStatus = myDatatable.checks.checks;
+                    var tmp = "";
+                    for(var x in checksStatus) {
+                        tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
+                        if(x != checksStatus.length-1) tmp += ','
+                    }
+                    console.log(tmp);
+                    <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+                    <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
+                    window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=3";
+                }
+            }
+        });
+
     }
     function showOrderInfo(o, id, hh) {
         document.getElementById('inputEmailExample1').value = o;

@@ -16,6 +16,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <title>短信验证码登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
@@ -45,6 +46,20 @@
                         <a href="javascript:void(0);" onclick="sendsms()" style="color: white;" class="_send">发送验证码</a>
                     </button>
                     <input class="input100" type="text" name="smscode" placeholder="请输入验证码">
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>
+                <div class="wrap-input100" >
+                    <span class="label-input100" style="margin-top: 5px;">是否登录管理员页面</span>
+                    <%--<input class="input100" type="text" name="username" placeholder="请输入姓名">--%>
+                    <div class="input100" style="padding-top: 15px;">
+                        <div class="radio-primary" style="float:left; margin: 0 10px">
+                            <input checked="checked" type="radio" name="sex" id="sex1" value="否">
+                            <label for="sex1">否</label></div>
+
+                        <div class="radio-primary" style="float:left;">
+                            <input type="radio" name="sex" id="sex2" value="是">
+                            <label for="sex2">是</label></div>
+                    </div>
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
                 <div class="text-left p-t-8 p-b-31">

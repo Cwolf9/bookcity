@@ -35,7 +35,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//@WebServlet("/default.jsp")
+@WebServlet("/hhh.jsp")
 public class ShowTime extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

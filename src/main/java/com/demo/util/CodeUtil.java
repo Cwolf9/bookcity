@@ -25,6 +25,11 @@
  */
 package com.demo.util;
 
+import com.demo.dao.UserDao;
+import com.demo.model.User;
+
+import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Random;
 
 public class CodeUtil {
@@ -40,7 +45,31 @@ public class CodeUtil {
         }
         return ans.toString();
     }
+    public static int randomInt(int start,int end){
+        int rtnn = new Long(start + (long) (Math.random() * (end - start))).intValue();
+        if (rtnn == start || rtnn == end) {
+            return randomInt(start, end);
+        }
+        return rtnn;
+    }
+    public static double randomDouble(){
+        double start=1;double end=1000;int decimal = 10;
+        DecimalFormat df=new DecimalFormat("0.00");
+        double rtnn = start + Math.random() * (end - start);
+        if (rtnn == start || rtnn == end) {
+            return randomDouble();
+        }
+        return new Double(df.format(rtnn).toString());
+    }
+    public static String randUser() {
+        List<User> tmp = new UserDao().findMerchant();
+        return tmp.get(new Random().nextInt(tmp.size())).getUsername();
+    }
     public static void main(String[] args) {
         //System.out.println(new CodeUtil().str());
+        List<User> tmp = new UserDao().findMerchant();
+        for(User x: tmp) {
+            System.out.println(x);
+        }
     }
 }

@@ -12,11 +12,8 @@
     <title>添加书籍</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.css"/>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <style>
-        .mytop_bar {
-            height: 40px;
-            width: 100%;
-        }
         .myright_bar {
             margin: 0 auto;
         }
@@ -37,7 +34,7 @@
         <div class="form-group">
             <label for="bowner" class="col-sm-2">你的账号</label>
             <div class="col-md-6 col-sm-10">
-                <input type="text" class="form-control" name="bowner" id="bowner" placeholder="你的账号" readonly value="${u.account}">
+                <input type="text" class="form-control" name="bowner" id="bowner" placeholder="你的账号" readonly value="${u.adminacc}">
             </div>
         </div>
         <div class="form-group">

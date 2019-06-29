@@ -45,11 +45,11 @@
         <div class="col-md-6 col-sm-10">
             <div class="radio-primary" style="float:left;">
                 <input checked="checked" type="radio" name="sex" id="sex1" value="是">
-                <label for="sex1">男</label></div>
+                <label for="sex1">是</label></div>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div class="radio-primary" style="float:left;">
                 <input type="radio" name="sex" id="sex2" value="否">
-                <label for="sex2">女</label></div>
+                <label for="sex2">否</label></div>
         </div>
     </div>
     <div class="form-group">

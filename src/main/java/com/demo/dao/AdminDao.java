@@ -127,4 +127,56 @@ public class AdminDao {
         String sql = "UPDATE b_admin SET pwd = ? WHERE adminid=?";
         DBUtil.update(sql,md5Encode,adminid);
     }
+
+    public Admin findAdminByMobile(String phonenumber) {
+        String sql = "SELECT * FROM b_admin where phonenumber=?";
+        try {
+            ResultSet rs = DBUtil.select(sql,phonenumber);
+            while(rs.next()){//指标往下移动一行
+                int adminid = rs.getInt(1);
+                String adminacc2 = rs.getString(2);
+                String pwd = rs.getString(3);
+                String avatar = rs.getString(4);
+                String phonenumber2 = rs.getString(5);
+                Date registerdate = rs.getDate(6);
+                String permission = rs.getString(7);
+                Admin ors = new Admin(adminid,adminacc2,pwd,avatar,phonenumber2,registerdate,permission);
+                return ors;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void modifyAdminPhonenumber(String phonenumber, int adminid) {
+        String sql = "UPDATE b_admin SET phonenumber = ? WHERE adminid=?";
+        DBUtil.update(sql,phonenumber,adminid);
+    }
+
+    public Admin findAdminByAccountAndPwd(String account, String pwd) {
+        String sql = "SELECT * FROM b_admin where adminacc=? and pwd=?";
+        try {
+            ResultSet rs = DBUtil.select(sql,account, pwd);
+            while(rs.next()){//指标往下移动一行
+                int adminid = rs.getInt(1);
+                String adminacc2 = rs.getString(2);
+                String pwd2 = rs.getString(3);
+                String avatar = rs.getString(4);
+                String phonenumber2 = rs.getString(5);
+                Date registerdate = rs.getDate(6);
+                String permission = rs.getString(7);
+                Admin ors = new Admin(adminid,adminacc2,pwd2,avatar,phonenumber2,registerdate,permission);
+                return ors;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void modifyAdminAvatar(String s, int adminid) {
+        String sql = "UPDATE b_admin SET avatar = ? WHERE adminid=?";
+        DBUtil.update(sql,s,adminid);
+    }
 }

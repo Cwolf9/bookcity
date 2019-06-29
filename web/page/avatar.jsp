@@ -10,16 +10,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
 	<meta charset="utf-8">
 	<title>上传头像</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
 	<link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.css"/>
 	<style>
-		.mytop_bar {
-			height: 40px;
-			width: 100%;
-		}
-
 		.myright_bar {
 			float: left;
 			margin: 0 auto;

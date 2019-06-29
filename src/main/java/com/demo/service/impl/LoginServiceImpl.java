@@ -82,7 +82,7 @@ public class LoginServiceImpl implements LoginService {
         //发送手机验证码：网易云短信发送接口
         //String smscode = SendCodeUtil.sendsms(phone);
         String str[] = {
-                "{\"obj\":\"123456\"}",
+                "{\"obj\":\"443587\"}",
                 "{\"obj\":\"384762\"}",
                 "{\"obj\":\"983622\"}",
                 "{\"obj\":\"456747\"}",
@@ -147,7 +147,21 @@ public class LoginServiceImpl implements LoginService {
         addao.modifyAdminPwd(md5Encode,adminid);
     }
 
-    public void modifyPhonenumber(String mobile, int userid) {
-        udao.modifyPhonenumber(mobile,userid);
+    public void modifyPhonenumber(String mobile, int userid) { udao.modifyPhonenumber(mobile,userid); }
+
+    public Admin findAdminByMobile(String phonenumber) { return addao.findAdminByMobile(phonenumber); }
+
+    public void modifyAdminPhonenumber(String mobile, int adminid) { addao.modifyAdminPhonenumber(mobile, adminid); }
+
+    public Admin findAdminByAccountAndPwd(String account, String pwd) {
+        return addao.findAdminByAccountAndPwd(account, pwd);
+    }
+
+    public void modifyAdminAvatar(String s, int adminid) {
+        addao.modifyAdminAvatar(s, adminid);
+    }
+
+    public List<User> findMerchant() {
+        return udao.findMerchant();
     }
 }

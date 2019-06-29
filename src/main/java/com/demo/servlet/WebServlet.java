@@ -52,7 +52,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -75,11 +74,10 @@ public class WebServlet extends HttpServlet{
         //获取用户地址栏的地址
         String url = request.getServletPath();// *.do
         System.out.println("本次请求的url地址："+url);
-        System.out.println(request.getPathInfo());
+
         HttpSession session = request.getSession();
         System.out.println("sessionId:"+session.getId());
-        if(session.getAttribute("u") == null && url.equals("/login.do") == false&& url.equals("/smslogin.do") == false&&
-                url.equals("/code.do") == false&& url.equals("/sendsmscode.do") == false&& url.equals("/register.do") == false) {
+        if(session.getAttribute("u") == null && checkUrl(url)) {
             System.out.println("重新登录!"+request.getContextPath()+"/page/view.jsp");
             response.sendRedirect(request.getContextPath()+"/page/view.jsp");
             return;
@@ -121,18 +119,19 @@ public class WebServlet extends HttpServlet{
             //对图片进行jpeg压缩
             JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
             encoder.encode(img);
-        }else if("/login.do".equals(url)){
+        }else if("/login.do".equals(url)) {
             String usercode = request.getParameter("code");
             String code = (String) session.getAttribute("code");
+            System.out.println(account+","+pwd+","+usercode+","+code);
             if(usercode.equalsIgnoreCase(code)){
-                User u = ls.findByAccountAndPwd(account, MD5Util.MD5Encode(pwd,"utf-8") );
+                Admin u = ls.findAdminByAccountAndPwd(account,MD5Util.MD5Encode(pwd,"utf-8"));
                 if(u == null){
                     request.setAttribute("error", "账号或者密码错误!");
                     request.getRequestDispatcher("page/view.jsp").forward(request, response);
                 }else{//登陆成功
                     session.setAttribute("u", u);
-                    Cookie cookie_acc = new Cookie("account",account);
-                    Cookie cookie_pwd = new Cookie("pwd",pwd);
+                    Cookie cookie_acc = new Cookie("adminacc",account);
+                    Cookie cookie_pwd = new Cookie("adminpwd",pwd);
                     cookie_acc.setMaxAge(5*60);
                     cookie_pwd.setMaxAge(5*60);
 //                    cookie_acc.setPath("/");
@@ -142,7 +141,7 @@ public class WebServlet extends HttpServlet{
                     //重定向
                     response.sendRedirect(request.getContextPath()+"/page/person.jsp");
                     //转发
-//                    request.getRequestDispatcher("page/welcome.jsp").forward(request, response);
+//                    request.getRequestDispatcher("page/person.jsp").forward(request, response);
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
@@ -150,17 +149,22 @@ public class WebServlet extends HttpServlet{
                 request.getRequestDispatcher("page/view.jsp").forward(request, response);
             }
         }else if("/sendsmscode.do".equals(url)) {
-            String smscode = ls.getSmscode(phonenumber);
-            System.out.println("smscode:"+smscode);
-            JSONObject jo = (JSONObject)JSONObject.parse(smscode);
-            session.setAttribute("smscode", jo.getString("obj"));
+            Admin admin = ls.findAdminByMobile(phonenumber);
+            if(admin == null) {
+                session.setAttribute("error", "手机号不存在");
+            }else {
+                String smscode = ls.getSmscode(phonenumber);
+                System.out.println("smscode:"+smscode);
+                JSONObject jo = (JSONObject)JSONObject.parse(smscode);
+                session.setAttribute("smscode", jo.getString("obj"));
+            }
             request.setAttribute("myphone", phonenumber);
 //            request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
         }else if("/smslogin.do".equals(url)) {
             String smscode = request.getParameter("smscode");
             String code = (String) session.getAttribute("smscode");
             if(smscode.equalsIgnoreCase(code)){
-                User u = ls.findByPhonenumber(phonenumber);
+                Admin u = ls.findAdminByMobile(phonenumber);
                 if(u == null){
                     request.setAttribute("error", "手机号错误!");
                     request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
@@ -173,7 +177,7 @@ public class WebServlet extends HttpServlet{
                 request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
             }
         }else if("/person.do".equals(url)) {
-            User user = ls.findUserById(((User) session.getAttribute("u")).getUserid());
+            Admin user = ls.findAdminByAccount(((Admin) session.getAttribute("u")).getAdminacc());
             request.setAttribute("user", user);
             session.setAttribute("u", user);
             request.getRequestDispatcher("page/person.jsp").forward(request, response);
@@ -200,13 +204,13 @@ public class WebServlet extends HttpServlet{
                         System.out.println("oldName:"+oldName);
                         //确定要上传到服务器的位置
                         String path = request.getServletContext().getRealPath("/upload");
-                        User u = (User) session.getAttribute("u");
-                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+u.getAccount()+oldName.substring(oldName.lastIndexOf("."));
+                        Admin u = (Admin) session.getAttribute("u");
+                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+u.getAdminacc()+oldName.substring(oldName.lastIndexOf("."));
                         try {
                             item.write(new File(path,name));
                             //跟新用户头像为新的图片路径
-                            ls.modifyAvatar("upload/"+name, u.getUserid());
-                            session.setAttribute("u",ls.findUserById(u.getUserid()));
+                            ls.modifyAdminAvatar("upload/"+name, u.getAdminid());
+                            session.setAttribute("u",ls.findAdminByAccount(u.getAdminacc()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -258,18 +262,14 @@ public class WebServlet extends HttpServlet{
         }else if("/deleteall.do".equals(url)) {
             System.out.println("deleteall:");
             int ip = Integer.parseInt(request.getParameter("ip"));
-            int userid = 0;
-            if(request.getParameter("userid") != null)userid=Integer.parseInt(request.getParameter("userid"));
             int adminid2 = 0;
             if(request.getParameter("adminid2") != null)adminid2=Integer.parseInt(request.getParameter("adminid2"));
-            System.out.println("ip="+ip+",userid="+userid);
+            System.out.println("ip="+ip+",adminid2="+adminid2);
             int flag = 0;
             for(String tmp:request.getParameter("bookid").split(",")) {
                 System.out.println(tmp);
-                if(ip == 1) {
-                    if(Integer.parseInt(tmp) == userid) flag = 1;
-                    else ls.removeUserById(Integer.parseInt(tmp));
-                } else if(ip == 2) dts.removeBookById(Integer.parseInt(tmp));
+                if(ip == 1) ls.removeUserById(Integer.parseInt(tmp));
+                else if(ip == 2) dts.removeBookById(Integer.parseInt(tmp));
                 else if(ip == 3) dts.removeOrderById(tmp);
                 else if(ip == 4) {
                     if(Integer.parseInt(tmp) == adminid2) flag = 1;
@@ -310,14 +310,14 @@ public class WebServlet extends HttpServlet{
         }else if("/changepwd.do".equals(url)) {
             String pwd0 = request.getParameter("pwd0");
             String pwd1 = request.getParameter("pwd1");
-            User user = (User) session.getAttribute("u");
+            Admin user = (Admin) session.getAttribute("u");
             System.out.println(MD5Util.MD5Encode(pwd0,"utf-8"));
             System.out.println(user.getPwd());
             if(MD5Util.MD5Encode(pwd0,"utf-8").equals(user.getPwd()) ) {
 //                session.setAttribute("changepwdAns","修改密码成功！");
                 request.setAttribute("changepwdAns","修改密码成功！");
                 System.out.println("what?");
-                ls.modifyUserPwd(MD5Util.MD5Encode(pwd1,"utf-8"), user.getUserid());
+                ls.modifyAdminPwd(MD5Util.MD5Encode(pwd1,"utf-8"), user.getAdminid());
             }else {
 //                session.setAttribute("changepwdAns","原密码错误！修改失败！");
                 request.setAttribute("changepwdAns","原密码错误！修改失败！");
@@ -338,6 +338,7 @@ public class WebServlet extends HttpServlet{
             return;
         }else if("/cgeAdmin.do".equals(url)) {
             String adminacc = request.getParameter("adminacc");
+            System.out.println("adminacc="+adminacc);
             int adminid = ls.findAdminByAccount(adminacc).getAdminid();
             pwd = request.getParameter("newPwd");
             String newPermission = request.getParameter("newPermission");
@@ -376,12 +377,12 @@ public class WebServlet extends HttpServlet{
         }else if("/setMobile.do".equals(url)) {
             String Mobile = request.getParameter("Mobile");
             String Msmscode = request.getParameter("Msmscode");
-            int userid = Integer.parseInt(request.getParameter("userid"));
+            int adminid = Integer.parseInt(request.getParameter("adminid"));
             if(haveUserMobile(Mobile) >= 1) {
                 request.setAttribute("setMbAns", "手机号重复");
             }else if(Msmscode.equals(session.getAttribute("smscode"))) {
                 request.setAttribute("setMbAns", "绑定成功");
-                ls.modifyPhonenumber(Mobile, userid);
+                ls.modifyAdminPhonenumber(Mobile, adminid);
             }else {
                 request.setAttribute("setMbAns", "验证码错误");
             }
@@ -389,12 +390,14 @@ public class WebServlet extends HttpServlet{
         }else if("/changeMobile.do".equals(url)){
             String Mobile2 = request.getParameter("Mobile2");
             String smscode1 = request.getParameter("smscode1");
-            int userid = Integer.parseInt(request.getParameter("userid"));
+            int adminid = Integer.parseInt(request.getParameter("adminid"));
             if(haveUserMobile(Mobile2) >= 2) {
                 request.setAttribute("changeMbAns", "手机号重复");
             }else if(smscode1.equals(session.getAttribute("smscode"))) {
                 request.setAttribute("changeMbAns", "修改手机号成功");
-                ls.modifyPhonenumber(Mobile2, userid);
+                ls.modifyAdminPhonenumber(Mobile2, adminid);
+                Admin tmp = ls.findAdminByMobile(Mobile2);
+                session.setAttribute("u", tmp);
             }else {
                 request.setAttribute("changeMbAns", "验证码错误");
             }
@@ -402,6 +405,12 @@ public class WebServlet extends HttpServlet{
         }else if("/saveAdmin.do".equals(url)) {
             ls.saveAdmin(account, MD5Util.MD5Encode(pwd,"utf-8"), phonenumber,sex);
             response.sendRedirect(request.getContextPath()+"/adminers.do");
+        }else if("/showUserList.do".equals(url)) {
+            int userid = Integer.parseInt(request.getParameter("userid"));
+            List<Orders> morders = dts.findAllOrders(1, String.valueOf(userid));
+            request.setAttribute("morders", morders);
+            request.getRequestDispatcher("page/showUserList.jsp").forward(request,response);
+            return;
         }
 
     }
@@ -429,6 +438,10 @@ public class WebServlet extends HttpServlet{
             if(a.getAccount().equals(m)) ++ cnt;
         }
         return cnt;
+    }
+    public static Boolean checkUrl(String url) {
+        return (url.equals("/login.do") == false&& url.equals("/smslogin.do") == false&& url.equals("/code.do") == false
+                && url.equals("/sendsmscode.do") == false&& url.equals("/register.do") == false);
     }
 }
 

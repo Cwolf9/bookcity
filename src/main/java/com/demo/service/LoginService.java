@@ -26,6 +26,7 @@
 package com.demo.service;
 
 import com.demo.model.Admin;
+import com.demo.model.Book;
 import com.demo.model.User;
 import com.demo.util.MD5Util;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -67,4 +68,11 @@ public interface LoginService {
     void modifyPhonenumber(String mobile, int userid);
 
 
+    Admin findAdminByMobile(String phonenumber);
+    void modifyAdminPhonenumber(String mobile, int adminid);
+
+    Admin findAdminByAccountAndPwd(String account, String pwd);
+
+    void modifyAdminAvatar(String s, int adminid);
+    List<User> findMerchant();
 }

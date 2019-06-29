@@ -115,6 +115,7 @@
         </div>
     </div>
 </div>
+
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
@@ -142,23 +143,42 @@
         });
     }
     function deleteall() {
-        // 获取数据表格实例对象
-        var myDatatable = $('table.datatable').data('zui.datatable');
-        // 获取行选中数据
-        var checksStatus = myDatatable.checks.checks;
-        var tmp = "";
-        for(var x in checksStatus) {x
-            tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
-            if(x != checksStatus.length-1) tmp += ','
-        }
-        console.log(tmp);
-        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
-        // TODO: change userid to adminid
-        window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=4&adminid2="+${u.userid};
-        if(${error}+"!" == "不能删除自己!") {
-            alert("不能删除自己!");
-        }
+        bootbox.confirm({
+            message: "确定要删除数据?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {//确定删除数据
+                    // 获取数据表格实例对象
+                    var myDatatable = $('table.datatable').data('zui.datatable');
+                    // 获取行选中数据
+                    var checksStatus = myDatatable.checks.checks;
+                    var tmp = "";
+                    var flag = false
+                    for(var x in checksStatus) {
+                        tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
+                        if(document.getElementById("mytl"+checksStatus[x]).innerHTML == "${u.adminid}") flag = true;
+                        if(x != checksStatus.length-1) tmp += ','
+                    }
+                    console.log(tmp);
+                    if(flag) {
+                        alert("不能删除自己!");
+                    }else {
+                        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+                        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
+                        window.location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=4&adminid2="+${u.adminid};
+                    }
+                }
+            }
+        });
     }
     function showAdminInfo(o, id) {
         document.getElementById('inputEmailExample1').value = o;
@@ -166,7 +186,9 @@
     function changeAdminInfo() {
         var pwd = $('#inputEmailExample2').val()
         $('#inputEmailExample2').val(hex_md5(pwd))
-        var url = "${pageContext.servletContext.contextPath}/cgeAdmin.do?adminacc=" + $('#inputEmailExample1').val()+"&newPwd="+$('#inputEmailExample2').val()+"&newPermission=";
+        console.log($("#inputEmailExample1").val())
+        console.log($("#inputEmailExample2").val())
+        var url = "${pageContext.servletContext.contextPath}/cgeAdmin.do?adminacc=" + $("#inputEmailExample1").val()+"&newPwd="+$('#inputEmailExample2').val()+"&newPermission=";
         if(document.getElementById("sex2").checked) url = url + "否";
         else url = url + "是";
         location.href = url;

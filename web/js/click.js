@@ -1,6 +1,6 @@
 var a_idx = 0;
 var b_idx = 0;
-var a = new Array("您太强了", "Orz", "膜拜老师",  "%%%哈哈" );
+var a = new Array("您太强了", "Orz", "膜膜tql",  "%%%哈哈" );
 var b = new Array("#FF0000","#FF7F00"," #FFFF00","#00FF00","#00FFFF","#0000FF","#8B00FF","#FF0000","#FF7F00"," #FFFF00","#00FF00","#00FFFF","#0000FF","#8B00FF");
 jQuery(document).ready(function($) {
     $("body").click(function(e) {

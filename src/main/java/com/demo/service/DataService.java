@@ -24,4 +24,6 @@ public interface DataService {
 
     void modifyOrderExpress(String rand, String orderid);
     List<OrderItem> findOIByOrderId(String orderid);
+
+    List<Book> findBooksByInfo(String info);
 }

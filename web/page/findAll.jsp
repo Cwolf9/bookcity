@@ -4,17 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <meta charset="utf-8">
     <title>查看所有用户</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/datatable/zui.datatable.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.css"/>
     <style>
-        .mytop_bar {
-            height: 40px;
-            width: 100%;
-        }
-
         .myright_bar {
             margin: 0 auto;
         }
@@ -55,6 +51,7 @@
                 <td>${ix.phonenumber }</td>
                 <td>${ix.registerdate }</td>
                 <td>
+                    <button class="btn btn-info btn-sm" type="button" data-remote="${pageContext.servletContext.contextPath}/showUserList.do?userid=${ix.userid}" data-toggle="modal">查看记录</button>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.userid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showUserInfo('${ix.account}','${ix.phonenumber}')">修改</button>
                 </td>
@@ -132,28 +129,24 @@
     $('table.datatable').datatable({sortable: true, checkable: true});
 
     function del(id) {
-        if(id == ${u.userid}) {
-            alert("不能删除自己！")
-        }else {
-            bootbox.confirm({
-                message: "确定要删除数据?",
-                buttons: {
-                    confirm: {
-                        label: '确定',
-                        className: 'btn-success'
-                    },
-                    cancel: {
-                        label: '取消',
-                        className: 'btn-danger'
-                    }
+        bootbox.confirm({
+            message: "确定要删除数据?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
                 },
-                callback: function (result) {
-                    if (result) {//确定删除数据
-                        location.href = "${pageContext.servletContext.contextPath}/del.do?id=" + id;
-                    }
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
                 }
-            });
-        }
+            },
+            callback: function (result) {
+                if (result) {//确定删除数据
+                    location.href = "${pageContext.servletContext.contextPath}/del.do?id=" + id;
+                }
+            }
+        });
     }
     function deleteall() {
         bootbox.confirm({
@@ -175,20 +168,14 @@
                     // 获取行选中数据
                     var checksStatus = myDatatable.checks.checks;
                     var tmp = "";
-                    var flag = 0;
                     for(var x in checksStatus) {
                         tmp += document.getElementById("mytl"+checksStatus[x]).innerHTML
-                        if(document.getElementById("mytl"+checksStatus[x]).innerHTML == "${u.userid}") flag = 1;
                         if(x != checksStatus.length-1) tmp += ','
                     }
                     console.log(tmp);
-                    if(flag == 1) {
-                        alert("不能删除自己！")
-                    }else {
-                        <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
-                        <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
-                        location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=1&userid="+${u.userid};
-                    }
+                    <%--self.location = "${pageContext.servletContext.contextPath}/sendsmscode.do?phonenumber="+phone;--%>
+                    <%--$.post("${pageContext.servletContext.contextPath}/deletaall.do?bookid="+tmp+"&ip=1&userid="+${u.userid});--%>
+                    location.href = "${pageContext.servletContext.contextPath}/deleteall.do?bookid="+tmp+"&ip=1&userid=xxxxxxxxxx1";
                 }
             }
         });

@@ -91,4 +91,8 @@ public class DataServiceImpl implements DataService {
     public List<OrderItem> findOIByOrderId(String orderid) {
         return oidao.findOIByOrderId(orderid);
     }
+
+    public List<Book> findBooksByInfo(String info) {
+        return bdao.findBooksByInfo(info);
+    }
 }

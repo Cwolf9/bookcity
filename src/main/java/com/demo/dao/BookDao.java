@@ -27,6 +27,8 @@ package com.demo.dao;
 
 import com.demo.model.Book;
 import com.demo.model.User;
+import com.demo.util.CodeUtil;
+import com.demo.util.ColorUtil;
 import com.demo.util.DBUtil;
 import com.demo.util.MD5Util;
 
@@ -40,7 +42,8 @@ import java.util.List;
 
 public class BookDao {
     public static void main(String[] args) {
-        new BookDao().save("契科夫小说全集", "契科夫","讽刺小说",50.0,30,"我","book");
+        new BookDao().save("算法进阶", "刘流"
+                ,"春天里出版社", CodeUtil.randomDouble(),CodeUtil.randomInt(1,100),CodeUtil.randUser(),CodeUtil.rand());
     }
     /**
      * 在b_book中插入新书
@@ -245,5 +248,31 @@ public class BookDao {
     public void modifyBookPri(double price, int bookid) {
         String sql = "UPDATE b_book SET price=? WHERE bookid=?";
         DBUtil.update(sql, price,bookid);
+    }
+
+    public List<Book> findBooksByInfo(String info) {
+        List<Book> list = new ArrayList<Book>();
+        String sql = "SELECT * FROM b_book where bookname like ?";
+        try {
+            ResultSet rs = DBUtil.select(sql, info);
+            while(rs.next()){//指标往下移动一行
+                int bookid = rs.getInt(1);
+                String bookname = rs.getString(2);
+                String bookauthor = rs.getString(3);
+                String bookinfo = rs.getString(4);
+                Date pubdate = rs.getDate(5);
+                double price = rs.getDouble(6);
+                int booknum = rs.getInt(7);
+                String bowner2 = rs.getString(8);
+                String book = rs.getString(9);
+                Book bk = new Book(bookid,bookname,bookauthor,bookinfo,pubdate,price,booknum,bowner2,book);
+                String defaultimg = rs.getString(10);
+                bk.setDefaultimg(defaultimg);
+                list.add(bk);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
