@@ -102,13 +102,12 @@ public class WebServlet extends HttpServlet{
         if(request.getParameter("booknum")!=null)booknum = Integer.parseInt(request.getParameter("booknum"));
         String bowner = request.getParameter("bowner");
         String book = request.getParameter("book");
-
         if("/register.do".equals(url)){//注册
             if(haveUserAccount(account) >= 1) {
                 request.setAttribute("error", "注册失败，账号重复！");
                 request.getRequestDispatcher("page/register.jsp").forward(request, response);
             }else {
-                ls.save(account, pwd, username, sex, phonenumber);
+                ls.save(account, MD5Util.MD5Encode(pwd,"utf-8"), username, sex);
                 request.setAttribute("error", "注册成功，请登录！");
                 request.getRequestDispatcher("page/view.jsp").forward(request, response);
             }
@@ -127,7 +126,6 @@ public class WebServlet extends HttpServlet{
             String code = (String) session.getAttribute("code");
             if(usercode.equalsIgnoreCase(code)){
                 User u = ls.findByAccountAndPwd(account, MD5Util.MD5Encode(pwd,"utf-8") );
-                System.out.println("账户密码："+account+" "+pwd);
                 if(u == null){
                     request.setAttribute("error", "账号或者密码错误!");
                     request.getRequestDispatcher("page/view.jsp").forward(request, response);
@@ -188,7 +186,7 @@ public class WebServlet extends HttpServlet{
             response.sendRedirect(request.getContextPath()+"/findAll.do");
         }else if("/save.do".equals(url)){
             //取出浏览器提交过来的数据，然后调用dao将数据添加到数据库
-            ls.save(account, pwd, username, sex, phonenumber);
+            ls.save(account, MD5Util.MD5Encode(pwd,"utf-8"), username, sex, phonenumber);
             response.sendRedirect(request.getContextPath()+"/findAll.do");
         }else if("/upload.do".equals(url)){
             response.setContentType("text/html;charset=UTF-8");
@@ -401,6 +399,9 @@ public class WebServlet extends HttpServlet{
                 request.setAttribute("changeMbAns", "验证码错误");
             }
             request.getRequestDispatcher("page/person.jsp").forward(request,response);
+        }else if("/saveAdmin.do".equals(url)) {
+            ls.saveAdmin(account, MD5Util.MD5Encode(pwd,"utf-8"), phonenumber,sex);
+            response.sendRedirect(request.getContextPath()+"/adminers.do");
         }
 
     }

@@ -29,7 +29,7 @@
         <div class="form-group">
             <label for="account" class="col-sm-2">账号</label>
             <div class="col-md-6 col-sm-10">
-                <input type="text" class="form-control" id="account" name="account" placeholder="账号">
+                <input type="text" class="form-control" id="account" name="account" placeholder="账号长度不少于6位，超过16位且只能含有字母数字">
                 <span id="accountTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
@@ -105,14 +105,14 @@
         repwdTip.innerText = ""
         unTip.innerText = ""
         pnTip.innerText = ""
-        if (account == "") {
-            accountTip.innerText = "账号不能为空";
+        if (account.length < 6 || account.length > 16) {
+            accountTip.innerText = "账号长度不少于6位，超过16位且只能含有字母数字";
             success = false;
         } else if(!jgpattern.test(account)){
             success = false
             accountTip.innerText = "包含非法字符！";
-        }else if(pwd == "") {
-            pwdTip.innerText = "密码不能为空"
+        }else if(pwd.length < 4 || pwd.length > 16) {
+            pwdTip.innerText = "密码长度不少于4位，超过16位"
             success = false;
         }else if(repwd == "") {
             repwdTip.innerText = "密码不能为空"
@@ -133,6 +133,8 @@
             pnTip.innerText = "手机号必须是11位！"
             success = false;
         }
+        $("#pwd").val(hex_md5(pwd));
+        $("#repwd").val(hex_md5(repwd));
         if (success) {
             document.querySelector("#saveForm").submit();
         }

@@ -37,6 +37,8 @@
 <div class="myright_bar">
     <div style="height: 100px;"></div>
     <button class="btn btn-danger" type="button" onclick="deleteall()" style="margin-left: 5px; margin-bottom: 3px;">删除所选</button>
+    <button type="button" class="btn btn-success" data-remote="${pageContext.servletContext.contextPath}/page/addadmin.jsp" data-toggle="modal"  style="margin-left: 5px; margin-bottom: 3px;">
+        添加管理员</button>
     <table class="table datatable">
         <thead>
         <tr>
@@ -162,10 +164,59 @@
         document.getElementById('inputEmailExample1').value = o;
     }
     function changeAdminInfo() {
+        var pwd = $('#inputEmailExample2').val()
+        $('#inputEmailExample2').val(hex_md5(pwd))
         var url = "${pageContext.servletContext.contextPath}/cgeAdmin.do?adminacc=" + $('#inputEmailExample1').val()+"&newPwd="+$('#inputEmailExample2').val()+"&newPermission=";
         if(document.getElementById("sex2").checked) url = url + "否";
         else url = url + "是";
         location.href = url;
+    }
+    function saveAdmin() {
+        var success = true;
+        var jgpattern =/^[A-Za-z0-9]+$/;
+        var jgpattern2 =/^[A-Za-z0-9-*/@#$%+]+$/;
+        var account = $("#account").val();
+        var pwd = $("#pwd").val();
+        var repwd = $("#repwd").val();
+        var pn = $("#phonenumber").val();
+        var accountTip = document.querySelector("#accountTip");
+        var pwdTip = document.querySelector("#pwdTip");
+        var repwdTip = document.querySelector("#repwdTip");
+        var pnTip = document.querySelector("#pnTip");
+        accountTip.innerText = ""
+        pwdTip.innerText = ""
+        repwdTip.innerText = ""
+        pnTip.innerText = ""
+        if (account.length < 6 || account.length > 16) {
+            accountTip.innerText = "账号长度不少于6位，超过16位且只能含有字母数字";
+            success = false;
+        } else if(!jgpattern.test(account)){
+            success = false
+            accountTip.innerText = "包含非法字符！";
+        }else if(pwd.length < 4 || pwd.length > 16) {
+            pwdTip.innerText = "密码长度不少于4位，超过16位"
+            success = false;
+        }else if(repwd == "") {
+            repwdTip.innerText = "密码不能为空"
+            success = false;
+        }else if(pwd!=repwd) {
+            repwdTip.innerText = "两次密码不一致！";
+            success = false;
+        }else if(!jgpattern2.test(pwd)) {
+            pwdTip.innerText = "包含非法字符！";
+            success = false;
+        }else if(!jgpattern2.test(repwd)) {
+            repwdTip.innerText = "包含非法字符！";
+            success = false;
+        }else if(pn.length != 11) {
+            pnTip.innerText = "手机号必须是11位！"
+            success = false;
+        }
+        $("#pwd").val(hex_md5(pwd));
+        $("#repwd").val(hex_md5(repwd));
+        if (success) {
+            document.querySelector("#saveAdminForm").submit()
+        }
     }
 </script>
 </body>

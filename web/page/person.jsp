@@ -101,28 +101,34 @@
 </div>
 <script>
     function savemess() {
-        var popContent =
-            '<div class="comment">' +
-            '<a href="###" class="avatar">' +
-            '<i class="icon-user icon-2x"></i>\n' +
-            '    </a>\n' +
-            '    <div class="content">\n' +
-            '        <div class="pull-right text-muted">'+
-            new Date().format("yyyy-MM-dd-hh:mm:ss")+
-            '</div>\n' +
-            '        <div><a href="###"><strong>${u.username}:&nbsp;</strong></a> <span class="text-muted">'+
-            document.getElementById("biaoti").value+
-            '</span></div>\n' +
-            '        <div class="text">'+
-            document.getElementById("neirong").value+
-            '</div>\n' +
-            '        <div class="actions">\n' +
-            '            <a href="##">编辑</a>\n' +
-            '            <a href="##">删除</a>\n' +
-            '        </div>\n' +
-            '    </div>\n' +
-            '</div>';
-        $('.document').append(popContent);
+        if(document.getElementById("biaoti").value == "") {
+            alert("请输入标题！")
+        }else if(document.getElementById("neirong").value == "") {
+            alert("请输入内容！")
+        }else {
+            var popContent =
+                '<div class="comment">' +
+                '<a href="###" class="avatar">' +
+                '<i class="icon-user icon-2x"></i>\n' +
+                '    </a>\n' +
+                '    <div class="content">\n' +
+                '        <div class="pull-right text-muted">'+
+                new Date().format("yyyy-MM-dd-hh:mm:ss")+
+                '</div>\n' +
+                '        <div><a href="###"><strong>${u.username}:&nbsp;</strong></a> <span class="text-muted">'+
+                document.getElementById("biaoti").value+
+                '</span></div>\n' +
+                '        <div class="text">'+
+                document.getElementById("neirong").value+
+                '</div>\n' +
+                '        <div class="actions">\n' +
+                '            <a href="##">编辑</a>\n' +
+                '            <a href="##">删除</a>\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</div>';
+            $('.document').append(popContent);
+        }
     }
 </script>
 <!-- 修改密码 -->
@@ -231,11 +237,18 @@ function changepwd() {
     var pwd0 = $("#inputEmailExample1").val()
     var pwd1 = $("#inputEmailExample2").val()
     var pwd2 = $("#inputEmailExample3").val()
-    if(pwd1 != pwd2) {
-        alert("新密码与确认密码不相同！")
+    if(pwd1.length < 4 || pwd1.length > 16) {
+        alert("密码长度不得少于4位，超过16位")
     }else {
-        document.getElementById("smsimg").setAttribute("src", "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1)
-        // location.href =
+        $("#inputEmailExample1").val(hex_md5(pwd0))
+        $("#inputEmailExample2").val(hex_md5(pwd1))
+        $("#inputEmailExample3").val(hex_md5(pwd2))
+        if(pwd1 != pwd2) {
+            alert("新密码与确认密码不相同！")
+        }else {
+            document.getElementById("smsimg").setAttribute("src", "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1)
+            // location.href =
+        }
     }
 }
 function sendsms(o) {

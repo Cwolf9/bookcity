@@ -46,7 +46,15 @@ public class LoginServiceImpl implements LoginService {
     public void save(String account, String pwd, String username, String sex, String phonenumber) {
         udao.save(account, pwd, username, sex, phonenumber);
     }
-
+    public void save(String account, String pwd, String username, String sex) {
+        udao.save(account, pwd, username, sex);
+    }
+    public void saveAdmin(String adminacc, String pwd, String phonenumber){
+        addao.saveAdmin(adminacc, pwd, phonenumber);
+    }
+    public void saveAdmin(String adminacc, String pwd, String phonenumber,String permission) {
+        addao.saveAdmin(adminacc, pwd, phonenumber, permission);
+    }
     public List<Object> getCode() {
         //画一张图片验证码传给服务器
         List<Object> a = new ArrayList<Object>();

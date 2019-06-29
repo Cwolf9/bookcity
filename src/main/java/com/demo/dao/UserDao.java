@@ -53,9 +53,13 @@ public class UserDao {
     public void save(String account,String pwd,String username,String sex,String phonenumber){
             String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant) " +
                     "VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW(),60.0,'否')";
-            DBUtil.insert(sql,account,MD5Util.MD5Encode(pwd,"utf-8"),username,sex,phonenumber);
+            DBUtil.insert(sql,account,pwd,username,sex,phonenumber);
     }
-
+    public void save(String account, String pwd, String username, String sex) {
+        String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,registerdate,grade,ismerchant) " +
+                "VALUES(?,?,?,?,'imgs/tx0.jpg',NOW(),60.0,'否')";
+        DBUtil.insert(sql,account,pwd,username,sex);
+    }
     /**
      * 插入数据
      * @param user user实例
@@ -63,7 +67,7 @@ public class UserDao {
     public void save(User user) {
         String sql = "INSERT INTO b_user (account,pwd,username,sex,avatar,phonenumber,registerdate,grade,ismerchant) " +
                 "VALUES(?,?,?,?,'imgs/tx0.jpg',?,NOW(),60.0,'否')";
-        DBUtil.insert(sql,user.getAccount(),MD5Util.MD5Encode(user.getPwd(),"utf-8"),user.getUsername(),user.getSex(),user.getPhonenumber());
+        DBUtil.insert(sql,user.getAccount(),user.getPwd(),user.getUsername(),user.getSex(),user.getPhonenumber());
     }
 
     /**
@@ -275,4 +279,6 @@ public class UserDao {
         String sql = "UPDATE b_user SET phonenumber =? WHERE userid=?";
         DBUtil.update(sql,mobile, userid);
     }
+
+
 }

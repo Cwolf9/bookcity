@@ -36,9 +36,10 @@ public class test {
     public static void main(String[] args) {
         //new UserDao().save("zj","zj","张杰","男","1362873");
         // SendCodeUtil.sendsms("15172425261");
-        List<User> users = new UserDao().findAll();
-        for(User user: users) {
-            new UserDao().modifyPwd(MD5Util.MD5Encode(user.getPwd(),"utf-8"), user.getUserid());
-        }
+//        List<User> users = new UserDao().findAll();
+//        for(User user: users) {
+//            new UserDao().modifyPwd(MD5Util.MD5Encode(user.getPwd(),"utf-8"), user.getUserid());
+//        }
+        System.out.println(MD5Util.MD5Encode("123dafd-*/@#$%+...kjgjkhgjh","utf-8"));
     }
 }

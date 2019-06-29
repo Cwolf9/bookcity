@@ -40,23 +40,26 @@ import java.util.Random;
 public class AdminDao {
     public static void main(String[] args) {
         for(int i = 1; i <= 5; ++i) {
-            new AdminDao().saveAdmin(i,"admin"+i,"pwd"+i,"1239"+i);
+            new AdminDao().saveAdmin("admin"+i,"pwd"+i,"1239"+i);
         }
     }
 
     /**
      *
-     * @param adminid
      * @param adminacc
      * @param pwd
      * @param phonenumber
      */
-    public void saveAdmin(int adminid, String adminacc, String pwd, String phonenumber){
-            String sql = "INSERT INTO b_admin (Adminid, registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
-                    "VALUES(?,NOW(),?,?,'imgs/admin0.jpg',?,'是')";
-            DBUtil.insert(sql,adminid,adminacc,pwd,phonenumber);
+    public void saveAdmin(String adminacc, String pwd, String phonenumber){
+            String sql = "INSERT INTO b_admin (registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
+                    "VALUES(NOW(),?,?,'imgs/admin0.jpg',?,'是')";
+            DBUtil.insert(sql,adminacc,pwd,phonenumber);
     }
-
+    public void saveAdmin(String adminacc, String pwd, String phonenumber,String permission){
+        String sql = "INSERT INTO b_admin (registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
+                "VALUES(NOW(),?,?,'imgs/admin0.jpg',?,?)";
+        DBUtil.insert(sql,adminacc,pwd,phonenumber,permission);
+    }
     /**
      * 根据id删除admin
      * @param Adminid

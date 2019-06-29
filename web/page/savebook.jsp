@@ -51,24 +51,28 @@
             <label for="bookauthor" class="col-sm-2">作者</label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="bookauthor" id="bookauthor" placeholder="作者">
+                <span id="bookauthorTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="price" class="col-sm-2">单价</label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="price" id="price" placeholder="单价">
+                <span id="priceTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="booknum" class="col-sm-2">数量</label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="booknum" id="booknum" placeholder="存库数量">
+                <span id="booknumTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="bookinfo" class="col-sm-2">简介</label>
             <div class="col-md-6 col-sm-10">
                 <textarea type="text" class="form-control" name="bookinfo" id="bookinfo" placeholder="简介(不得超过140字)" style="height: 100px;"></textarea>
+                <span id="bookinfoTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <input type="text" style="display: none;" id="upbook" name="book">
@@ -122,24 +126,48 @@
         var success = true;
         var bookname = document.querySelector("#bookname");
         var booknameTip = document.querySelector("#booknameTip");
+        var bookauthor = document.querySelector("#bookauthor");
+        var bookauthorTip = document.querySelector("#bookauthorTip");
+        var price = $("#price").val()
+        var priceTip = document.querySelector("#priceTip");
+        var booknum = $("#booknum").val()
+        var booknumTip = document.querySelector("#booknumTip");
+        var bookinfo = $("#bookinfo").val()
+        var bookinfoTip = document.querySelector("#bookinfoTip");
         booknameTip.innerText = "";
+        priceTip.innerText = ""
+        bookauthorTip.innerText = "";
+        booknumTip.innerText = "";
+        bookinfoTip.innerText = "";
+        if(!isZheng(price)) {
+            priceTip.innerText = "价格必须正数";
+            success = false;
+        }
+        if(!isInteger(booknum)) {
+            booknumTip.innerText = "价格必须正整数";
+            success = false;
+        }
         if (bookname.value == "") {
             booknameTip.innerText = "书名不能为空";
             success = false;
-        } else {
-            for(var ind in bookname) {
-                if(bookname[ind] == '<' || bookname[ind] == '>') success = false;
-            }
-            if(success == false) {
-                booknameTip.innerText = "包含非法字符！";
-            }
         }
-        //
-
+        if(bookinfo == ""){
+            bookinfoTip.innerText = "简介不能为空";
+            success = false;
+        }
+        if(bookauthor.value == "") {
+            bookauthorTip.innerText = "作者不能为空";
+            success = false;
+        }
         if (success) {
             document.querySelector("#saveForm").submit();
         }
-
+    }
+    function isInteger(obj) {
+        return (typeof obj === 'string' && parseInt(obj, 10)%1 == 0 && parseInt(obj, 10)>0)||(typeof obj === 'number' && obj%1 === 0 && obj>0);
+    }
+    function isZheng(price) {
+        return (typeof price == 'string' && price.match(/^\d+((\.\d+){0,})?$/) && parseFloat(price) > 0)||(typeof price == 'number' && price > 0);
     }
 </script>
 <script type="text/javascript">

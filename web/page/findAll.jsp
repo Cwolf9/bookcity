@@ -199,6 +199,8 @@
         document.getElementById('inputEmailExample1').value = o;
     }
 function changeUserInfo() {
+    var pwd = $('#inputEmailExample2').val()
+    $('#inputEmailExample2').val(hex_md5(pwd))
     var url = "${pageContext.servletContext.contextPath}/cgeUser.do?account=" + $('#inputEmailExample1').val()+"&newPwd="+$('#inputEmailExample2').val()+"&newUserName="+$('#inputEmailExample3').val()+"&newSex=";
     if(document.getElementById("sex2").checked) url = url + "女";
     else url = url + "男";

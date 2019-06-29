@@ -35,6 +35,7 @@ import java.util.List;
 
 public interface LoginService {
     void save(String account, String pwd, String username, String sex, String phonenumber);
+    void save(String account, String pwd, String username, String sex);
     List<Object> getCode() ;
     User findByAccountAndPwd(String account, String pwd);
     String getSmscode(String phone);
@@ -43,7 +44,8 @@ public interface LoginService {
     List findAllUsers();
     void removeUserById(int id);
     void modifyAvatar(String newAva, int id);
-
+    public void saveAdmin(String adminacc, String pwd, String phonenumber);
+    public void saveAdmin(String adminacc, String pwd, String phonenumber,String permission);
     void removeAdminById(int adminid2);
 
     List<Admin> findAllAdmin();
@@ -63,4 +65,6 @@ public interface LoginService {
     void modifyAdminPer(String newPermission, int adminid);
 
     void modifyPhonenumber(String mobile, int userid);
+
+
 }

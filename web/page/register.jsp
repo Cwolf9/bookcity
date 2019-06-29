@@ -30,18 +30,18 @@
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
-                    <input class="input100" type="text" name="account" placeholder="请输入用户名" autocomplete="off">
+                    <input class="input100" type="text" name="account" placeholder="请输入用户名(不少于6位，超过16位)" autocomplete="off" id="raccount">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
                     <span class="label-input100">密码</span>
-                    <input class="input100" type="password" name="pwd" placeholder="请输入密码">
+                    <input class="input100" type="password" name="pwd" placeholder="请输入密码(不少于4位，超过16位)" id="rpwd">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="请输入姓名">
                     <span class="label-input100" style="margin-top: 5px;">姓名</span>
-                    <input class="input100" type="text" name="username" placeholder="请输入姓名">
+                    <input class="input100" type="text" name="username" placeholder="请输入姓名" id="rusername">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
                 <div class="wrap-input100" >
@@ -69,7 +69,7 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn">注 册</button>
+                        <button class="login100-form-btn" type="button" onclick="save()">注 册</button>
                     </div>
                 </div>
 
@@ -101,8 +101,32 @@
 <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script>
-    var password= hex_md5("123dafd");
-    alert(password)
+    function save() {
+        var account = $('#raccount').val()
+        var pwd = hex_md5($("#rpwd").val())
+        var username = $('#rusername').val()
+        var url = "${pageContext.servletContext.contextPath}/register.do?account="+account+"&pwd="+pwd+"&username="+username+"&sex=";
+        if (document.getElementById("sex2").checked) url = url + "女";
+        else url = url + "男";
+        var jgpattern =/^[A-Za-z0-9]+$/;
+        var jgpattern2 =/^[A-Za-z0-9-*/@#$%+]+$/;
+        var success = true;
+        if(!jgpattern.test(account)) {
+            success = false;
+            alert('账号只能包含数字和字母')
+        }else if(account.length < 6 || account.length > 16) {
+            alert('账号长度不合法')
+            success = false
+        }else if(pwd.length < 4 || pwd.length > 16) {
+            alert('密码长度不合法')
+            success = false
+        }else if(!jgpattern2.test(pwd)) {
+            success = false;
+            alert('密码(只能包含字母，数字和{+-*/@#$%})')
+        }
+        $("#rpwd").val(pwd)
+        if(success) document.querySelector("#regForm").submit();
+    }
 </script>
 </body>
 

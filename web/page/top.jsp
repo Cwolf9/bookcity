@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <meta charset="utf-8">
+<script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/bg.js"></script>
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/click.js"></script>
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/changeTitle.js"></script>
 <style>
     .circle-img_{
         border-radius: 100%;vertical-align: middle;border: 0;box-sizing: border-box;
@@ -16,6 +20,7 @@
         box-sizing: border-box;
         box-shadow: 0px 0px 0px 3px #93a1a1;}
 </style>
+
 <div class="mytop_bar">
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -61,15 +66,15 @@
                 </ul>
                 <!-- 右侧的导航项目 -->
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${pageContext.servletContext.contextPath}/page/avatar.jsp" target="_self">更换头像</a></li>
                     <li class="dropdown active">
                         <img src="${pageContext.servletContext.contextPath}/${u.avatar}" class="circle-img_" alt="">
                         <a href="#" style="float: left;" class="dropdown-toggle " data-toggle="dropdown">
                             欢迎【${u.username}】登录
                             <b class="caret" style="margin-left: 5px;"></b></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="${pageContext.servletContext.contextPath}/page/avatar.jsp" target="_self">更换头像</a></li>
                             <li><a href="${pageContext.servletContext.contextPath}/page/adminlogout.jsp" target="_self">退出 </a></li>
-                        </ul>
+                            </ul>
                     </li>
                 </ul>
             </div><!-- END .navbar-collapse -->
