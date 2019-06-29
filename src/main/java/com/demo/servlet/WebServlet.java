@@ -402,6 +402,12 @@ public class WebServlet extends HttpServlet{
         }else if("/saveAdmin.do".equals(url)) {
             ls.saveAdmin(account, MD5Util.MD5Encode(pwd,"utf-8"), phonenumber,sex);
             response.sendRedirect(request.getContextPath()+"/adminers.do");
+        }else if("/showUserList.do".equals(url)) {
+            int userid = Integer.parseInt(request.getParameter("userid"));
+            List<Orders> morders = dts.findAllOrders(1, String.valueOf(userid));
+            request.setAttribute("morders", morders);
+            request.getRequestDispatcher("page/showUserList.jsp").forward(request,response);
+            return;
         }
 
     }

@@ -43,7 +43,7 @@ import java.util.Random;
 public class OrdersDao {
     public static void main(String[] args) {
         for(int i = 100; i <= 130; i+=2) {
-            new OrdersDao().saveOrder(i, i+1, new Random().nextInt(1000)*1.0, "长沙理工大学"+i);
+            new OrdersDao().saveOrder(i, i+1, new Random().nextInt(1000)*1.0, "长沙理工大学"+i,10);
         }
     }
 
@@ -54,10 +54,10 @@ public class OrdersDao {
      * @param money
      * @param name
      */
-    public void saveOrder(int uid, int sid, double money,String name){//订单编号系统随机生成
-        String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name) " +
+    public void saveOrder(int uid, int sid, double money,String name,int allnum){//订单编号系统随机生成
+        String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name,allnum) " +
                 "VALUES(?,?,?,?,?)";
-        DBUtil.insert(sql,uid,sid,money,CodeUtil.rand(),name);
+        DBUtil.insert(sql,uid,sid,money,CodeUtil.rand(),name,allnum);
     }
 
     /**
@@ -100,7 +100,8 @@ public class OrdersDao {
                 double price = rs.getDouble(5);
                 String name = rs.getString(6);
                 String express = rs.getString(7);
-                Orders ors = new Orders(orderindex,orderid,uid,sid,price,name,express);
+                int allnum = rs.getInt(8);
+                Orders ors = new Orders(orderindex,orderid,uid,sid,price,name,express,allnum);
                 list.add(ors);
             }
         } catch (SQLException e) {

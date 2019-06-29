@@ -33,12 +33,12 @@ public class Orders {
     private double money;
     private String name;
     private String express;
-
+    private int allnum;
     public Orders() {
         super();
     }
 
-    public Orders(int orderindex, String orderid, int uid, int sid, double money, String name, String express) {
+    public Orders(int orderindex, String orderid, int uid, int sid, double money, String name, String express,int allnum) {
         this.orderindex = orderindex;
         this.orderid = orderid;
         this.uid = uid;
@@ -46,6 +46,15 @@ public class Orders {
         this.money = money;
         this.name = name;
         this.express = express;
+        this.allnum = allnum;
+    }
+
+    public int getAllnum() {
+        return allnum;
+    }
+
+    public void setAllnum(int allnum) {
+        this.allnum = allnum;
     }
 
     public int getOrderindex() {

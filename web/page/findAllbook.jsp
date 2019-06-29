@@ -36,7 +36,6 @@
             <th>署名</th>
             <th>作者</th>
             <th>缩略图</th>
-            <th>简介</th>
             <th>上架日期</th>
             <th>单价</th>
             <th>剩余库存</th>
@@ -51,16 +50,30 @@
                 <td>${ix.bookname }</td>
                 <td>${ix.bookauthor }</td>
                 <td><img src="${ix.defaultimg}" alt="缩略图" style="height: 40px;"></td>
-                <td>${ix.bookinfo }</td>
                 <td>${ix.pubdate }</td>
                 <td>${ix.price }</td>
                 <td>${ix.booknum }</td>
                 <td>${ix.bowner }</td>
                 <td>
+                    <button class="btn btn-info btn-sm" type="button" data-toggle="modal" data-target="#myModal${ix.bookid}">简介</button>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.bookid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showBookInfo('${ix.bookid}','${ix.bowner}')">修改</button>
                 </td>
             </tr>
+            <div class="modal fade" id="myModal${ix.bookid}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                            <h4 class="modal-title">书记简介</h4>
+                        </div>
+                        <div class="modal-body">${ix.bookinfo }</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </c:forEach>
         </tbody>
     </table>

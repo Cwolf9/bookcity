@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <meta charset="utf-8">
-<script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/bg.js"></script>
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/click.js"></script>
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/changeTitle.js"></script>
 <style>
     .circle-img_{
         border-radius: 100%;vertical-align: middle;border: 0;box-sizing: border-box;
@@ -80,4 +76,8 @@
             </div><!-- END .navbar-collapse -->
         </div>
     </nav>
+    <script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/bg.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/click.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/changeTitle.js"></script>
 </div>
