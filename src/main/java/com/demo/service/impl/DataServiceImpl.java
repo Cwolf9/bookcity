@@ -32,6 +32,7 @@ import com.demo.dao.OrdersDao;
 import com.demo.model.Book;
 import com.demo.model.OrderItem;
 import com.demo.model.Orders;
+import com.demo.model.ShoppingCar;
 import com.demo.service.DataService;
 
 import java.util.List;
@@ -98,5 +99,9 @@ public class DataServiceImpl implements DataService {
 
     public List<Book> findBooksByTags(String tags) {
         return bdao.findBooksByTags(tags);
+    }
+
+    public List<ShoppingCar> findSC(int uid) {
+        return bdao.findSC(uid);
     }
 }

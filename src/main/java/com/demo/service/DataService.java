@@ -3,6 +3,7 @@ package com.demo.service;
 import com.demo.model.Book;
 import com.demo.model.OrderItem;
 import com.demo.model.Orders;
+import com.demo.model.ShoppingCar;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface DataService {
     List<Book> findBooksByInfo(String info);
 
     List<Book> findBooksByTags(String tags);
+
+    List<ShoppingCar> findSC(int uid);
 }

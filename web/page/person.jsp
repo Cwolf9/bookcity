@@ -331,7 +331,6 @@ function checkM() {
             myMessager.hide();
         }, 2000);
     }
-
 </script>
 </body>
 </html>

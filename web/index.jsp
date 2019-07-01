@@ -11,6 +11,15 @@
     <link rel="stylesheet" type="text/css" href="css/style0.css">
     <link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
+    <style>
+        .headicon{
+            float:right;
+            margin:10px;
+            margin-right: 20px;
+            width:330px;
+            height:90px;
+        }
+    </style>
 </head>
 
 <body>
@@ -59,8 +68,10 @@
             <div class="headicon">
                 <!-- 搜索框的实现 -->
                 <ul>
-                    <li><a href="user.html"><i class="fa fa-user-circle fa-2x hoverspin black"
-                                               aria-hidden="true"></i></a></li>
+                    <li><a onclick="regUser()"><i class="fa fa-user fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
+                    <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
+                    <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
                     <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
@@ -80,10 +91,100 @@
                     <!-- 首面搜索实现通过id实现 -->
                     <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
-
                 <!-- 搜索框实现结束 -->
             </div>
-
+        </div>
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                        <h4 class="modal-title">登录</h4>
+                    </div>
+                    <div class="modal-body">
+                        账号:
+                        <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                            <input id="inputEmailExample1" type="text" class="form-control" placeholder="账号">
+                            <label for="inputEmailExample1" class="input-control-icon-left"><i
+                                    class="icon icon-qq "></i></label>
+                            <label for="inputEmailExample1" class="input-control-icon-right"><i
+                                    class="icon icon-check"></i></label>
+                        </div>
+                        密码:
+                        <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                            <input id="inputEmailExample2" type="password" class="form-control" placeholder="密码">
+                            <label for="inputEmailExample2" class="input-control-icon-left"><i
+                                    class="icon icon-key "></i></label>
+                            <label for="inputEmailExample2" class="input-control-icon-right"><i
+                                    class="icon icon-check"></i></label>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="请输入验证码">
+                            <span class="label-input100" style="margin-top: 5px;">验证码:</span>&nbsp;&nbsp;&nbsp;
+                            <img style="margin-top: 5px;margin-left: 5px;" src="${pageContext.servletContext.contextPath}/code.do" alt="code" onclick="changeCode(this)">
+                            <br>
+                            <input class="input100" type="text" name="code" placeholder="请输入验证码" id="code" style="margin-top: 10px;">
+                            <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="Login()">登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal2">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                        <h4 class="modal-title">注册</h4>
+                    </div>
+                    <div class="modal-body">
+                        账号:
+                        <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                            <input id="inputExample1" type="text" class="form-control" placeholder="账号">
+                            <label for="inputExample1" class="input-control-icon-left"><i
+                                    class="icon icon-qq "></i></label>
+                            <label for="inputExample1" class="input-control-icon-right"><i
+                                    class="icon icon-check"></i></label>
+                        </div>
+                        密码:
+                        <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                            <input id="inputExample2" type="password" class="form-control" placeholder="密码">
+                            <label for="inputExample2" class="input-control-icon-left"><i
+                                    class="icon icon-key "></i></label>
+                            <label for="inputExample2" class="input-control-icon-right"><i
+                                    class="icon icon-check"></i></label>
+                        </div>
+                        姓名:
+                        <div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
+                            <input id="inputExample3" type="text" class="form-control" placeholder="姓名">
+                            <label for="inputExample3" class="input-control-icon-left"><i
+                                    class="icon icon-user "></i></label>
+                            <label for="inputExample3" class="input-control-icon-right"><i
+                                    class="icon icon-check"></i></label>
+                        </div>
+                        <div class="wrap-input100" style="margin-bottom: 50px;">
+                            <span class="label-input100" style="margin-top: 15px;float: left;">性别:</span>
+                            <%--<input class="input100" type="text" name="username" placeholder="请输入姓名">--%>
+                            <div class="input100" style="padding-top: 15px; float: left">
+                                <div class="radio-primary" style="float:left; margin: 0 10px">
+                                    <input checked="checked" type="radio" name="sex" id="sex1" value="男">
+                                    <label for="sex1">男</label></div>
+                                <div class="radio-primary" style="float:left;">
+                                    <input type="radio" name="sex" id="sex2" value="女">
+                                    <label for="sex2">女</label></div>
+                            </div>
+                            <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal2">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="Register()">注册</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- 导航栏变化样式 -->
         <!-- 导航栏固定样式 -->
@@ -104,8 +205,10 @@
             <div class="headicon">
                 <!-- 搜索框的实现 -->
                 <ul>
-                    <li><a href="user.html"><i class="fa fa-user-circle fa-2x hoverspin black"
-                                               aria-hidden="true"></i></a></li>
+                    <li><a onclick="regUser()"><i class="fa fa-user fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
+                    <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
+                    <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
                     <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
@@ -651,6 +754,7 @@
     </div>
 </div>
 <!-- =====  FOOTER END  ===== -->
+<input type="text" style="display: none;" id="error" value="${error}">
 </div>
 <a id="scrollup">Scroll</a>
 <script src="js/jquery.js"></script>
@@ -660,7 +764,43 @@
 <script src="js/jquery.magnific-popup.js"></script>
 <script src="js/jquery.firstVisitPopup.js"></script>
 <script src="js/custom0.js"></script>
-
+<script>
+    if($("#error").val() != "") {
+        alert($("#error").val())
+        location.href = "${pageContext.servletContext.contextPath}/index.action"
+    }
+</script>
+<script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
+<script>
+    function userlogin() {
+        if("${ptu}" != "") {
+            location.href = "${pageContext.servletContext.contextPath}/user.action";
+        }else {
+            $('#ycbutton').click()
+        }
+    }
+    function regUser() {
+        $('#regbutton').click()
+    }
+    function Login() {
+        var pwd = $('#inputEmailExample2').val()
+        $('#inputEmailExample2').val(hex_md5(pwd))
+        var url = "${pageContext.servletContext.contextPath}/ulogin.action?account=" + $('#inputEmailExample1').val()+"&pwd="+$('#inputEmailExample2').val()+"&code="+$('#code').val();
+        location.href = url;
+    }
+    function Register() {
+        var pwd = $('#inputExample2').val()
+        $('#inputExample2').val(hex_md5(pwd))
+        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val()+"&pwd="+$('#inputExample2').val()+"&username="+$('#inputExample3').val()+"$sex=";
+        if(document.getElementById("sex2").checked) url = url + "女";
+        else url = url + "男";
+        location.href = url;
+    }
+    function changeCode(o) {
+        //修改img的src的值
+        o.src = "${pageContext.servletContext.contextPath}/code.do?"+new Date().getTime();
+    }
+</script>
 </body>
 
 </html>

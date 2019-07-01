@@ -74,7 +74,6 @@ public class WebServlet extends HttpServlet{
         //获取用户地址栏的地址
         String url = request.getServletPath();// *.do
         System.out.println("本次请求的url地址："+url);
-
         HttpSession session = request.getSession();
         System.out.println("sessionId:"+session.getId());
         if(session.getAttribute("u") == null && checkUrl(url)) {
@@ -107,7 +106,7 @@ public class WebServlet extends HttpServlet{
             }else {
                 ls.save(account, MD5Util.MD5Encode(pwd,"utf-8"), username, sex);
                 request.setAttribute("error", "注册成功，请登录！");
-                request.getRequestDispatcher("page/view.jsp").forward(request, response);
+                request.getRequestDispatcher("index.action").forward(request, response);
             }
         }else if("/code.do".equals(url)) {
             List a = ls.getCode();

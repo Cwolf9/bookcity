@@ -27,6 +27,7 @@ package com.demo.servlet;
 
 import com.demo.model.Book;
 import com.demo.model.OrderItem;
+import com.demo.model.ShoppingCar;
 import com.demo.model.User;
 import com.demo.service.DataService;
 import com.demo.service.LoginService;
@@ -35,10 +36,12 @@ import com.demo.service.impl.DataServiceImpl;
 import com.demo.service.impl.LoginServiceImpl;
 import com.demo.service.impl.UploadServiceImpl;
 import com.demo.util.MD5Util;
+import com.mysql.cj.Session;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -82,7 +85,7 @@ public class AServlet extends HttpServlet {
                     resp.addCookie(cookie_pwd);
                     resp.setContentType("text/html;charset=UTF-8");
                     //重定向
-                    resp.sendRedirect(req.getContextPath()+"/page/index.jsp");
+                    resp.sendRedirect(req.getContextPath()+"/index.action");
                     //转发
 //                    request.getRequestDispatcher("page/welcome.jsp").forward(request, response);
                 }
@@ -160,21 +163,36 @@ public class AServlet extends HttpServlet {
             req.setAttribute("lishi", lishi);
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         }else if("/list.action".equals(url)) {
-            String mtype = req.getParameter("mtype");
             int nowpage = Integer.parseInt(req.getParameter("nowpage"));
+            String sort = req.getParameter("sort");
+            if(sort == null || sort.equals("")) sort = "1";
+            System.out.println("sort:"+sort);
+            String mtype = req.getParameter("mtype");
             List<Book> allbooks = dts.findAllBooks();
-            List<Book> tags = new ArrayList<Book>();
             List<Book> sbook = new ArrayList<Book>();
             for(int i = 0; i < 9; ++i) sbook.add(allbooks.get(i));
             req.setAttribute("lammuyd", sbook);
-            allbooks = dts.findBooksByTags("%"+mtype+"%");
-            Collections.sort(allbooks, marknum);
-            for(int i = (nowpage-1)*8; i < nowpage*8 && i < allbooks.size(); ++i) tags.add(allbooks.get(i));
             req.setAttribute("mtype", mtype);
-            req.setAttribute("tags", tags);
             req.setAttribute("nowpage", nowpage);
-            if(allbooks.size()%8 > 0) req.setAttribute("allpage", allbooks.size()/8+1);
-            else req.setAttribute("allpage", allbooks.size()/8);
+            req.setAttribute("sort", sort);
+            List<Book> tags = new ArrayList<Book>();
+            if(mtype.equals("畅销")) {
+                allbooks = dts.findAllBooks();
+                Collections.sort(allbooks, sallnum);
+            }else if(mtype.equals("好评")) {
+                allbooks = dts.findAllBooks();
+                Collections.sort(allbooks, marknum);
+            }else {
+                allbooks = dts.findBooksByTags("%" + mtype + "%");
+                if(sort.equals("1")) Collections.sort(allbooks, marknum);
+                else if(sort.equals("2")) Collections.sort(allbooks, sallnum);
+                else if(sort.equals("3")) Collections.sort(allbooks, priceSma);
+                else Collections.sort(allbooks, priceBig);
+            }
+            for (int i = (nowpage - 1) * 8; i < nowpage * 8 && i < allbooks.size(); ++i) tags.add(allbooks.get(i));
+            req.setAttribute("tags", tags);
+            if (allbooks.size() % 8 > 0) req.setAttribute("allpage", allbooks.size() / 8 + 1);
+            else req.setAttribute("allpage", allbooks.size() / 8);
             req.getRequestDispatcher("list.jsp").forward(req, resp);
         }else if("/SearchBook.action".equals(url)) {
             String info = req.getParameter("mtype");
@@ -192,28 +210,77 @@ public class AServlet extends HttpServlet {
             if(allbooks.size()%8 > 0) req.setAttribute("allpage", allbooks.size()/8+1);
             else req.setAttribute("allpage", allbooks.size()/8);
             req.getRequestDispatcher("list.jsp").forward(req, resp);
+        }else if("/user.action".equals(url)) {
+            int uid = ((User) session.getAttribute("ptu")).getUserid();
+            List<ShoppingCar> usc = dts.findSC(uid);
+            req.setAttribute("usc", usc);
+            req.getRequestDispatcher("user.jsp").forward(req, resp);
+        }else if("/ulogin.action".equals(url)) {
+            String usercode = req.getParameter("code");
+            String code = (String) session.getAttribute("code");
+            System.out.println(account+","+pwd+","+usercode+","+code);
+            if(usercode.equalsIgnoreCase(code)){
+                User u = ls.findByAccountAndPwd(account, MD5Util.MD5Encode(pwd,"utf-8") );
+                if(u == null){
+                    req.setAttribute("error", "账号或者密码错误!");
+                    req.getRequestDispatcher("index.action").forward(req, resp);
+                }else{//登陆成功
+                    session.setAttribute("ptu", u);
+                    session.setAttribute("ptuname", u.getAccount());
+                    Cookie cookie_acc = new Cookie("useraccount",account);
+                    Cookie cookie_pwd = new Cookie("userpwd",pwd);
+                    cookie_acc.setMaxAge(5*60);
+                    cookie_pwd.setMaxAge(5*60);
+//                    cookie_acc.setPath("/");
+                    resp.addCookie(cookie_acc);
+                    resp.addCookie(cookie_pwd);
+                    resp.setContentType("text/html;charset=UTF-8");
+                    //重定向
+                    resp.sendRedirect(req.getContextPath()+"/index.action");
+                    //转发
+//                    request.getRequestDispatcher("page/welcome.jsp").forward(request, response);
+                }
+            }else{
+                //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
+                req.setAttribute("error", "验证码错误!");
+                req.getRequestDispatcher("index.action").forward(req, resp);
+            }
         }
 
     }
     static Comparator<Book> sallnum = new Comparator() {
-        public int compare(Object o1, Object o2) {
+        public int compare(Object o1, Object o2) {//畅销
             Book x1 = (Book)o1;
             Book x2 = (Book)o2;
             return x2.getSallnum()-x1.getSallnum();
         }
     };
     static Comparator<Book> timenum = new Comparator() {
-        public int compare(Object o1, Object o2) {
+        public int compare(Object o1, Object o2) {//日期
             Book x1 = (Book)o1;
             Book x2 = (Book)o2;
             return x2.getPubdate().compareTo(x1.getPubdate());
         }
     };
     static Comparator<Book> marknum = new Comparator() {
-        public int compare(Object o1, Object o2) {
+        public int compare(Object o1, Object o2) {//好评
             Book x1 = (Book)o1;
             Book x2 = (Book)o2;
             return x2.getMark()-x1.getMark();
+        }
+    };
+    static Comparator<Book> priceBig = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            Book x1 = (Book)o1;
+            Book x2 = (Book)o2;
+            return new BigDecimal(x2.getPrice()).compareTo(new BigDecimal(x1.getPrice()));
+        }
+    };
+    static Comparator<Book> priceSma = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            Book x1 = (Book)o1;
+            Book x2 = (Book)o2;
+            return new BigDecimal(x1.getPrice()).compareTo(new BigDecimal(x2.getPrice()));
         }
     };
 }

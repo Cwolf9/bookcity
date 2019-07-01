@@ -26,6 +26,7 @@
 package com.demo.dao;
 
 import com.demo.model.Book;
+import com.demo.model.ShoppingCar;
 import com.demo.model.User;
 import com.demo.util.CodeUtil;
 import com.demo.util.ColorUtil;
@@ -206,5 +207,27 @@ public class BookDao {
     public List<Book> findBooksByTags(String wenxue) {
         String sql = "SELECT * FROM b_book where tags like ?";
         return util1(sql,wenxue);
+    }
+
+    public List<ShoppingCar> findSC(int uid) {
+        String sql = "SELECT defaultimg,bookname,tags,b_shoppingcart.booknum,price" +
+                " FROM b_user,b_shoppingcart,b_book where b_user.userid=b_shoppingcart.uid and b_book.bookid = b_shoppingcart.bookid and b_user.userid=?";
+        List<ShoppingCar> list = new ArrayList<ShoppingCar>();
+        try {
+            ResultSet rs = DBUtil.select(sql, uid);
+            while(rs.next()){//指标往下移动一行
+                String img = rs.getString(1);
+                String img1 = rs.getString(2);
+                String img2 = rs.getString(3);
+                int a = rs.getInt(4);
+                double a1 = rs.getDouble(5);
+                double a2 = a1 * a;
+                ShoppingCar bk = new ShoppingCar(img,img1,img2,a,a1,a2);
+                list.add(bk);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

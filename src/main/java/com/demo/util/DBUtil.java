@@ -51,7 +51,7 @@ public class DBUtil {
         }
     }
     public static Connection getConnection() {
-        if(conn == null) {
+//        if(conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookcity?useSSL=false&serverTimezone=UTC", "root", "lhroot");
@@ -62,8 +62,8 @@ public class DBUtil {
             } finally {
                 return conn;
             }
-        }
-        return conn;
+//        }
+//        return conn;
     }
 
     /**

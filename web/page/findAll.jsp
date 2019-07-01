@@ -127,7 +127,6 @@
 <script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $('table.datatable').datatable({sortable: true, checkable: true});
-
     function del(id) {
         bootbox.confirm({
             message: "确定要删除数据?",
