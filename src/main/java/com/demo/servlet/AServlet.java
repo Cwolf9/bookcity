@@ -40,6 +40,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -123,14 +124,63 @@ public class AServlet extends HttpServlet {
             String blogContent = req.getParameter("blogContent");
             req.setAttribute("blogContent", blogContent);
             req.getRequestDispatcher("page/showBlog.jsp").forward(req, resp);
+        }else if("/index.action".equals(url)) {
+            List<Book> allbooks = dts.findAllBooks();
+            Collections.sort(allbooks, sallnum);
+            List<Book> sbook = new ArrayList<Book>();
+            List<Book> hotbook = new ArrayList<Book>();
+            List<Book> latestbook = new ArrayList<Book>();
+            List<Book> markbook = new ArrayList<Book>();
+            List<Book> wenxue = new ArrayList<Book>();
+            List<Book> keji = new ArrayList<Book>();
+            List<Book> lishi = new ArrayList<Book>();
+            for(int i = 0; i < 9; ++i) sbook.add(allbooks.get(i));
+            for(int i = 0; i < 8; ++i) hotbook.add(allbooks.get(i));
+            Book maxhotbook = allbooks.get(0);
+            Collections.sort(allbooks, timenum);
+            for(int i = 0; i < 8; ++i) latestbook.add(allbooks.get(i));
+            Collections.sort(allbooks, marknum);
+            for(int i = 0; i < 8; ++i) markbook.add(allbooks.get(i));
+            allbooks = dts.findBooksByTags("%文学%");
+            Collections.sort(allbooks, marknum);
+            for(int i = 0; i < 9; ++i) wenxue.add(allbooks.get(i));
+            allbooks = dts.findBooksByTags("%科技%");
+            Collections.sort(allbooks, marknum);
+            for(int i = 0; i < 9; ++i) keji.add(allbooks.get(i));
+            allbooks = dts.findBooksByTags("%历史%");
+            Collections.sort(allbooks, marknum);
+            for(int i = 0; i < 9; ++i) lishi.add(allbooks.get(i));
+            req.setAttribute("maxhotbook", maxhotbook);
+            req.setAttribute("lammuyd", sbook);
+            req.setAttribute("hotbook", hotbook);
+            req.setAttribute("latestbook", latestbook);
+            req.setAttribute("markbook", markbook);
+            req.setAttribute("wenxue", wenxue);
+            req.setAttribute("keji", keji);
+            req.setAttribute("lishi", lishi);
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
 
     }
-    static Comparator<Book> C = new Comparator() {
+    static Comparator<Book> sallnum = new Comparator() {
         public int compare(Object o1, Object o2) {
             Book x1 = (Book)o1;
             Book x2 = (Book)o2;
-            return x1.getBookid()-x2.getBookid();
+            return x2.getSallnum()-x1.getSallnum();
+        }
+    };
+    static Comparator<Book> timenum = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            Book x1 = (Book)o1;
+            Book x2 = (Book)o2;
+            return x2.getPubdate().compareTo(x1.getPubdate());
+        }
+    };
+    static Comparator<Book> marknum = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            Book x1 = (Book)o1;
+            Book x2 = (Book)o2;
+            return x2.getMark()-x1.getMark();
         }
     };
 }

@@ -39,8 +39,11 @@ public class Book {
     private String bowner;
     private String book;
     private String defaultimg;
+    private int mark;
+    private int sallnum;
+    private String tags;
     public Book() {super();}
-    public Book(int bookid, String bookname, String bookauthor, String bookinfo, Date pubdate, double price, int booknum,String bowner,String book) {
+    public Book(int bookid, String bookname, String bookauthor, String bookinfo, Date pubdate, double price, int booknum,String bowner,String book,int mark,int sallnum,String tags) {
         this.bookid = bookid;
         this.bookname = bookname;
         this.bookauthor = bookauthor;
@@ -50,6 +53,9 @@ public class Book {
         this.booknum = booknum;
         this.bowner = bowner;
         this.book = book;
+        this.mark = mark;
+        this.sallnum = sallnum;
+        this.tags = tags;
     }
 
     public int getBookid() {
@@ -130,6 +136,23 @@ public class Book {
     public void setBowner(String bowner) {
         this.bowner = bowner;
     }
+
+    public int getMark() {
+        return mark;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public int getSallnum() {
+        return sallnum;
+    }
+
+    public void setSallnum(int sallnum) {
+        this.sallnum = sallnum;
+    }
+
     @Override
     public String toString() {
         return "bookid:"+bookid+",bookname:"+bookname+",price:"+price;

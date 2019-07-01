@@ -54,6 +54,11 @@ function search(){
     a.on('click', function(event) {
         $(".search-overlay").removeClass("open");
     });
+    var b = $("#search-overlay-btn1");
+    b.on('click', function(event) {
+        $(".search-overlay").addClass("open"),
+            $('.search-overlay > form > input[type="search"]').focus();
+    });
 }
 
 /* ===== Grid list active  =====   */

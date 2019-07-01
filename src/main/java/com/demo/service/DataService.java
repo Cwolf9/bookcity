@@ -26,4 +26,6 @@ public interface DataService {
     List<OrderItem> findOIByOrderId(String orderid);
 
     List<Book> findBooksByInfo(String info);
+
+    List<Book> findBooksByTags(String 文学);
 }
