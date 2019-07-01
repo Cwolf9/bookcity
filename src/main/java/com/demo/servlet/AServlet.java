@@ -159,6 +159,39 @@ public class AServlet extends HttpServlet {
             req.setAttribute("keji", keji);
             req.setAttribute("lishi", lishi);
             req.getRequestDispatcher("index.jsp").forward(req, resp);
+        }else if("/list.action".equals(url)) {
+            String mtype = req.getParameter("mtype");
+            int nowpage = Integer.parseInt(req.getParameter("nowpage"));
+            List<Book> allbooks = dts.findAllBooks();
+            List<Book> tags = new ArrayList<Book>();
+            List<Book> sbook = new ArrayList<Book>();
+            for(int i = 0; i < 9; ++i) sbook.add(allbooks.get(i));
+            req.setAttribute("lammuyd", sbook);
+            allbooks = dts.findBooksByTags("%"+mtype+"%");
+            Collections.sort(allbooks, marknum);
+            for(int i = (nowpage-1)*8; i < nowpage*8 && i < allbooks.size(); ++i) tags.add(allbooks.get(i));
+            req.setAttribute("mtype", mtype);
+            req.setAttribute("tags", tags);
+            req.setAttribute("nowpage", nowpage);
+            if(allbooks.size()%8 > 0) req.setAttribute("allpage", allbooks.size()/8+1);
+            else req.setAttribute("allpage", allbooks.size()/8);
+            req.getRequestDispatcher("list.jsp").forward(req, resp);
+        }else if("/SearchBook.action".equals(url)) {
+            String info = req.getParameter("mtype");
+            System.out.println(info);
+            List<Book> allbooks = dts.findAllBooks();
+            List<Book> cai = new ArrayList<Book>();
+            for(int i = 0; i < 9; ++i) cai.add(allbooks.get(i));
+            req.setAttribute("lammuyd", cai);
+            List<Book> sbook = new ArrayList<Book>();
+            allbooks = dts.findBooksByInfo("%"+info+"%");
+            for(int i = 0; i < 8 && i < allbooks.size(); ++i) sbook.add(allbooks.get(i));
+            req.setAttribute("nowpage", 1);
+            req.setAttribute("tags", sbook);
+            req.setAttribute("mtype", info);
+            if(allbooks.size()%8 > 0) req.setAttribute("allpage", allbooks.size()/8+1);
+            else req.setAttribute("allpage", allbooks.size()/8);
+            req.getRequestDispatcher("list.jsp").forward(req, resp);
         }
 
     }

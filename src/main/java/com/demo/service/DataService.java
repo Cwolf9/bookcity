@@ -27,5 +27,5 @@ public interface DataService {
 
     List<Book> findBooksByInfo(String info);
 
-    List<Book> findBooksByTags(String 文学);
+    List<Book> findBooksByTags(String tags);
 }

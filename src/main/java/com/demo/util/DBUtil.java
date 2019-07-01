@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 public class DBUtil {
+    private static Connection conn = null;
     public static void main(String[] args) {
         //getConnection();
         List<User> a = new UserDao().findAll();
@@ -49,10 +50,8 @@ public class DBUtil {
             System.out.println(x.getAdminid());
         }
     }
-//    private static Connection conn;
     public static Connection getConnection() {
-        Connection conn = null;
-//        if(conn == null) {
+        if(conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookcity?useSSL=false&serverTimezone=UTC", "root", "lhroot");
@@ -63,8 +62,8 @@ public class DBUtil {
             } finally {
                 return conn;
             }
-//        }
-//        return conn;
+        }
+        return conn;
     }
 
     /**

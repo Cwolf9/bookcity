@@ -96,7 +96,7 @@ public class DataServiceImpl implements DataService {
         return bdao.findBooksByInfo(info);
     }
 
-    public List<Book> findBooksByTags(String wenxue) {
-        return bdao.findBooksByTags(wenxue);
+    public List<Book> findBooksByTags(String tags) {
+        return bdao.findBooksByTags(tags);
     }
 }

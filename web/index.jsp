@@ -1,10 +1,7 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<!--[if (gte IE 9)|!(IE)]><!-->
 <html>
-<!--<![endif]-->
-
 <head>
     <!-- =====  BASIC PAGE NEEDS  ===== -->
     <meta charset="utf-8">
@@ -14,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/style0.css">
     <link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
-
 </head>
 
 <body>
@@ -73,10 +69,9 @@
                         <a href="javascript:void(0)" class="search-overlay-close"></a>
                         <div class="container">
                             <!-- 整页面搜索 -->
-                            <form role="search" id="searchform" action="search" method="get">
-                                <label class="h5 normal search-input-label">Enter keywords To Search Entire
-                                    Store</label>
-                                <input value="" name="q" placeholder="Search here..." type="search">
+                            <form role="search" id="searchform" action="${pageContext.servletContext.contextPath}/SearchBook.action" method="post">
+                                <label class="h5 normal search-input-label">Enter keywords To Search Entire Store</label>
+                                <input id="searchbar" name="mtype" placeholder="请输入您要搜索书籍的关键字..." type="search">
                                 <button type="submit"></button>
                             </form>
                             <!-- 大页面 -->
@@ -119,10 +114,9 @@
                         <a href="javascript:void(0)" class="search-overlay-close"></a>
                         <div class="container">
                             <!-- 整页面搜索 -->
-                            <form role="search" id="searchform" action="search" method="get">
-                                <label class="h5 normal search-input-label">Enter keywords To Search Entire
-                                    Store</label>
-                                <input value="" name="q" placeholder="Search here..." type="search">
+                            <form role="search" id="searchform2" action="${pageContext.servletContext.contextPath}/SearchBook.action" method="post">
+                                <label class="h5 normal search-input-label">Enter keywords To Search Entire Store</label>
+                                <input id="searchbar1" name="mtype" placeholder="请输入您要搜索书籍的关键字..." type="search">
                                 <button type="submit"></button>
                             </form>
                             <!-- 大页面 -->
@@ -178,16 +172,18 @@
                     <div class="nav-responsive">
                         <div class="section" id="projects">
                             <ul class="nav  main-navigation collapse in ">
-                                <li><a href="index.jsp">HOME</a></li>
-                                <li><a href="#">科技类</a></li>
-                                <li><a href="#">历史类</a></li>
-                                <li><a href="#">经济类</a></li>
-                                <li><a href="#">文学类</a></li>
-                                <li><a href="#">小说类</a></li>
-                                <li><a href="#">散文类</a></li>
-                                <li><a href="#">传记类</a></li>
-                                <li><a href="#">玄幻类</a></li>
-                                <li><a href="#">言情类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=畅销&nowpage=1">最畅销</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=好评&nowpage=1">最好评</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=科技&nowpage=1">科技类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=历史&nowpage=1">历史类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=经济&nowpage=1">经济类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=文学&nowpage=1">文学类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=小说&nowpage=1">小说类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=散文&nowpage=1">散文类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=传记&nowpage=1">传记类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=玄幻&nowpage=1">玄幻类</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=言情&nowpage=1">言情类</a></li>
                             </ul>
                         </div>
                     </div>
@@ -227,7 +223,7 @@
                 <!-- 栏目预订 -->
                 <div id="myfavorite" class="left-special left-sidebar-widget mb_50">
                     <div class="heading-part mb_20 ">
-                        <h2 class="main_title">栏目预订</h2></div>
+                        <h2 class="main_title">猜你喜欢</h2></div>
                     <div id="left-special" class="owl-carousel">
                         <!-- js接口 -->
                         <script>
@@ -252,7 +248,6 @@
                             </c:forEach>
                             document.write(row);
                         </script>
-
                     </div>
                 </div>
                 <!-- 栏目预订 -->
@@ -318,9 +313,9 @@
                 <!-- 焦点图         -->
                 <div class="banner" id="focus">
                     <div class="main-banner owl-carousel">
-                        <div class="item"><a href="#"><img src="imgs/mimg1.png" alt="Main Banner"
+                        <div class="item"><a href="#"><img src="images/main_banner1.jpg" alt="Main Banner"
                                                            class="img-responsive"/></a></div>
-                        <div class="item"><a href="#"><img src="imgs/mimg1.png" alt="Main Banner"
+                        <div class="item"><a href="#"><img src="images/main_banner1.jpg" alt="Main Banner"
                                                            class="img-responsive"/></a></div>
                     </div>
                 </div>
@@ -625,103 +620,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- 畅销展示end -->
-                <!-- 博客展示不显示。。。 -->
-                <!-- <div id="Blog" class="mt_40">
-                  <div class="heading-part mb_20 show">
-                    <h2 class="main_title">Latest from the Blog</h2>
-                  </div>
-                  <div class="blog-contain box">
-                    <div class="blog owl-carousel "> -->
-                <!-- js接口
-                <script>
-                var imgs=["01.jpg","01.jpg","01.jpg","01.jpg","01.jpg","01.jpg"];
-                var href=["#"];
-                var title=["Unknown printer took a galley book."];var context=["Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl."];
-                var days=["111"];var months=["AUG"];var lie=6;
-                for(var i=0;i<lie;i++){
-                  var item="<div class='item'><div class='box-holder'><div class='thumb post-img'><a href='"+href[0]+"'><img src='images/blog/blog_img_"+imgs[bee]+"' alt='BOOKBLOG'></a></div><div class='post-info mtb_20 '><h6 class='mb_10 text-uppercase'><a href='#'>"+title[0]+"</a></h6><p>"+context[0]+"</p><div class='date-time'><div class='day'>"+days[0]+"</div><div class='month'>"+months[0]+"</div></div></div></div></div>";
-                  document.write(item);}
-                  </script>
-              </div>
-            </div> -->
-                <!-- 博客展示end -->
             </div>
         </div>
         <!-- 右边结束 -->
     </div>
 </div>
 <!-- 中间框架end -->
-
 <!-- =====  FOOTER START  ===== -->
 <div class="footer pt_60">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 footer-block">
-                <div class="content_footercms_right">
-                    <div class="footer-contact">
-                        <div class="footer-logo mb_40"><a href="index.jsp"> <img src="images/footer-logo.png"
-                                                                                 alt="HealthCare"> </a></div>
-                        <ul>
-                            <li>B-14 Collins Street West Victoria 2386</li>
-                            <li>(+123) 456 789 - (+024) 666 888</li>
-                            <li>Contact@yourcompany.com</li>
-                        </ul>
-                        <div class="social_icon">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-rss"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 footer-block">
-                <h6 class="footer-title ptb_20">Categories</h6>
-                <ul>
-                    <li><a href="#">Medicines</a></li>
-                    <li><a href="#">Healthcare</a></li>
-                    <li><a href="#">Mother & Baby</a></li>
-                    <li><a href="#">Vitamins</a></li>
-                    <li><a href="#">Toiletries</a></li>
-                    <li><a href="#">Skincare</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2 footer-block">
-                <h6 class="footer-title ptb_20">Information</h6>
-                <ul>
-                    <li><a href="#">Specials</a></li>
-                    <li><a href="#">New Products</a></li>
-                    <li><a href="#">Best Sellers</a></li>
-                    <li><a href="#">Our Stores</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">About Us</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2 footer-block">
-                <h6 class="footer-title ptb_20">My Account</h6>
-                <ul>
-                    <li><a href="#">Checkout</a></li>
-                    <li><a href="#">My Account</a></li>
-                    <li><a href="#">My Orders</a></li>
-                    <li><a href="#">My Credit Slips</a></li>
-                    <li><a href="#">My Addresses</a></li>
-                    <li><a href="#">My Personal Info</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <h6 class="ptb_20">SIGN UP OUR NEWSLETTER</h6>
-                <p class="mt_10 mb_20">For get offers from our favorite brands & get 20% off for next </p>
-                <div class="form-group">
-                    <input class="mb_20" type="text" placeholder="Enter Your Email Address">
-                    <button class="btn">Subscribe</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="footer-bottom mt_60 ptb_10">
         <div class="container">
             <div class="row">
