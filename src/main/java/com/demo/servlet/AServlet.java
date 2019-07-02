@@ -347,7 +347,10 @@ public class AServlet extends HttpServlet {
             List<String> bookimgs = dts.findBookImgsByBook(book.getBook());
             req.setAttribute("bookimgs", bookimgs);
             req.getRequestDispatcher("bookinfo.jsp").forward(req,resp);
+        }else if("/cart.action".equals(url)) {
+            req.getRequestDispatcher("index.action").forward(req,resp);
         }
+
     }
     static Comparator<Book> sallnum = new Comparator() {
         public int compare(Object o1, Object o2) {//畅销

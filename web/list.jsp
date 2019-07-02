@@ -66,7 +66,7 @@
                     <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
                     <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
-                    <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>
@@ -247,7 +247,7 @@
                             var star = "<span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-x'></i></span>";
                             var row = "";
                             <c:forEach items="${lammuyd}" var="ix" varStatus="stauts">
-                            if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
+                            if ("${stauts.index}" == "0" ) row = row + "<ul class='row'>";
                             var item = "<li class='item product-layout-left mb_20'><div class='product-list col-xs-4'><div class='product-thumb'><div class='image product-imageblock'><a href='#'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'></a></div></div></div><div class='col-xs-8'><div class='caption product-detail'><h6 class='product-name'>" +
@@ -255,8 +255,8 @@
                                 "<div class='rating'>" + star + "</div><span class='price'><span class='amount'>" +
                                 "<span class='currencySymbol'>$</span>" + "${ix.price}" + "</span>" +
                                 "<span class='dates'>" + "${ix.booknum}" + "</span></span></div></div></li>";
-                            row = row + item;
-                            if ("${stauts.index}" == "2" || "${stauts.index}" == "5" || "${stauts.index}" == "8") row = row + "</ul>";
+                            if ("${stauts.index}" == "0" ||"${stauts.index}" == "1" ||"${stauts.index}" == "2")row = row + item;
+                            if ("${stauts.index}" == "2") row = row + "</ul>";
                             </c:forEach>
                             document.write(row);
                         </script>
@@ -269,7 +269,7 @@
                     <div class="breadcrumb ptb_20">
                         <h1>Products</h1>
                         <ul>
-                            <li><a href="index.jsp">Home</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/index.action">Home</a></li>
                             <li class="active">Products</li>
                         </ul>
                     </div>

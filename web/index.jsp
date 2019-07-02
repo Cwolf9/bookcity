@@ -72,7 +72,7 @@
                     <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
                     <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
-                    <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -209,7 +209,7 @@
                     <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
                     <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
-                    <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -393,19 +393,19 @@
                     </div>
                     <ul>
                         <%--TODO:tags--%>
-                            <li><a href="#">科技类</a></li>
-                            <li><a href="#">历史类</a></li>
-                            <li><a href="#">经济类</a></li>
-                            <li><a href="#">文学类</a></li>
-                            <li><a href="#">小说类</a></li>
-                            <li><a href="#">散文类</a></li>
-                            <li><a href="#">传记类</a></li>
-                            <li><a href="#">玄幻类</a></li>
-                            <li><a href="#">言情类</a></li>
-                            <li><a href="#">web</a></li>
-                            <li><a href="#">数据库</a></li>
-                            <li><a href="#">算法</a></li>
-                            <li><a href="#">数学</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=科技&nowpage=1">科技类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=历史&nowpage=1">历史类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=经济&nowpage=1">经济类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=文学&nowpage=1">文学类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=小说&nowpage=1">小说类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=散文&nowpage=1">散文类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=传记&nowpage=1">传记类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=玄幻&nowpage=1">玄幻类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=>言情&nowpage=1">言情类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=web&nowpage=1">web</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=数据库&nowpage=1">数据库</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=算法&nowpage=1">算法</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=算法&nowpage=1">算法</a></li>
                     </ul>
                 </div><!-- 博客推荐界面适当的时候不要 -->
             </div>

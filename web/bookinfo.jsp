@@ -118,7 +118,7 @@
                                                         aria-hidden="true"></i></a>${ptuname}</li>
                         <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton"
                                 style="display: none;"></button>
-                        <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a>
+                        <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a>
                         </li>
                     </ul>
                     <div class="search">
@@ -267,7 +267,7 @@
                                                     aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton"
                             style="display: none;"></button>
-                    <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">

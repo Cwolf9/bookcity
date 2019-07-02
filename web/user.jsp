@@ -147,7 +147,7 @@
                                                     aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton"
                             style="display: none;"></button>
-                    <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -197,7 +197,7 @@
                                                     aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton"
                             style="display: none;"></button>
-                    <li><a href="cart.html"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -427,6 +427,7 @@
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".cart">购物车</a></li>
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".indent">我的订单</a></li>
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".blog">个人博客</a></li>
+                                <li style="font-size:15px; height:66px"><a href="#" data-filter=".addbook">上传书籍</a></li>
                             </ul>
                         </div>
                     </div>
@@ -521,6 +522,11 @@
                     </table>
                 </div>
                 <!-- 订单 -->
+                <%--添加书籍--%>
+                <div class="addbook">
+                    
+                </div>
+                <%--添加书籍--%>
             </div>
         </div>
     </div>
