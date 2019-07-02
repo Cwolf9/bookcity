@@ -104,7 +104,6 @@
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-
     // $(function(){
         if(document.getElementById('mybook').value == -1) {
             document.getElementById('mybook').setAttribute("book", Date.parse(new Date()))
@@ -172,7 +171,6 @@
             autoUpload: false, // 当选择文件后立即自动进行上传操作
             url: '${pageContext.servletContext.contextPath}/uploadbookimgs.do?book='+document.getElementById('mybook').getAttribute("book") // 文件上传提交地址
         });
-
 </script>
 </body>
 </html>

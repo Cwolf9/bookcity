@@ -349,6 +349,20 @@ public class AServlet extends HttpServlet {
             req.getRequestDispatcher("bookinfo.jsp").forward(req,resp);
         }else if("/cart.action".equals(url)) {
             req.getRequestDispatcher("index.action").forward(req,resp);
+        }else if("/savebook.action".equals(url)) {
+            String bookid = req.getParameter("bookid");
+            String bookname = req.getParameter("bookname");
+            String bookauthor = req.getParameter("bookauthor");
+            String bookinfo = req.getParameter("bookinfo");
+            double price = 0;
+            if(req.getParameter("price") != null)price = Double.parseDouble(req.getParameter("price"));
+            int booknum = 0;
+            if(req.getParameter("booknum")!=null)booknum = Integer.parseInt(req.getParameter("booknum"));
+            String bowner = req.getParameter("bowner");
+            String book = req.getParameter("book");
+            dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
+            dts.changeImg(book);
+            resp.sendRedirect(req.getContextPath()+"/user.action");
         }
 
     }

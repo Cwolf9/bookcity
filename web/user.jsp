@@ -40,8 +40,8 @@
             background-color: black;
             margin-top: 60px;
             margin-right: 100px;
-            height:150px;
-            width:150px;
+            height:200px;
+            width:200px;
         }
         .information li{
             font-size: 20px;
@@ -56,7 +56,7 @@
         .information input{
             height: 50px;
             width: 100px;
-            margin-left: 800px;
+            margin-left: 725px;
             margin-bottom: 20px;
             font-size: 15px;
         }
@@ -436,6 +436,13 @@
             <%--<img src="${pageContext.servletContext.contextPath}/${ptu.avatar}" alt="头像">--%>
             <div class="col-sm-8 col-md-8 col-lg-9 mtb_30 portfolio_container">
                 <!-- 个人信息  -->
+                <style>
+                    .information-left ul li {
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                    }
+
+                </style>
                 <div class="information">
                     <div class="information-right"></div>
                     <div class="information-left">
@@ -446,12 +453,12 @@
                             <li>电话号码：${ptu.phonenumber}</li>
                             <li>注册日期：${ptu.registerdate}</li>
                             <li>默认地址：${mrdz}</li>
-                            <div class="icon">
-                                <input id="xiugai" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal3" value="修改密码">
-                                <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>
-                                <input id="adddizhi" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal4" value="添加地址">
-                            </div>
                         </ul>
+                        <div class="icon">
+                            <input id="xiugai" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal3" value="修改密码">
+                            <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>
+                            <input id="adddizhi" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal4" value="添加地址">
+                        </div>
                     </div>
                 </div>
                 <!-- 个人信息food -->
@@ -470,7 +477,7 @@
                         </tr>
                         <script>
                             <c:forEach items="${usc}" var="ix" varStatus="stauts">
-                            var item = "<tr class='odd'><td><input name='checkItem' type='checkbox' value='${ix.bookid}' onchange=\"jisuan()\"/></td>" +
+                            var item = "<tr class='odd'><td><input name='checkItem' id='type${status.index}' type='checkbox' value='${ix.bookid}' onchange=\"jisuan()\"/></td>" +
                                 "<td class='imgtd'><img src='${ix.imgs}'/></td><td>" + "${ix.bookname}" + "</td>" +
                                 "<td>" + "${ix.tags}" + "</td><td>" + "<span id='try${ix.bookid}' name='checkBnum'>${ix.booknum}</span>" + "<i class=\"fa fa-minus  hoverspin black\" onclick=\"minusNum('${ix.bookid}','try${ix.bookid}','${ix.price}')\"></i>\n" +
                                 "    <i class=\"fa fa-plus  hoverspin black\" onclick=\"plusNum('${ix.bookid}','try${ix.bookid}','${ix.price}')\"></i></td>" +
@@ -523,8 +530,79 @@
                 </div>
                 <!-- 订单 -->
                 <%--添加书籍--%>
+                <input type="text" style="display: none;" id = "mybook" value="-1">
                 <div class="addbook">
-                    
+                    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
+                    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.css"/>
+                    <form id="saveForm" class="form-horizontal" action="${pageContext.servletContext.contextPath}/savebook.action"
+                          method="post">
+                        <div class="form-group">
+                            <label for="bowner" class="col-sm-2">你的用户名</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" name="bowner" id="bowner" placeholder="你的账号" readonly value="${ptu.account}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookname" class="col-sm-2">书名</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="bookname" name="bookname" placeholder="书名">
+                                <span id="booknameTip" style="color:red;font-size: 12px"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookauthor" class="col-sm-2">作者</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" name="bookauthor" id="bookauthor" placeholder="作者">
+                                <span id="bookauthorTip" style="color:red;font-size: 12px"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-sm-2">单价</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" name="price" id="price" placeholder="单价">
+                                <span id="priceTip" style="color:red;font-size: 12px"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="booknum" class="col-sm-2">数量</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" name="booknum" id="booknum" placeholder="存库数量">
+                                <span id="booknumTip" style="color:red;font-size: 12px"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookinfo" class="col-sm-2">简介</label>
+                            <div class="col-md-6 col-sm-10">
+                                <textarea type="text" class="form-control" name="bookinfo" id="bookinfo" placeholder="简介(不得超过140字)" style="height: 100px;"></textarea>
+                                <span id="bookinfoTip" style="color:red;font-size: 12px"></span>
+                            </div>
+                        </div>
+                        <input type="text" style="display: none;" id="upbook" name="book">
+                        <div class="form-group">
+                            <label class="col-sm-2">书籍图片</label>
+                            <div id='uploaderExample' class="uploader " data-ride="uploader" data-url="your/file/upload/url" style="width: 730px;float: left;">
+                                <div class="uploader-message text-center">
+                                    <div class="content"></div>
+                                    <button type="button" class="close">×</button>
+                                </div>
+                                <div class="uploader-files file-list file-list-grid"></div>
+                                <div >
+                                    <hr class="divider">
+                                    <div class="uploader-status pull-right text-muted"></div>
+                                    <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件
+                                    </button>
+                                    <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i>
+                                        开始上传
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" onclick="save()">添加</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <%--添加书籍--%>
             </div>
@@ -779,6 +857,77 @@
         var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
         location.href = url;
     }
+</script>
+
+<script type="text/javascript">
+
+    // $(function(){
+    if(document.getElementById('mybook').value == -1) {
+        document.getElementById('mybook').setAttribute("book", Date.parse(new Date()))
+        document.getElementById('upbook').value = document.getElementById('mybook').getAttribute("book");
+        // document.getElementById('mybook').innerText = Date.parse(new Date())
+        // document.getElementById('mybook').value = Date.parse(new Date());
+    }
+    // });
+    // window.onload = function () {
+    //
+    // }
+    //前端校验【数据是否填写，填写后数据是否符合格式】DOM
+    function save() {
+        //js获取html标签对象
+        //document.querySelectorAll(".account");
+        var success = true;
+        var bookname = document.querySelector("#bookname");
+        var booknameTip = document.querySelector("#booknameTip");
+        var bookauthor = document.querySelector("#bookauthor");
+        var bookauthorTip = document.querySelector("#bookauthorTip");
+        var price = $("#price").val()
+        var priceTip = document.querySelector("#priceTip");
+        var booknum = $("#booknum").val()
+        var booknumTip = document.querySelector("#booknumTip");
+        var bookinfo = $("#bookinfo").val()
+        var bookinfoTip = document.querySelector("#bookinfoTip");
+        booknameTip.innerText = "";
+        priceTip.innerText = ""
+        bookauthorTip.innerText = "";
+        booknumTip.innerText = "";
+        bookinfoTip.innerText = "";
+        if(!isZheng(price)) {
+            priceTip.innerText = "价格必须正数";
+            success = false;
+        }
+        if(!isInteger(booknum)) {
+            booknumTip.innerText = "价格必须正整数";
+            success = false;
+        }
+        if (bookname.value == "") {
+            booknameTip.innerText = "书名不能为空";
+            success = false;
+        }
+        if(bookinfo == ""){
+            bookinfoTip.innerText = "简介不能为空";
+            success = false;
+        }
+        if(bookauthor.value == "") {
+            bookauthorTip.innerText = "作者不能为空";
+            success = false;
+        }
+        if (success) {
+            document.querySelector("#saveForm").submit();
+        }
+    }
+    function isInteger(obj) {
+        return (typeof obj === 'string' && parseInt(obj, 10)%1 == 0 && parseInt(obj, 10)>0)||(typeof obj === 'number' && obj%1 === 0 && obj>0);
+    }
+    function isZheng(price) {
+        return (typeof price == 'string' && price.match(/^\d+((\.\d+){0,})?$/) && parseFloat(price) > 0)||(typeof price == 'number' && price > 0);
+    }
+</script>
+<script type="text/javascript">
+    $('#uploaderExample').uploader({
+        autoUpload: false, // 当选择文件后立即自动进行上传操作
+        url: '${pageContext.servletContext.contextPath}/uploadbookimgs.do?book='+document.getElementById('mybook').getAttribute("book") // 文件上传提交地址
+    });
 </script>
 </body>
 </html>

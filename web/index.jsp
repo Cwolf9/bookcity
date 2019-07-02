@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>
