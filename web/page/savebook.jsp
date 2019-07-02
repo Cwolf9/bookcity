@@ -19,6 +19,8 @@
         }
     </style>
     <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div id="page1"></div>
@@ -49,6 +51,13 @@
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="bookauthor" id="bookauthor" placeholder="作者">
                 <span id="bookauthorTip" style="color:red;font-size: 12px"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tags" class="col-sm-2">书籍标签</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="tags" id="tags" placeholder="标签(以逗号分割)">
+                <span id="tagsTip" style="color:red;font-size: 12px"></span>
             </div>
         </div>
         <div class="form-group">
@@ -99,10 +108,6 @@
         </div>
     </form>
 </div>
-
-<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
-<script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
-<script src="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     // $(function(){
         if(document.getElementById('mybook').value == -1) {

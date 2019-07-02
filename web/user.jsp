@@ -399,13 +399,13 @@
                     </div>
                     <div class="col-sm-8 col-md-8 col-lg-9">
                         <div class="header-bottom-right offers">
-                            <div class="marquee"><span><i class="fa fa-circle" aria-hidden="true"></i>It's Sexual Health Week!</span>
+                            <div class="marquee"><span><i class="fa fa-circle" aria-hidden="true"></i>汉语言文学</span>
                                 <span><i class="fa fa-circle"
-                                         aria-hidden="true"></i>Our 5 Tips for a Healthy Summer</span>
-                                <span><i class="fa fa-circle" aria-hidden="true"></i>Sugar health at risk?</span>
-                                <span><i class="fa fa-circle" aria-hidden="true"></i>The Olay Ranges - What do they do?</span>
-                                <span><i class="fa fa-circle" aria-hidden="true"></i>Body fat - what is it and why do we need it?</span>
-                                <span><i class="fa fa-circle" aria-hidden="true"></i>Can a pillow help you to lose weight?</span>
+                                         aria-hidden="true"></i>多重宇宙</span>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i>冒名顶替综合征</span>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i>华为昆仑量子计算机</span>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i>切尔诺贝利</span>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i>时间知觉</span>
                             </div>
                         </div>
                     </div>
@@ -441,7 +441,6 @@
                         margin-top: 10px;
                         margin-bottom: 10px;
                     }
-
                 </style>
                 <div class="information">
                     <div class="information-right"></div>
@@ -534,6 +533,7 @@
                 <div class="addbook">
                     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
                     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.css"/>
+                    <script src="${pageContext.servletContext.contextPath}/zui/lib/uploader/zui.uploader.js" type="text/javascript" charset="utf-8"></script>
                     <form id="saveForm" class="form-horizontal" action="${pageContext.servletContext.contextPath}/savebook.action"
                           method="post">
                         <div class="form-group">
@@ -554,6 +554,13 @@
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" name="bookauthor" id="bookauthor" placeholder="作者">
                                 <span id="bookauthorTip" style="color:red;font-size: 12px"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="col-sm-2">书籍标签</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" name="tags" id="tags" placeholder="标签(以逗号分割)" >
+                                <span id="tagsTip" style="color:red;font-size: 12px"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -817,16 +824,16 @@
     }
     function minusNum(ID, NUM, p) {
         NUM = "#"+NUM
-        var num = parseInt($(NUM).val())
+        var num = parseInt($(NUM).html())
         if(num > 1) {
             num = num - 1;
-            $(NUM).val(num)
+            $(NUM).html(num)
             <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
             var items = document.getElementsByName("checkItem");
             var itemP = document.getElementsByName("checkBpri");
             for (var i = 0; i < items.length; i++) {
                 if (items[i].value == ID) {
-                    itemP[i].innerHTML = parseFloat(p)*num
+                    itemP[i].innerHTML = (parseFloat(p)*num).toFixed(2)
                     break
                 }
             }
@@ -842,7 +849,7 @@
         var itemP = document.getElementsByName("checkBpri");
         for (var i = 0; i < items.length; i++) {
             if (items[i].value == ID) {
-                itemP[i].innerHTML = parseFloat(p)*num
+                itemP[i].innerHTML = (parseFloat(p)*num).toFixed(2)
                 break
             }
         }
@@ -860,7 +867,6 @@
 </script>
 
 <script type="text/javascript">
-
     // $(function(){
     if(document.getElementById('mybook').value == -1) {
         document.getElementById('mybook').setAttribute("book", Date.parse(new Date()))

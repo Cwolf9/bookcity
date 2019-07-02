@@ -60,6 +60,11 @@ public class BookDao {
                 "VALUES(?,?,?,NOW(),?,?,?,?)";
         DBUtil.insert(sql,bookname,bookauthor,bookinfo,price,booknum,bowner,book);
     }
+    public void save(String bookname,String bookauthor,String bookinfo,double price,int booknum,String bowner,String book,String tags){
+        String sql = "INSERT INTO b_book (bookname, bookauthor, bookinfo, pubdate, price, booknum,bowner,book,tags) " +
+                "VALUES(?,?,?,NOW(),?,?,?,?,?)";
+        DBUtil.insert(sql,bookname,bookauthor,bookinfo,price,booknum,bowner,book,tags);
+    }
     /**
      * 根据bookid删除书籍
      * @param bookid
@@ -174,8 +179,12 @@ public class BookDao {
         return util1(sql,bowner);
     }
     public List<Book> findBooksByInfo(String info) {
-        String sql = "SELECT * FROM b_book where bookname like ? or bookinfo like ?";
-        return util1(sql,info, info);
+        String sql = "SELECT * FROM b_book where bookname like ? or bookinfo like ? or tags like ?";
+        return util1(sql,info, info, info);
+    }
+    public List<Book> findBooksByTags(String wenxue) {
+        String sql = "SELECT * FROM b_book where tags like ?";
+        return util1(sql,wenxue);
     }
     /**
      * 根据id查询一条书本数据
@@ -204,10 +213,7 @@ public class BookDao {
         String sql = "SELECT * FROM b_book where book=?";
         return util1(sql,book).get(0);
     }
-    public List<Book> findBooksByTags(String wenxue) {
-        String sql = "SELECT * FROM b_book where tags like ?";
-        return util1(sql,wenxue);
-    }
+
 
     public List<ShoppingCar> findSC(int uid) {
         String sql = "SELECT defaultimg,bookname,tags,b_shoppingcart.booknum,price,b_book.bookid" +

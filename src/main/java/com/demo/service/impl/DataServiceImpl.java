@@ -40,6 +40,11 @@ public class DataServiceImpl implements DataService {
     public void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum, String bowner, String book) {
         bdao.save(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
     }
+
+    public void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum, String bowner, String book, String tags) {
+        bdao.save(bookname, bookauthor, bookinfo, price, booknum,bowner,book,tags);
+    }
+
     public void changeImg(String book) {
         if(bidao.findBybook(book) != null) bdao.modifydfimg(bidao.findBybook(book).getImg(), book);
     }

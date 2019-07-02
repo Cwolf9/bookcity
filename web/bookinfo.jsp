@@ -443,6 +443,9 @@
                                 <label>作者：</label>
                                 <span> <a href="#">${Book.bookauthor}</a></span></li>
                             <li>
+                                <label>标签：</label>
+                                <span> <a href="#">${Book.tags}</a></span></li>
+                            <li>
                                 <label>单价：</label>
                                 <span> ${Book.price}</span></li>
                             <li>

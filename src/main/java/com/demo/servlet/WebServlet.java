@@ -222,7 +222,8 @@ public class WebServlet extends HttpServlet{
             request.setAttribute("error", "您已成功退出!");
             request.getRequestDispatcher("page/view.jsp").forward(request, response);
         }else if("/savebook.do".equals(url)) {
-            dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
+            String tags = request.getParameter("tags");
+            dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book,tags);
             dts.changeImg(book);
             response.sendRedirect(request.getContextPath()+"/findAllbook.do");
         }else if("/findAllbook.do".equals(url)) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface DataService {
     void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum,String bowner,String book);
+    void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum,String bowner,String book,String tags);
     void changeImg(String book);
     List<Book> findAllBooks();
     void removeBookById(int id);

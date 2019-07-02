@@ -360,7 +360,8 @@ public class AServlet extends HttpServlet {
             if(req.getParameter("booknum")!=null)booknum = Integer.parseInt(req.getParameter("booknum"));
             String bowner = req.getParameter("bowner");
             String book = req.getParameter("book");
-            dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
+            String tags = req.getParameter("tags");
+            dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book,tags);
             dts.changeImg(book);
             resp.sendRedirect(req.getContextPath()+"/user.action");
         }
