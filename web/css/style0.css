@@ -1238,10 +1238,10 @@ label.checkme {
 	border-radius: 0px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
-	background-color: none;
+	background-color: transparent;
 }
 .search-overlay form button:hover {
-	background-color: none;
+	background-color: transparent;
 	background: rgba(0, 0, 0, 0) url("../images/search-go-hover.png") no-repeat scroll center center;
 }
 .search-overlay .search-overlay-close {
@@ -1920,7 +1920,7 @@ blockquote {
 }
 .product-list .product-thumb .caption {
 	float: left;
-	margin: 0 0 0 15 px;
+	margin: 0 0 0 15px;
 	padding: 0;
 	text-align: left;
 	width: 65%;
@@ -2542,10 +2542,12 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 }
 }
 @media (max-width:360px) {
-.header-top-left li, .header-top-right li {
-	padding: 0 10px;
-}
-.nav > li > a {
-	padding: 6px;
+	.header-top-left li, .header-top-right li {
+		padding: 0 10px;
+	}
+
+	.nav > li > a {
+		padding: 6px;
+	}
 }
 /*背景图*/

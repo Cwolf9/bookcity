@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>
@@ -217,16 +217,16 @@
                         <a href="javascript:void(0)" class="search-overlay-close"></a>
                         <div class="container">
                             <!-- 整页面搜索 -->
-                            <form role="search" id="searchform2" action="${pageContext.servletContext.contextPath}/SearchBook.action" method="post">
+                            <form role="search" id="searchform" action="${pageContext.servletContext.contextPath}/SearchBook.action" method="post">
                                 <label class="h5 normal search-input-label">Enter keywords To Search Entire Store</label>
-                                <input id="searchbar1" name="mtype" placeholder="请输入您要搜索书籍的关键字..." type="search">
+                                <input id="searchbar" name="mtype" placeholder="请输入您要搜索书籍的关键字..." type="search">
                                 <button type="submit"></button>
                             </form>
                             <!-- 大页面 -->
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>
