@@ -210,7 +210,7 @@ public class BookDao {
     }
 
     public List<ShoppingCar> findSC(int uid) {
-        String sql = "SELECT defaultimg,bookname,tags,b_shoppingcart.booknum,price" +
+        String sql = "SELECT defaultimg,bookname,tags,b_shoppingcart.booknum,price,b_book.bookid" +
                 " FROM b_user,b_shoppingcart,b_book where b_user.userid=b_shoppingcart.uid and b_book.bookid = b_shoppingcart.bookid and b_user.userid=?";
         List<ShoppingCar> list = new ArrayList<ShoppingCar>();
         try {
@@ -221,13 +221,19 @@ public class BookDao {
                 String img2 = rs.getString(3);
                 int a = rs.getInt(4);
                 double a1 = rs.getDouble(5);
+                int bookid = rs.getInt(6);
                 double a2 = a1 * a;
-                ShoppingCar bk = new ShoppingCar(img,img1,img2,a,a1,a2);
+                ShoppingCar bk = new ShoppingCar(bookid,img,img1,img2,a,a1,a2);
                 list.add(bk);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public void removeScByUB(int uid, int bookid) {
+        String sql = "DELETE FROM b_shoppingcart WHERE uid=? and bookid=?";
+        DBUtil.insert(sql,uid,bookid);
     }
 }

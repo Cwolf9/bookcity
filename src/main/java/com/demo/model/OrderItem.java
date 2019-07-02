@@ -31,17 +31,26 @@ public class OrderItem {
     private int booknum;
     private double singleprice;
     private double allmoney;
-
+    private String bookname;
     public OrderItem() {
         super();
     }
 
-    public OrderItem(String orderid, int bookid, int booknum, double singleprice, double allmoney) {
+    public OrderItem(String orderid, int bookid, int booknum, double singleprice, double allmoney,String bookname) {
         this.orderid = orderid;
         this.bookid = bookid;
         this.booknum = booknum;
         this.singleprice = singleprice;
         this.allmoney = allmoney;
+        this.bookname = bookname;
+    }
+
+    public String getBookname() {
+        return bookname;
+    }
+
+    public void setBookname(String bookname) {
+        this.bookname = bookname;
     }
 
     public String getOrderid() {

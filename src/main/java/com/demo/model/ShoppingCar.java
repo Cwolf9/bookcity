@@ -26,6 +26,7 @@
 package com.demo.model;
 
 public class ShoppingCar {
+    private int bookid;
     private String imgs;
     private String bookname;
     private String tags;
@@ -36,13 +37,22 @@ public class ShoppingCar {
     public ShoppingCar() {
     }
 
-    public ShoppingCar(String imgs, String bookname, String tags, int booknum, double price, double allprice) {
+    public ShoppingCar(int bookid,String imgs, String bookname, String tags, int booknum, double price, double allprice) {
+        this.bookid = bookid;
         this.imgs = imgs;
         this.bookname = bookname;
         this.tags = tags;
         this.booknum = booknum;
         this.price = price;
         this.allprice = allprice;
+    }
+
+    public int getBookid() {
+        return bookid;
+    }
+
+    public void setBookid(int bookid) {
+        this.bookid = bookid;
     }
 
     public String getImgs() {

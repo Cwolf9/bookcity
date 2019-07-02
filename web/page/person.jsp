@@ -261,8 +261,10 @@ function changepwd() {
         if(pwd1 != pwd2) {
             alert("新密码与确认密码不相同！")
         }else {
-            document.getElementById("smsimg").setAttribute("src", "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1)
-            // location.href =
+            pwd0 = $("#inputEmailExample1").val()
+            pwd1 = $("#inputEmailExample2").val()
+            <%--document.getElementById("smsimg").setAttribute("src", "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1)--%>
+            location.href = "${pageContext.servletContext.contextPath}/changepwd.do?pwd0="+pwd0+"&pwd1="+pwd1
         }
     }
 }

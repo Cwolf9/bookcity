@@ -75,4 +75,6 @@ public interface LoginService {
 
     void modifyAdminAvatar(String s, int adminid);
     List<User> findMerchant();
+
+    void saveAddress(int uid, String dizhi, String isdefault);
 }

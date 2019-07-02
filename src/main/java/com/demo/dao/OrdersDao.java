@@ -54,10 +54,12 @@ public class OrdersDao {
      * @param money
      * @param name
      */
-    public void saveOrder(int uid, int sid, double money,String name,int allnum){//订单编号系统随机生成
+    public String saveOrder(int uid, int sid, double money,String name,int allnum){//订单编号系统随机生成
         String sql = "INSERT INTO b_orders (uid, sid, money, orderid, name,allnum) " +
                 "VALUES(?,?,?,?,?,?)";
-        DBUtil.insert(sql,uid,sid,money,CodeUtil.rand(),name,allnum);
+        String tmp = CodeUtil.rand();
+        DBUtil.insert(sql,uid,sid,money,tmp,name,allnum);
+        return tmp;
     }
 
     /**

@@ -58,11 +58,11 @@
                 <ul>
                     <li><a href="#home">HOME</a></li>
                     <li><a href="#classify">Classify</a></li>
-                    <li><a href="#focus">Focus</a></li>
                     <li><a href="#newarrival">New Arrival</a></li>
                     <li><a href="#myfavorite">Myfavorite</a></li>
                     <li><a href="#recommend">Recommend</a></li>
                     <li><a href="#blog">Blog</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/userlogout.action">Exit</a></li>
                 </ul>
             </div>
             <div class="headicon">
@@ -195,11 +195,11 @@
                 <ul>
                     <li><a href="#home">HOME</a></li>
                     <li><a href="#classify">Classify</a></li>
-                    <li><a href="#focus">Focus</a></li>
                     <li><a href="#newarrival">New Arrival</a></li>
                     <li><a href="#myfavorite">Myfavorite</a></li>
                     <li><a href="#recommend">Recommend</a></li>
                     <li><a href="#blog">Blog</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/userlogout.action">Exit</a></li>
                 </ul>
             </div>
             <div class="headicon">

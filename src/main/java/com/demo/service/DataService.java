@@ -1,9 +1,6 @@
 package com.demo.service;
 
-import com.demo.model.Book;
-import com.demo.model.OrderItem;
-import com.demo.model.Orders;
-import com.demo.model.ShoppingCar;
+import com.demo.model.*;
 
 import java.util.List;
 
@@ -31,4 +28,11 @@ public interface DataService {
     List<Book> findBooksByTags(String tags);
 
     List<ShoppingCar> findSC(int uid);
+
+    void removeScByUB(int uid, int bookid);
+    public Address findAddressById(int id);
+
+    String saveOrder(int uid, int nextInt, double allpri, String name, int allnum);
+
+    void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice);
 }

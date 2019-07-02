@@ -25,11 +25,15 @@
  */
 package com.demo.dao;
 
+import com.demo.model.Address;
+import com.demo.model.User;
 import com.demo.util.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class AddressDao {
     public static void main(String[] args) {
@@ -52,5 +56,22 @@ public class AddressDao {
     public void remove(int  id) {
         String sql = "delete from b_address where id = ?";
         DBUtil.delete(sql, id);
+    }
+    public Address findAddressById(int id){
+        String sql = "SELECT * FROM b_address where uid = ? and isdefault = '是'";
+        ResultSet rs = DBUtil.select(sql,id);
+        Address u = null;
+        try {
+            while (rs.next()) {//指标往下移动一行
+                int id2 = rs.getInt(1);
+                String name = rs.getString(2);
+                int uid = rs.getInt(3);
+                String isdefault = rs.getString(4);
+                 u = new Address(id2, name, uid, isdefault);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return u;
     }
 }

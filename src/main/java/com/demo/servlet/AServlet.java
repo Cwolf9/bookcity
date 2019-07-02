@@ -25,10 +25,7 @@
  */
 package com.demo.servlet;
 
-import com.demo.model.Book;
-import com.demo.model.OrderItem;
-import com.demo.model.ShoppingCar;
-import com.demo.model.User;
+import com.demo.model.*;
 import com.demo.service.DataService;
 import com.demo.service.LoginService;
 import com.demo.service.UploadService;
@@ -42,10 +39,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class AServlet extends HttpServlet {
     static LoginService ls = new LoginServiceImpl();
@@ -97,7 +91,7 @@ public class AServlet extends HttpServlet {
         }else if("/userlogout.action".equals(url)){
             session.removeAttribute("ptu");
             req.setAttribute("error", "您已成功退出!");
-            req.getRequestDispatcher("page/view.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath()+"/index.action");
         }else if("/searchBook.action".equals(url)) {
             String info = req.getParameter("searchbar");
             System.out.println(info);
@@ -212,8 +206,12 @@ public class AServlet extends HttpServlet {
             req.getRequestDispatcher("list.jsp").forward(req, resp);
         }else if("/user.action".equals(url)) {
             int uid = ((User) session.getAttribute("ptu")).getUserid();
+            Address mrdz = dts.findAddressById(uid);
+            req.setAttribute("mrdz", mrdz.getName());
             List<ShoppingCar> usc = dts.findSC(uid);
             req.setAttribute("usc", usc);
+            List<Orders> list = dts.findAllOrders(1, String.valueOf(uid));
+            req.setAttribute("list", list);
             req.getRequestDispatcher("user.jsp").forward(req, resp);
         }else if("/ulogin.action".equals(url)) {
             String usercode = req.getParameter("code");
@@ -245,6 +243,64 @@ public class AServlet extends HttpServlet {
                 req.setAttribute("error", "验证码错误!");
                 req.getRequestDispatcher("index.action").forward(req, resp);
             }
+        }else if("/delsc.action".equals(url)) {
+            int bookid = Integer.parseInt(req.getParameter("bookid"));
+            int uid = Integer.parseInt(req.getParameter("uid"));
+            dts.removeScByUB(uid, bookid);
+            resp.sendRedirect(req.getContextPath()+"/user.action");
+        }else if("/subsc.action".equals(url)) {
+            int uid = Integer.parseInt(req.getParameter("uid"));
+            Address mrdz = dts.findAddressById(uid);
+            int allnum = Integer.parseInt(req.getParameter("allnum"));
+            double allpri = Double.parseDouble(req.getParameter("allpri"));
+            String orderid = dts.saveOrder(uid,new Random().nextInt(100),allpri,mrdz.getName(),allnum);
+            List<ShoppingCar> usc = dts.findSC(uid);
+            for(String tmp:req.getParameter("scbookid").split(",")) {
+                System.out.println(Integer.parseInt(tmp));
+                int bid = Integer.parseInt(tmp);
+                for(ShoppingCar x: usc) {
+                    if(x.getBookid() == bid) {
+                        dts.saveOrderItem(orderid,bid,x.getBooknum(),x.getPrice(),x.getAllprice());
+                    }
+                }
+                dts.removeScByUB(uid, bid);
+            }
+            System.out.println(allnum +" "+allpri);
+            resp.sendRedirect(req.getContextPath()+"/user.action");
+        }else if("/changepwd.action".equals(url)) {
+            String pwd0 = req.getParameter("pwd0");
+            String pwd1 = req.getParameter("pwd1");
+            User user = (User) session.getAttribute("ptu");
+            System.out.println("pwd0 "+MD5Util.MD5Encode(pwd0,"utf-8"));
+            System.out.println("pwd "+user.getPwd());
+            if(MD5Util.MD5Encode(pwd0,"utf-8").equals(user.getPwd()) ) {
+                req.setAttribute("changepwdAns","修改密码成功！");
+                System.out.println("what?");
+                ls.modifyUserPwd(MD5Util.MD5Encode(pwd1,"utf-8"), user.getUserid());
+            }else {
+                req.setAttribute("changepwdAns","原密码错误！修改失败！");
+            }
+            int uid = ((User) session.getAttribute("ptu")).getUserid();
+            Address mrdz = dts.findAddressById(uid);
+            req.setAttribute("mrdz", mrdz.getName());
+            List<ShoppingCar> usc = dts.findSC(uid);
+            req.setAttribute("usc", usc);
+            List<Orders> list = dts.findAllOrders(1, String.valueOf(uid));
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("user.jsp").forward(req,resp);
+            return;
+        }else if("/showMoreInfo.action".equals(url)) {
+            String orderid = req.getParameter("orderid");
+            List<OrderItem> ans = dts.findOIByOrderId(orderid);
+            req.setAttribute("oitems", ans);
+            req.getRequestDispatcher("page/showMoreInfo.jsp").forward(req,resp);
+            return;
+        }else if("/adddizhi.action".equals(url)) {
+            int uid = Integer.parseInt(req.getParameter("uid"));
+            String dizhi = req.getParameter("dizhi");
+            String isdefault = req.getParameter("isdefault");
+            ls.saveAddress(uid,dizhi,isdefault);
+            req.getRequestDispatcher("user.action").forward(req,resp);
         }
 
     }

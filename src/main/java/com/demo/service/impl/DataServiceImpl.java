@@ -25,19 +25,14 @@
  */
 package com.demo.service.impl;
 
-import com.demo.dao.BookDao;
-import com.demo.dao.BookimgsDao;
-import com.demo.dao.OrderItemDao;
-import com.demo.dao.OrdersDao;
-import com.demo.model.Book;
-import com.demo.model.OrderItem;
-import com.demo.model.Orders;
-import com.demo.model.ShoppingCar;
+import com.demo.dao.*;
+import com.demo.model.*;
 import com.demo.service.DataService;
 
 import java.util.List;
 
 public class DataServiceImpl implements DataService {
+    private static AddressDao asdao = new AddressDao();
     private static BookDao bdao = new BookDao();
     private static BookimgsDao bidao = new BookimgsDao();
     private static OrdersDao ordao = new OrdersDao();
@@ -103,5 +98,19 @@ public class DataServiceImpl implements DataService {
 
     public List<ShoppingCar> findSC(int uid) {
         return bdao.findSC(uid);
+    }
+
+    public void removeScByUB(int uid, int bookid) {
+        bdao.removeScByUB(uid,bookid);
+    }
+    public Address findAddressById(int id) {
+        return asdao.findAddressById(id);
+    }
+    public String saveOrder(int uid, int nextInt, double allpri, String name, int allnum) {
+        return ordao.saveOrder(uid, nextInt, allpri, name, allnum);
+    }
+
+    public void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice) {
+        oidao.save(orderid, bid, booknum, price, allprice);
     }
 }

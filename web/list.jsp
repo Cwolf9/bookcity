@@ -51,12 +51,12 @@
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
-                    <li><a href="javascript:void(0);">Classify</a></li>
-                    <li><a href="javascript:void(0);">Focus</a></li>
-                    <li><a href="javascript:void(0);">New Arrival</a></li>
-                    <li><a href="javascript:void(0);">Myfavorite</a></li>
-                    <li><a href="javascript:void(0);">Recommend</a></li>
-                    <li><a href="${pageContext.servletContext.contextPath}/index.action">Blog</a></li>
+                    <li><a href="#classify">Classify</a></li>
+                    <li><a href="#newarrival">New Arrival</a></li>
+                    <li><a href="#myfavorite">Myfavorite</a></li>
+                    <li><a href="#recommend">Recommend</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/userlogout.action">Exit</a></li>
                 </ul>
             </div>
             <div class="headicon">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>

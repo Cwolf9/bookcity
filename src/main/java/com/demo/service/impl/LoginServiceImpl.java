@@ -25,6 +25,7 @@
  */
 package com.demo.service.impl;
 
+import com.demo.dao.AddressDao;
 import com.demo.dao.AdminDao;
 import com.demo.dao.UserDao;
 import com.demo.model.Admin;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Random;
 
 public class LoginServiceImpl implements LoginService {
+    private static AddressDao adrdao = new AddressDao();
     private static UserDao udao = new UserDao();
     private static AdminDao addao = new AdminDao();
     public void save(String account, String pwd, String username, String sex, String phonenumber) {
@@ -163,5 +165,9 @@ public class LoginServiceImpl implements LoginService {
 
     public List<User> findMerchant() {
         return udao.findMerchant();
+    }
+
+    public void saveAddress(int uid, String dizhi, String isdefault) {
+        adrdao.save(dizhi,uid,isdefault);
     }
 }

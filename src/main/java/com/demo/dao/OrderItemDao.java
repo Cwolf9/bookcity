@@ -78,7 +78,8 @@ public class OrderItemDao {
                 int booknum = rs.getInt(3);
                 double singleprice = rs.getDouble(4);
                 double allmoney = rs.getDouble(5);
-                OrderItem oi = new OrderItem(orderid2,bookid,booknum,singleprice,allmoney);
+                String bookname = rs.getString(6);
+                OrderItem oi = new OrderItem(orderid2,bookid,booknum,singleprice,allmoney,bookname);
                 ans.add(oi);
             }
         }catch (SQLException e) {
@@ -97,7 +98,8 @@ public class OrderItemDao {
                 int booknum = rs.getInt(3);
                 double singleprice = rs.getDouble(4);
                 double allmoney = rs.getDouble(5);
-                OrderItem oi = new OrderItem(orderid2,bookid,booknum,singleprice,allmoney);
+                String bookname = rs.getString(6);
+                OrderItem oi = new OrderItem(orderid2,bookid,booknum,singleprice,allmoney,bookname);
                 ans.add(oi);
             }
         }catch (SQLException e) {
