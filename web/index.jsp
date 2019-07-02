@@ -56,7 +56,7 @@
             <div class="headbrand"></div>
             <div class="headlocate">
                 <ul>
-                    <li><a href="#home">HOME</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
                     <li><a href="#classify">Classify</a></li>
                     <li><a href="#newarrival">New Arrival</a></li>
                     <li><a href="#myfavorite">Myfavorite</a></li>
@@ -193,7 +193,7 @@
             </div>
             <div class="headlocate">
                 <ul>
-                    <li><a href="#home">HOME</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
                     <li><a href="#classify">Classify</a></li>
                     <li><a href="#newarrival">New Arrival</a></li>
                     <li><a href="#myfavorite">Myfavorite</a></li>
@@ -470,7 +470,6 @@
                                     <c:forEach items="${hotbook}" var="ix" varStatus="stauts">
                                     if ("${stauts.index}" == "0" || "${stauts.index}" == "2" || "${stauts.index}" == "4" || "${stauts.index}" == "6") {
                                         row = row + "<div class='product-grid'>";
-                                        console.log("${stauts.index}")
                                     }
                                     var item = "<div class='item'><div class='product-thumb '><div class='image product-imageblock'> <a href='#''>" +
                                         "<img data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
@@ -478,7 +477,7 @@
                                         "<div class='caption product-detail text-left'><h6 data-name='product_name' class='product-name mt_20'>" +
                                         "<a href='#'' title='Casual Shirt With Ruffle Hem'> " + "${ix.bookname}" + "</a></h6><div class='rating'>" + star + " </div><span class='price'>" +
                                         "<span class='amount'><span class='currencySymbol'>$</span>" + "${ix.price}" + "</span><span class='dates'>" + "${ix.booknum}" + "</span></span>" +
-                                        "<div class='button-group text-center'><div class='wishlist'><a href='#'><span>wishlist</span></a></div><div class='quickview'>" +
+                                        "<div class='button-group text-center'><div class='wishlist'><a href='#'><span>wishlist</span></a></div><div class='quickview' onclick=\"quickview('${ix.bookid}')\">" +
                                         "<a href='#'><span>Quick View</span></a></div><div class='compare'><a href='#'><span>Compare</span></a></div>" +
                                         "<div class='add-to-cart'><a href='#'><span>Add to cart</span></a></div></div></div></div></div>";
                                     row = row + item;
@@ -605,9 +604,9 @@
                                     </div>
                                     <div class="button-group text-center">
                                         <div class="wishlist"><a href="#"><span>wishlist</span></a></div>
-                                        <div class="quickview"><a href="#"><span>Quick View</span></a></div>
+                                        <div class="quickview" onclick="quickview('${maxhotbook.bookid}')"><a href="#"><span>Quick View</span></a></div>
                                         <div class="compare"><a href="#"><span>Compare</span></a></div>
-                                        <div class="add-to-cart"><a href="#"><span>Add to cart</span></a></div>
+                                        <div class="add-to-cart" onclick="addtocart('${maxhotbook.bookid}','${maxhotbook.price}')"><a href="#"><span>Add to cart</span></a></div>
                                     </div>
                                 </div>
                             </div>
@@ -799,6 +798,15 @@
     function changeCode(o) {
         //修改img的src的值
         o.src = "${pageContext.servletContext.contextPath}/code.do?"+new Date().getTime();
+    }
+    function addtocart(a,b) {
+        var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid='+a+'&price='+b
+        // alert(url)
+        location.href = url
+    }
+    function quickview(id) {
+        var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
+        location.href = url;
     }
 </script>
 </body>

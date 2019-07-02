@@ -247,21 +247,16 @@
                             var star = "<span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-x'></i></span>";
                             var row = "";
                             <c:forEach items="${lammuyd}" var="ix" varStatus="stauts">
-                            if ("${stauts.index}" == "0") row = row + "<ul class='row'>";
-                            var item = "<li class='item product-layout-left mb_20'>" +
-                                "<div class='product-list col-xs-4'>" +
-                                "<div class='product-thumb'>" +
-                                "<div class='image product-imageblock'>" +
-                                "<a href='#'><img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
+                            if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
+                            var item = "<li class='item product-layout-left mb_20'><div class='product-list col-xs-4'><div class='product-thumb'><div class='image product-imageblock'><a href='#'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
-                                "</a></div></div></div>" +
-                                "<div class='col-xs-8'><div class='caption product-detail'>" +
-                                "<h6 class='product-name'><a href='#'>${ix.bookname}</a></h6>" +
-                                "<div class='rating'>" + star + "</div><span class='price'>" +
-                                "<span class='amount'><span class='currencySymbol'>$</span>" + "${ix.price}" + "</span" +
-                                "><span class='dates'>" + "${ix.booknum}" + "</span></span></div></div></li>";
-                            if("${stauts.index}" == "0"||"${stauts.index}" == "1"||"${stauts.index}" == "2")row = row + item;
-                            if ("${stauts.index}" == "2") row = row + "</ul>";
+                                "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'></a></div></div></div><div class='col-xs-8'><div class='caption product-detail'><h6 class='product-name'>" +
+                                "<a href='#'>${ix.bookname}</a></h6>" +
+                                "<div class='rating'>" + star + "</div><span class='price'><span class='amount'>" +
+                                "<span class='currencySymbol'>$</span>" + "${ix.price}" + "</span>" +
+                                "<span class='dates'>" + "${ix.booknum}" + "</span></span></div></div></li>";
+                            row = row + item;
+                            if ("${stauts.index}" == "2" || "${stauts.index}" == "5" || "${stauts.index}" == "8") row = row + "</ul>";
                             </c:forEach>
                             document.write(row);
                         </script>
@@ -335,7 +330,7 @@
                                 "<a href='#'' title='Casual Shirt With Ruffle Hem'> " + "${ix.bookname}" + "</a></h6><div class='rating'>" + star + " </div>" +
                                 "<span class='price'><span class='amount'><span class='currencySymbol'>$</span>" + "${ix.price}" + "</span>" +
                                 "<span class='dates'>" + "${ix.booknum}" + "</span></span><p class='product-desc mt_20 mb_60'>" + "${ix.bookinfo}" + "</p><div class='button-group text-center'><div class='wishlist'>" +
-                                "<a href='#'><span>wishlist</span></a></div><div class='quickview'><a href='#'><span>Quick View</span></a></div><div class='compare'><a href='#'><span>Compare</span></a></div><div class='add-to-cart'><a href='#'><span>Add to cart</span></a></div></div></div></div></div></div>";
+                                "<a href='#'><span>wishlist</span></a></div><div class='quickview' onclick=\"quickview('${ix.bookid}')\"><a href='#'><span>Quick View</span></a></div><div class='compare'><a href='#'><span>Compare</span></a></div><div class='add-to-cart' onclick=\"addtocart('${ix.bookid}','${ix.price}')\"><a href='#' ><span>Add to cart</span></a></div></div></div></div></div></div>";
                             document.write(item);
                             </c:forEach>
                         </script>
@@ -484,6 +479,15 @@
     function changeCode(o) {
         //修改img的src的值
         o.src = "${pageContext.servletContext.contextPath}/code.do?"+new Date().getTime();
+    }
+    function addtocart(a,b) {
+        var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid='+a+'&price='+b
+        // alert(url)
+        location.href = url
+    }
+    function quickview(id) {
+        var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
+        location.href = url;
     }
 </script>
 </body>

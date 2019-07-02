@@ -113,4 +113,20 @@ public class DataServiceImpl implements DataService {
     public void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice) {
         oidao.save(orderid, bid, booknum, price, allprice);
     }
+
+    public void modifyBSByUB(int userid, int bookid, int booknum, double v) {
+        bdao.modifyBSByUB(userid, bookid, booknum, v);
+    }
+
+    public void addtocart(int userid, int bid, int i, double price) {
+        bdao.addtocart(userid, bid, i, price);
+    }
+
+    public Book findBooksById(int bid) {
+        return bdao.findBooksById(bid);
+    }
+
+    public List<String> findBookImgsByBook(String book) {
+        return bdao.findBookImgsByBook(book);
+    }
 }

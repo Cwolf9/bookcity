@@ -168,9 +168,8 @@
     }
 </script>
 <script type="text/javascript">
-
         $('#uploaderExample').uploader({
-            autoUpload: false,            // 当选择文件后立即自动进行上传操作
+            autoUpload: false, // 当选择文件后立即自动进行上传操作
             url: '${pageContext.servletContext.contextPath}/uploadbookimgs.do?book='+document.getElementById('mybook').getAttribute("book") // 文件上传提交地址
         });
 

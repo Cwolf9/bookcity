@@ -31,6 +31,15 @@ public class Book {
     //属性-成员变量
     private int bookid;
     private String bookname;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     private String bookauthor;
     private String bookinfo;
     private Date pubdate;

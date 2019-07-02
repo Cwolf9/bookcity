@@ -248,7 +248,7 @@ public class AServlet extends HttpServlet {
             int uid = Integer.parseInt(req.getParameter("uid"));
             dts.removeScByUB(uid, bookid);
             resp.sendRedirect(req.getContextPath()+"/user.action");
-        }else if("/subsc.action".equals(url)) {
+        }else if("/subsc.action".equals(url)) {//TODO: 改变库存
             int uid = Integer.parseInt(req.getParameter("uid"));
             Address mrdz = dts.findAddressById(uid);
             int allnum = Integer.parseInt(req.getParameter("allnum"));
@@ -296,13 +296,58 @@ public class AServlet extends HttpServlet {
             req.getRequestDispatcher("page/showMoreInfo.jsp").forward(req,resp);
             return;
         }else if("/adddizhi.action".equals(url)) {
-            int uid = Integer.parseInt(req.getParameter("uid"));
+            int uid = 0;
+            if(req.getParameter("uid")!= null) uid = Integer.parseInt(req.getParameter("uid"));
             String dizhi = req.getParameter("dizhi");
             String isdefault = req.getParameter("isdefault");
             ls.saveAddress(uid,dizhi,isdefault);
             req.getRequestDispatcher("user.action").forward(req,resp);
+        }else if("/changeBSNum.action".equals(url)) {
+            User u = (User) session.getAttribute("ptu");
+            int bookid = Integer.parseInt(req.getParameter("bookid"));
+            int booknum = Integer.parseInt(req.getParameter("booknum"));
+            double price = Double.parseDouble(req.getParameter("price"));
+            if(u != null)dts.modifyBSByUB(u.getUserid(),bookid,booknum,price*bookid);
+            req.getRequestDispatcher("user.action").forward(req,resp);
+        }else if("/addtocart.action".equals(url)) {
+            int bid = Integer.parseInt(req.getParameter("bookid"));
+            User u = (User) session.getAttribute("ptu");
+            int flag = 0;
+            double price = 0;
+            if(req.getParameter("price") != null) price = Double.parseDouble(req.getParameter("price"));
+            else flag = 1;
+            if(u != null) dts.addtocart(u.getUserid(),bid,1,price);
+            else flag = 1;
+            if(flag == 1) req.getRequestDispatcher("index.action").forward(req,resp);
+            else req.getRequestDispatcher("user.action").forward(req,resp);
+        }else if("/bookinfo.action".equals(url)) {
+            List<Book> allbooks = dts.findAllBooks();
+            List<Book> cai = new ArrayList<Book>();
+            for(int i = 0; i < 9; ++i) cai.add(allbooks.get(i));
+            req.setAttribute("lammuyd", cai);
+            int bid = Integer.parseInt(req.getParameter("bookid"));
+            System.out.println("bookid:" + bid);
+            Book book = dts.findBooksById(bid);
+            req.setAttribute("Book", book);
+            List<Book> relebook = new ArrayList<Book>();
+            String tags = book.getTags();
+            int tim = 0;
+            for(String tmp:tags.split("，")) {
+                List<Book> a = dts.findBooksByTags(tmp);
+                System.out.println(tmp);
+                for(Book b: a) {
+                    relebook.add(b);
+                    tim ++;
+                    if(tim == 4) break;
+                }
+                if(tim == 4) break;
+            }
+            System.out.println("tim = "+tim);
+            req.setAttribute("relebook", relebook);
+            List<String> bookimgs = dts.findBookImgsByBook(book.getBook());
+            req.setAttribute("bookimgs", bookimgs);
+            req.getRequestDispatcher("bookinfo.jsp").forward(req,resp);
         }
-
     }
     static Comparator<Book> sallnum = new Comparator() {
         public int compare(Object o1, Object o2) {//畅销

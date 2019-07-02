@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
     <style>
         /* CSS Document */
-        .place{height:40px; background:url(../images/righttop.gif) repeat-x;}
+        .place{height:40px; background:url(${pageContext.servletContext.contextPath}/images/righttop.gif) repeat-x;}
 
         /*个人信息*/
         .information{ position: relative !important;}
@@ -116,7 +116,7 @@
 </head>
 <body>
 <!-- =====  LODER  ===== -->
-<div class="loder"></div>
+<%--<div class="loder"></div>--%>
 <div class="wrapper">
     <!-- =====  HEADER START  ===== -->
     <header id="header">
@@ -127,7 +127,7 @@
             </div>
             <div class="headlocate">
                 <ul>
-                    <li><a href="#home">HOME</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
                     <li><a href="#classify">Classify</a></li>
                     <li><a href="#newarrival">New Arrival</a></li>
                     <li><a href="#myfavorite">Myfavorite</a></li>
@@ -155,17 +155,17 @@
                         <a href="javascript:void(0)" class="search-overlay-close"></a>
                         <div class="container">
                             <!-- 整页面搜索 -->
-                            <form role="search" id="searchform" action="search" method="get">
-                                <label class="h5 normal search-input-label">Enter keywords To Search Entire
-                                    Store</label>
-                                <input value="" name="q" placeholder="Search here..." type="search">
+                            <form role="search" id="searchform2" action="${pageContext.servletContext.contextPath}/SearchBook.action" method="post">
+                                <label class="h5 normal search-input-label">Enter keywords To Search Entire Store</label>
+                                <input id="searchbar1" name="mtype" placeholder="请输入您要搜索书籍的关键字..." type="search">
                                 <button type="submit"></button>
                             </form>
+                            <img src="${pageContext.servletContext.contextPath}/imgs/img1.png" alt="" >
                             <!-- 大页面 -->
                         </div>
                     </div>
                     <!-- 首面搜索实现通过id实现 -->
-                    <div id="search-overlay-btn1"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
+                    <div id="search-overlay-btn"><i class="fa fa-search fa-2x hoverspin" aria-hidden="true"></i></div>
                 </div>
                 <!-- 搜索框实现结束 -->
             </div>
@@ -177,7 +177,7 @@
             <div class="headbrand"></div>
             <div class="headlocate">
                 <ul>
-                    <li><a href="#home">HOME</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
                     <li><a href="#classify">Classify</a></li>
                     <li><a href="#focus">Focus</a></li>
                     <li><a href="#newarrival">New Arrival</a></li>
@@ -471,8 +471,8 @@
                             <c:forEach items="${usc}" var="ix" varStatus="stauts">
                             var item = "<tr class='odd'><td><input name='checkItem' type='checkbox' value='${ix.bookid}' onchange=\"jisuan()\"/></td>" +
                                 "<td class='imgtd'><img src='${ix.imgs}'/></td><td>" + "${ix.bookname}" + "</td>" +
-                                "<td>" + "${ix.tags}" + "</td><td>" + "<span name='checkBnum'>${ix.booknum}</span>" + "<i class=\"fa fa-minus  hoverspin black\"></i>\n" +
-                                "    <i class=\"fa fa-plus  hoverspin black\"></i></td>" +
+                                "<td>" + "${ix.tags}" + "</td><td>" + "<span id='try${ix.bookid}' name='checkBnum'>${ix.booknum}</span>" + "<i class=\"fa fa-minus  hoverspin black\" onclick=\"minusNum('${ix.bookid}','try${ix.bookid}','${ix.price}')\"></i>\n" +
+                                "    <i class=\"fa fa-plus  hoverspin black\" onclick=\"plusNum('${ix.bookid}','try${ix.bookid}','${ix.price}')\"></i></td>" +
                                 "<td name='checkBpri'>" + "${ix.allprice}" + "</td>" +
                                 "<td><a href='#' onclick=\"dele('${ix.bookid}')\" class='tablelink'>删除</a></td></tr>";
                             document.write(item);
@@ -552,6 +552,7 @@
     <!-- =====  FOOTER END  ===== -->
 
 </div>
+
 <img src="" style="display: none" id = "smsimg">
 <a id="scrollup">Scroll</a>
 <script src="${pageContext.servletContext.contextPath}/js/jQuery_v3.1.1.min.js"></script>
@@ -653,9 +654,7 @@
     function tijiao() {
         var items = document.getElementsByName("checkItem");
         var itemN = document.getElementsByName("checkBnum");
-        ;
         var itemP = document.getElementsByName("checkBpri");
-        ;
         var n = 0, p = 0, tmp = "";
         for (var i = 0; i < items.length; i++) {
             if (items[i].checked) {
@@ -727,10 +726,52 @@
         }
     }
     function changedizhi() {
-        var url = "${pageContext.servletContext.contextPath}/adddizhi.action?uid=${ptu.uid}&dizhi="+$("#dizhi").val()+"&isdefault=";
+        var url = "${pageContext.servletContext.contextPath}/adddizhi.action?uid=${ptu.userid}&dizhi="+$("#dizhi").val()+"&isdefault=";
         if (document.getElementById("dizhi2").checked) url = url + "否";
         else url = url + "是";
         location.href = url
+    }
+    function minusNum(ID, NUM, p) {
+        NUM = "#"+NUM
+        var num = parseInt($(NUM).val())
+        if(num > 1) {
+            num = num - 1;
+            $(NUM).val(num)
+            <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
+            var items = document.getElementsByName("checkItem");
+            var itemP = document.getElementsByName("checkBpri");
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].value == ID) {
+                    itemP[i].innerHTML = parseFloat(p)*num
+                    break
+                }
+            }
+            $.post("${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p)
+        }
+    }
+    function plusNum(ID, NUM, p) {//TODO: 还能不能加的提醒
+        NUM = "#"+NUM
+        var num = parseInt($(NUM).html())+1
+        $(NUM).html(num)
+        <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
+        var items = document.getElementsByName("checkItem");
+        var itemP = document.getElementsByName("checkBpri");
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].value == ID) {
+                itemP[i].innerHTML = parseFloat(p)*num
+                break
+            }
+        }
+        $.post("${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p)
+    }
+    function addtocart(a,b) {
+        var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid='+a+'&price='+b
+        // alert(url)
+        location.href = url
+    }
+    function quickview(id) {
+        var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
+        location.href = url;
     }
 </script>
 </body>

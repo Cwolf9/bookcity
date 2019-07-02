@@ -35,4 +35,12 @@ public interface DataService {
     String saveOrder(int uid, int nextInt, double allpri, String name, int allnum);
 
     void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice);
+
+    void modifyBSByUB(int userid, int bookid, int booknum, double v);
+
+    void addtocart(int userid, int bid, int i, double price);
+
+    Book findBooksById(int bid);
+
+    List<String> findBookImgsByBook(String book);
 }

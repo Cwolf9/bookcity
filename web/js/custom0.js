@@ -51,13 +51,19 @@ function search(){
         $(".search-overlay").addClass("open"),
         $('.search-overlay > form > input[type="search"]').focus();
     });
+    // a.on('click', function(event) {
+    //     $(".search-overlay").removeClass("open");
+    // });
     a.on('click', function(event) {
-        $(".search-overlay").removeClass("open");
+        event.target != this && "search-overlay-close" != event.target.className && 32 != event.keyCode || $(this).removeClass("open");
     });
     var b = $("#search-overlay-btn1");
+    // b.on('click', function(event) {
+    //     $(".search-overlay").addClass("open"),
+    //         $('.search-overlay > form > input[type="search"]').focus();
+    // });
     b.on('click', function(event) {
-        $(".search-overlay").addClass("open"),
-            $('.search-overlay > form > input[type="search"]').focus();
+        event.target != this && "search-overlay-close" != event.target.className && 32 != event.keyCode || $(this).removeClass("open");
     });
 }
 
@@ -289,13 +295,13 @@ function owl_carousel () {
     });
 
     /* ===== Product Thumbnail =====   */
-    // $('#product-thumbnail').owlCarousel({
-    //     loop:false,
-    //     thumbs: true,
-    //     autoplay:false,
-    //     items : 5, //10 items above 1000px browser width
-    //     nav:true,
-    // })
+    $('#product-thumbnail').owlCarousel({
+        loop:false,
+        thumbs: true,
+        autoplay:false,
+        items : 5, //10 items above 1000px browser width
+        nav:true,
+    })
 
     /* ===== Brand carousel =====   */
     $('.brand').owlCarousel({

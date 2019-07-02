@@ -66,7 +66,7 @@ public class BookDao {
      */
     public void removeById(int bookid){
         String sql = "DELETE FROM b_book WHERE bookid=?";
-        DBUtil.insert(sql,bookid);
+        DBUtil.delete(sql,bookid);
     }
     /**
      * 修改书本简介
@@ -174,8 +174,8 @@ public class BookDao {
         return util1(sql,bowner);
     }
     public List<Book> findBooksByInfo(String info) {
-        String sql = "SELECT * FROM b_book where bookname like ?";
-        return util1(sql,info);
+        String sql = "SELECT * FROM b_book where bookname like ? or bookinfo like ?";
+        return util1(sql,info, info);
     }
     /**
      * 根据id查询一条书本数据
@@ -234,6 +234,40 @@ public class BookDao {
 
     public void removeScByUB(int uid, int bookid) {
         String sql = "DELETE FROM b_shoppingcart WHERE uid=? and bookid=?";
-        DBUtil.insert(sql,uid,bookid);
+        DBUtil.delete(sql,uid,bookid);
+    }
+
+    public void modifyBSByUB(int uid, int bookid, int booknum,double cartmoney) {
+        String sql = "update b_shoppingcart set booknum = ? WHERE uid=? and bookid=?";
+        DBUtil.update(sql,booknum,uid,bookid);
+        sql = "update b_shoppingcart set cartmoney = ? WHERE uid=? and bookid=?";
+        DBUtil.update(sql,cartmoney,uid,bookid);
+    }
+
+    public void addtocart(int uid, int bookid,int booknum,double price) {
+        String sql = "INSERT INTO b_shoppingcart (uid,bookid,booknum,cartmoney) " +
+                "VALUES(?,?,?,?)";
+        DBUtil.insert(sql,uid,bookid,booknum,price);
+    }
+
+    public Book findBooksById(int bid) {
+        String sql = "SELECT * FROM b_book where bookid=?";
+        return util1(sql,bid).get(0);
+    }
+
+    public List<String> findBookImgsByBook(String book) {
+        String sql = "SELECT img FROM b_bookimgs where book=?";
+        List<String> list = new ArrayList<String>();
+        try {
+            ResultSet rs = DBUtil.select(sql, book);
+            while(rs.next()){
+                String img = rs.getString(1);
+                list.add(img);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
+//TODO: 购物车在BOOKDAO
