@@ -51,12 +51,15 @@ function search(){
         $(".search-overlay").addClass("open"),
         $('.search-overlay > form > input[type="search"]').focus();
     });
-    a.on('click', function(event) {
-        $(".search-overlay").removeClass("open");
-    });
+    // a.on('click', function(event) {
+    //     $(".search-overlay").removeClass("open");
+    // });
     // a.on('click', function(event) {
     //     event.target != this && "search-overlay-close" != event.target.className && 32 != event.keyCode || $(this).removeClass("open");
     // });
+    a.on('click', function(event) {
+        event.target != this && "search-overlay-close" != event.target.className && 32 != event.keyCode || $(".search-overlay").removeClass("open");
+    });
     var b = $("#search-overlay-btn1");
     b.on('click', function(event) {
         $(".search-overlay").addClass("open"),
