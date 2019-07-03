@@ -178,12 +178,16 @@ public class AServlet extends HttpServlet {
                 Collections.sort(allbooks, marknum);
             }else {
                 allbooks = dts.findBooksByTags("%" + mtype + "%");
+                System.out.println("mtype:"+mtype);
                 if(sort.equals("1")) Collections.sort(allbooks, marknum);
                 else if(sort.equals("2")) Collections.sort(allbooks, sallnum);
                 else if(sort.equals("3")) Collections.sort(allbooks, priceSma);
                 else Collections.sort(allbooks, priceBig);
             }
-            for (int i = (nowpage - 1) * 8; i < nowpage * 8 && i < allbooks.size(); ++i) tags.add(allbooks.get(i));
+            for (int i = (nowpage - 1) * 8; i < nowpage * 8 && i < allbooks.size(); ++i) {
+                tags.add(allbooks.get(i));
+                System.out.println(i);
+            }
             req.setAttribute("tags", tags);
             if (allbooks.size() % 8 > 0) req.setAttribute("allpage", allbooks.size() / 8 + 1);
             else req.setAttribute("allpage", allbooks.size() / 8);
@@ -207,7 +211,8 @@ public class AServlet extends HttpServlet {
         }else if("/user.action".equals(url)) {
             int uid = ((User) session.getAttribute("ptu")).getUserid();
             Address mrdz = dts.findAddressById(uid);
-            req.setAttribute("mrdz", mrdz.getName());
+            if(mrdz == null)req.setAttribute("mrdz", "尚未设置地址");
+            else req.setAttribute("mrdz", mrdz.getName());
             List<ShoppingCar> usc = dts.findSC(uid);
             req.setAttribute("usc", usc);
             List<Orders> list = dts.findAllOrders(1, String.valueOf(uid));

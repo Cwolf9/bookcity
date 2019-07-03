@@ -646,14 +646,16 @@
 
 <img src="" style="display: none" id = "smsimg">
 <a id="scrollup">Scroll</a>
-<script src="${pageContext.servletContext.contextPath}/js/jQuery_v3.1.1.min.js"></script>
+
 <script src="${pageContext.servletContext.contextPath}/js/owl.carousel.min.js"></script>
 <script src="${pageContext.servletContext.contextPath}/js/bootstrap.min.js"></script>
-<script src="${pageContext.servletContext.contextPath}/js/jquery.magnific-popup.js"></script>
+
 <script src="${pageContext.servletContext.contextPath}/js/custom0.js"></script>
 <script src="${pageContext.servletContext.contextPath}/js/jquery-ui.js"></script>
+<script src="${pageContext.servletContext.contextPath}/js/jquery.magnific-popup.js"></script>
+<%--<script src="${pageContext.servletContext.contextPath}/js/jQuery_v3.1.1.min.js"></script>--%>
 <!-- jQuery -->
-<script src="${pageContext.servletContext.contextPath}/js/jquery.js"></script>
+<%--<script src="${pageContext.servletContext.contextPath}/js/jquery.js"></script>--%>
 <script src="${pageContext.servletContext.contextPath}/js/plugins.js"></script>
 
 <script>

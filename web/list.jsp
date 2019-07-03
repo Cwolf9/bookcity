@@ -324,6 +324,7 @@
                         </style>
                         <script>
                             <c:forEach items="${tags}" var="ix" varStatus="stauts">
+                            console.log("index${stauts.index}")
                             var item = "<div class='product-layout  product-grid  col-lg-3 col-md-4 col-sm-6 col-xs-12 ''><div class='item'><div class='product-thumb clearfix mb_30'><div class='image product-imageblock'> " +
                                 "<a href='#''><img class='aaa' data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
                                 "<img class='aaa' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> </a> </div><div class='caption product-detail text-left'><h6 data-name='product_name' class='product-name mt_20'>" +

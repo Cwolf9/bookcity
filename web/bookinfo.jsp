@@ -451,6 +451,9 @@
                             <li>
                                 <label>库存：</label>
                                 <span> ${Book.booknum}</span></li>
+                            <li>
+                                <label>销量：</label>
+                                <span> ${Book.sallnum}</span></li>
                         </ul>
                         <hr>
                         <p class="product-desc mtb_30"> ${Book.bookinfo}</p>

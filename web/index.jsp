@@ -336,7 +336,7 @@
                             if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
                             var item = "<li class='item product-layout-left mb_20'>" +
                                 "<div class='product-list col-xs-4'>" +
-                                "<div class='product-thumb'>" +
+                                "<div class='product-thumb' onclick=\"quickview('${ix.bookid}')\">" +
                                 "<div class='image product-imageblock'>" +
                                 "<a href='#'><img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
@@ -401,7 +401,7 @@
                             <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=散文&nowpage=1">散文类</a></li>
                             <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=传记&nowpage=1">传记类</a></li>
                             <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=玄幻&nowpage=1">玄幻类</a></li>
-                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=>言情&nowpage=1">言情类</a></li>
+                            <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=言情&nowpage=1">言情类</a></li>
                             <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=web&nowpage=1">web</a></li>
                             <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=数据库&nowpage=1">数据库</a></li>
                             <li><a href="${pageContext.servletContext.contextPath}/list.action?mtype=算法&nowpage=1">算法</a></li>
@@ -471,7 +471,7 @@
                                     if ("${stauts.index}" == "0" || "${stauts.index}" == "2" || "${stauts.index}" == "4" || "${stauts.index}" == "6") {
                                         row = row + "<div class='product-grid'>";
                                     }
-                                    var item = "<div class='item'><div class='product-thumb '><div class='image product-imageblock'> <a href='#''>" +
+                                    var item = "<div class='item'><div class='product-thumb ' onclick=\"quickview('${ix.bookid}')\"><div class='image product-imageblock'> <a href='#''>" +
                                         "<img data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
                                         "<img src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> </a> </div>" +
                                         "<div class='caption product-detail text-left'><h6 data-name='product_name' class='product-name mt_20'>" +
@@ -565,12 +565,12 @@
                 <!-- 每日推荐畅销书本 -->
                 <div id="sale-product">
                     <div id="recommend" class="heading-part mb_20 ">
-                        <h2 class="main_title">每日推荐最畅销的书本</h2>
+                        <h2 class="main_title">推荐最畅销的书本</h2>
                     </div>
                     <div class="Specials owl-carousel">
                         <div class="item product-layout product-list">
 
-                            <div class="product-thumb">
+                            <div class="product-thumb" onclick=quickview('${maxhotbook.bookid}')>
                                 <div class="image product-imageblock"><a href="#"> <img data-name="product_image"
                                                                                         src="${pageContext.servletContext.contextPath}/${maxhotbook.defaultimg}"
                                                                                         alt="iPod Classic"
@@ -593,8 +593,7 @@
                                                 class="fa fa-star-o fa-stack-1x"></i><i
                                                 class="fa fa-star fa-stack-x"></i></span></div>
                                     <span class="price"><span class="amount"><span
-                                            class="currencySymbol">$</span>${maxhotbook.price}</span>
-                    </span>
+                                            class="currencySymbol">$</span>${maxhotbook.price}</span></span>
                                     <p class="product-desc mt_20"> ${maxhotbook.bookinfo}</p>
                                     <div class="timer mt_80">
                                         <div class="days"></div>
@@ -644,7 +643,7 @@
                                 if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
                                 var item = "<li class='item product-layout-left mb_20'>" +
                                     "<div class='product-list col-xs-4'>" +
-                                    "<div class='product-thumb'>" +
+                                    "<div class='product-thumb' onclick=\"quickview('${ix.bookid}')\">" +
                                     "<div class='image product-imageblock'>" +
                                     "<a href='#'><img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                     "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
@@ -674,7 +673,7 @@
                                 if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
                                 var item = "<li class='item product-layout-left mb_20'>" +
                                     "<div class='product-list col-xs-4'>" +
-                                    "<div class='product-thumb'>" +
+                                    "<div class='product-thumb' onclick=\"quickview('${ix.bookid}')\">" +
                                     "<div class='image product-imageblock'>" +
                                     "<a href='#'><img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                     "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
@@ -704,7 +703,7 @@
                                 if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
                                 var item = "<li class='item product-layout-left mb_20'>" +
                                     "<div class='product-list col-xs-4'>" +
-                                    "<div class='product-thumb'>" +
+                                    "<div class='product-thumb' onclick=\"quickview('${ix.bookid}')\">" +
                                     "<div class='image product-imageblock'>" +
                                     "<a href='#'><img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                     "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
