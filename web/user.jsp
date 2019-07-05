@@ -1,14 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<!--[if (gte IE 9)|!(IE)]><!-->
 <html>
-<!--<![endif]-->
-
 <head>
     <!-- =====  BASIC PAGE NEEDS  ===== -->
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <meta charset="utf-8">
-    <title>HealthCare</title>
+    <title>UserInfo</title>
     <!-- =====  SEO MATE  ===== -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description" content="">
@@ -32,7 +30,6 @@
     <style>
         /* CSS Document */
         .place{height:40px; background:url(${pageContext.servletContext.contextPath}/images/righttop.gif) repeat-x;}
-
         /*个人信息*/
         .information{ position: relative !important;}
         .information-right{
@@ -83,6 +80,14 @@
         .bottomsubmit li{
             margin:20px;
             float:right;
+
+        }
+        .bottomsubmit li span{
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #allprice, #allnum {
+            color: red;
         }
         /*我的订单*/
         .indent{
@@ -99,6 +104,9 @@
             float:right;
         }
         .imgtd img{width:100px;}
+        a{
+            text-decoration:none;
+        }
     </style>
     <style>
         .headicon {
@@ -123,8 +131,7 @@
         <!-- 顶部开始 -->
         <!-- 导航栏变化样式 -->
         <div class="headchange">
-            <div class="headbrand">
-            </div>
+            <div class="headbrand">BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -147,7 +154,7 @@
                                                     aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton"
                             style="display: none;"></button>
-                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/user.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -171,10 +178,9 @@
             </div>
         </div>
         <!-- 导航栏变化样式 -->
-
         <!-- 导航栏固定样式 -->
         <div id="home" class="headorigin">
-            <div class="headbrand"></div>
+            <div class="headbrand">BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -183,7 +189,7 @@
                     <li><a href="#newarrival">New Arrival</a></li>
                     <li><a href="#recommend">Recommend</a></li>
                     <li><a href="#blog">Blog</a></li>
-                    <li><a href="index.html">Exit</a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/userlogout.action">Exit</a></li>
                 </ul>
             </div>
             <div class="headicon">
@@ -311,7 +317,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal2">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" onclick="Register()">注册</button>
                     </div>
                 </div>
@@ -325,17 +331,17 @@
                         <h4 class="modal-title">修改密码</h4>
                     </div>
                     <div class="modal-body">
-                        原密码:<div class="input-control has-icon-left has-icon-right">
+                        原密码:<div class="input-control has-icon-left has-icon-right" style="margin-bottom: 20px;">
                         <input id="yuanpwd" type="password" class="form-control" placeholder="原密码">
                         <label for="yuanpwd" class="input-control-icon-left"><i class="icon icon-key "></i></label>
                         <label for="yuanpwd" class="input-control-icon-right"><i class="icon icon-check"></i></label>
                     </div>
-                        新密码:<div class="input-control has-icon-left has-icon-right">
+                        新密码:<div class="input-control has-icon-left has-icon-right" style="margin-bottom: 20px;">
                         <input id="newpwd" type="password" class="form-control" placeholder="新密码">
                         <label for="newpwd" class="input-control-icon-left"><i class="icon icon-key "></i></label>
                         <label for="newpwd" class="input-control-icon-right"><i class="icon icon-check"></i></label>
                     </div>
-                        确认新密码:<div class="input-control has-icon-left has-icon-right">
+                        确认新密码:<div class="input-control has-icon-left has-icon-right" style="margin-bottom: 10px;">
                         <input id="repwd" type="password" class="form-control" placeholder="确认新密码">
                         <label for="repwd" class="input-control-icon-left"><i class="icon icon-key "></i></label>
                         <label for="repwd" class="input-control-icon-right"><i class="icon icon-check"></i></label>
@@ -426,22 +432,22 @@
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".information">个人信息</a></li>
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".cart">购物车</a></li>
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".indent">我的订单</a></li>
-                                <li style="font-size:15px; height:66px"><a href="#" data-filter=".blog">个人博客</a></li>
+                                <%--<li style="font-size:15px; height:66px"><a href="#" data-filter=".blog">个人博客</a></li>--%>
                                 <li style="font-size:15px; height:66px"><a href="#" data-filter=".addbook">上传书籍</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+            <style>
+                .information-left ul li {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+            </style>
             <%--<img src="${pageContext.servletContext.contextPath}/${ptu.avatar}" alt="头像">--%>
             <div class="col-sm-8 col-md-8 col-lg-9 mtb_30 portfolio_container">
                 <!-- 个人信息  -->
-                <style>
-                    .information-left ul li {
-                        margin-top: 10px;
-                        margin-bottom: 10px;
-                    }
-                </style>
                 <div class="information">
                     <div class="information-right"></div>
                     <div class="information-left">
@@ -453,10 +459,18 @@
                             <li>注册日期：${ptu.registerdate}</li>
                             <li>默认地址：${mrdz}</li>
                         </ul>
-                        <div class="icon">
-                            <input id="xiugai" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal3" value="修改密码">
+                        <button id="cgsAva" type="button" class="btn btn-info btn-lg" data-remote="${pageContext.servletContext.contextPath}/changeAva.jsp?" data-toggle="modal" style="float: right;margin-bottom: 14px;margin-right: 23px;margin-top: 30px;">
+                            更换头像</button>
+                        <button id="xiugai" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3" style="float: right;margin-bottom: 14px;margin-right: 23px;margin-top: 30px;">
+                            修改密码</button>
+
+                        <button id="adddizhi" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal4" style="float: right;margin-bottom: 14px;margin-right: 23px;margin-top: 30px;">
+                            添加地址</button>
+                        <div class="icon" style="height:100px;">
                             <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>
-                            <input id="adddizhi" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal4" value="添加地址">
+                            <%--<input id="xiugai" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal3" value="修改密码">--%>
+                            <%--<div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>--%>
+                            <%--<input id="adddizhi" type="submit" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal4" value="添加地址">--%>
                         </div>
                     </div>
                 </div>
@@ -648,11 +662,11 @@
 <a id="scrollup">Scroll</a>
 
 <script src="${pageContext.servletContext.contextPath}/js/owl.carousel.min.js"></script>
-<script src="${pageContext.servletContext.contextPath}/js/bootstrap.min.js"></script>
+<%--<script src="${pageContext.servletContext.contextPath}/js/bootstrap.min.js"></script>--%>
 
 <script src="${pageContext.servletContext.contextPath}/js/custom0.js"></script>
-<script src="${pageContext.servletContext.contextPath}/js/jquery-ui.js"></script>
-<script src="${pageContext.servletContext.contextPath}/js/jquery.magnific-popup.js"></script>
+<%--<script src="${pageContext.servletContext.contextPath}/js/jquery-ui.js"></script>--%>
+<%--<script src="${pageContext.servletContext.contextPath}/js/jquery.magnific-popup.js"></script>--%>
 <%--<script src="${pageContext.servletContext.contextPath}/js/jQuery_v3.1.1.min.js"></script>--%>
 <!-- jQuery -->
 <%--<script src="${pageContext.servletContext.contextPath}/js/jquery.js"></script>--%>
@@ -661,7 +675,7 @@
 <script>
     var $container = $('.portfolio_container');
     $container.isotope({
-        filter: '*',
+        filter: '.cart',
     });
     $('.portfolio_filter a').click(function () {
         $('.portfolio_filter .active').removeClass('active');
@@ -699,7 +713,7 @@
                 p = p + parseFloat(itemP[i].innerHTML);
             }
         }
-        document.getElementById("allprice").innerHTML = p;
+        document.getElementById("allprice").innerHTML = p.toFixed(4);
         document.getElementById("allnum").innerHTML = n;
     }
 
@@ -723,16 +737,14 @@
                 p = p + parseFloat(itemP[i].innerHTML);
             }
         }
-        document.getElementById("allprice").innerHTML = p;
+        document.getElementById("allprice").innerHTML = p.toFixed(4);
         document.getElementById("allnum").innerHTML = n;
     }
 
     function jisuan() {
         var items = document.getElementsByName("checkItem");
         var itemN = document.getElementsByName("checkBnum");
-        ;
         var itemP = document.getElementsByName("checkBpri");
-        ;
         var n = 0, p = 0;
         for (var i = 0; i < items.length; i++) {
             if (items[i].checked) {
@@ -740,24 +752,65 @@
                 p = p + parseFloat(itemP[i].innerHTML);
             }
         }
-        document.getElementById("allprice").innerHTML = p;
+        document.getElementById("allprice").innerHTML = p.toFixed(4);
         document.getElementById("allnum").innerHTML = n;
     }
 
     function tijiao() {
+        if("${mrdz}" == "尚未设置地址" || "${mrdz}" == "") {
+            alert("请设置默认地址！")
+        }else {
+            var items = document.getElementsByName("checkItem");
+            var itemN = document.getElementsByName("checkBnum");
+            var itemP = document.getElementsByName("checkBpri");
+            var n = 0, p = 0, tmp ="";
+            for (var i = 0, j = 0; i < items.length; i++) {
+                if (items[i].checked) {
+                    if (j != 0) tmp = tmp + ","
+                    tmp = tmp + items[i].value;
+                    j = j + 1;
+                    n = n + parseInt(itemN[i].innerHTML)
+                    p = p + parseFloat(itemP[i].innerHTML);
+                }
+            }
+            console.log(tmp)
+            location.href = "${pageContext.servletContext.contextPath}/subsc.action?uid=${ptu.userid}&scbookid=" + tmp + "&allnum=" + n + "&allpri=" + p;
+        }
+    }
+    function minusNum(ID, NUM, p) {
+        NUM = "#"+NUM
+        var num = parseInt($(NUM).html())
+        if(num > 1) {
+            num = num - 1;
+            $(NUM).html(num)
+            <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
+            var items = document.getElementsByName("checkItem");
+            var itemP = document.getElementsByName("checkBpri");
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].value == ID) {
+                    itemP[i].innerHTML = (parseFloat(p)*num).toFixed(2)
+                    break
+                }
+            }
+            $.post("${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p)
+            jisuan();
+        }
+    }
+    function plusNum(ID, NUM, p) {//TODO: 还能不能加的提醒
+        NUM = "#"+NUM
+        var num = parseInt($(NUM).html())+1
+        $(NUM).html(num)
+        <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
         var items = document.getElementsByName("checkItem");
-        var itemN = document.getElementsByName("checkBnum");
         var itemP = document.getElementsByName("checkBpri");
-        var n = 0, p = 0, tmp = "";
         for (var i = 0; i < items.length; i++) {
-            if (items[i].checked) {
-                tmp = tmp + items[i].value;
-                if (i != items.length - 1) tmp = tmp + ","
-                n = n + parseInt(itemN[i].innerHTML)
-                p = p + parseFloat(itemP[i].innerHTML);
+            if (items[i].value == ID) {
+                itemP[i].innerHTML = (parseFloat(p)*num).toFixed(2)
+                break
             }
         }
-        location.href = "${pageContext.servletContext.contextPath}/subsc.action?uid=${ptu.userid}&scbookid=" + tmp + "&allnum=" + n + "&allpri=" + p;
+        $.post("${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p)
+        jisuan();
     }
 </script>
 <script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
@@ -788,7 +841,7 @@
     function Register() {
         var pwd = $('#inputExample2').val()
         $('#inputExample2').val(hex_md5(pwd))
-        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val() + "&pwd=" + $('#inputExample2').val() + "&username=" + $('#inputExample3').val() + "$sex=";
+        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val() + "&pwd=" + $('#inputExample2').val() + "&username=" + $('#inputExample3').val() + "&sex=";
         if (document.getElementById("sex2").checked) url = url + "女";
         else url = url + "男";
         location.href = url;
@@ -824,43 +877,13 @@
         else url = url + "是";
         location.href = url
     }
-    function minusNum(ID, NUM, p) {
-        NUM = "#"+NUM
-        var num = parseInt($(NUM).html())
-        if(num > 1) {
-            num = num - 1;
-            $(NUM).html(num)
-            <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
-            var items = document.getElementsByName("checkItem");
-            var itemP = document.getElementsByName("checkBpri");
-            for (var i = 0; i < items.length; i++) {
-                if (items[i].value == ID) {
-                    itemP[i].innerHTML = (parseFloat(p)*num).toFixed(2)
-                    break
-                }
-            }
-            $.post("${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p)
-        }
-    }
-    function plusNum(ID, NUM, p) {//TODO: 还能不能加的提醒
-        NUM = "#"+NUM
-        var num = parseInt($(NUM).html())+1
-        $(NUM).html(num)
-        <%--location.href = "${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p;--%>
-        var items = document.getElementsByName("checkItem");
-        var itemP = document.getElementsByName("checkBpri");
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].value == ID) {
-                itemP[i].innerHTML = (parseFloat(p)*num).toFixed(2)
-                break
-            }
-        }
-        $.post("${pageContext.servletContext.contextPath}/changeBSNum.action?bookid="+ID+"&booknum="+num+"&price="+p)
-    }
+
     function addtocart(a,b) {
         var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid='+a+'&price='+b
-        // alert(url)
-        location.href = url
+        $.post(url)
+        // location.href = url
+        if("${ptu}" == "") alert("添加失败！")
+        else alert("成功添加到购物车，进入个人页面查看！")
     }
     function quickview(id) {
         var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
@@ -934,8 +957,15 @@
 <script type="text/javascript">
     $('#uploaderExample').uploader({
         autoUpload: false, // 当选择文件后立即自动进行上传操作
-        url: '${pageContext.servletContext.contextPath}/uploadbookimgs.do?book='+document.getElementById('mybook').getAttribute("book") // 文件上传提交地址
+        url: '${pageContext.servletContext.contextPath}/uploadbookimgs.action?book='+document.getElementById('mybook').getAttribute("book") // 文件上传提交地址
     });
+</script>
+<script>
+    new $.zui.Messager('欢迎进入个人首页！', {
+        icon: 'heart',
+        placement: 'top',
+        type: 'primary'
+    }).show();
 </script>
 </body>
 </html>

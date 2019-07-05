@@ -5,7 +5,8 @@
 <head>
     <!-- =====  BASIC PAGE NEEDS  ===== -->
     <meta charset="utf-8">
-    <title>HealthCare</title>
+    <title>bookshop</title>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <!-- =====  SEO MATE  ===== -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description" content="">
@@ -46,8 +47,7 @@
         <!-- 顶部开始 -->
         <!-- 导航栏固定样式 -->
         <div id="home" class="headorigin">
-            <div class="headbrand">
-            </div>
+            <div class="headbrand">BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -174,7 +174,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal2">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" onclick="Register()">注册</button>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
                                 <span class="i-bar"><i class="fa fa-bars"></i></span></div>
                         </div>
                     </div>
-                    <div class="col-sm-8 col-md-8 col-lg-9">
+                    <div class="col-sm-8 col-md-8 col-lg-9" >
                         <div class="header-bottom-right offers">
                             <div class="marquee"><span><i class="fa fa-circle" aria-hidden="true"></i>汉语言文学</span>
                                 <span><i class="fa fa-circle"
@@ -248,7 +248,7 @@
                             var row = "";
                             <c:forEach items="${lammuyd}" var="ix" varStatus="stauts">
                             if ("${stauts.index}" == "0" ) row = row + "<ul class='row'>";
-                            var item = "<li class='item product-layout-left mb_20'><div class='product-list col-xs-4'><div class='product-thumb'><div class='image product-imageblock'><a href='#'>" +
+                            var item = "<li class='item product-layout-left mb_20'><div class='product-list col-xs-4'><div class='product-thumb'><div class='image product-imageblock'><a href='javascript:void(0);' onclick=\"quickview('${ix.bookid}')\">" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'></a></div></div></div><div class='col-xs-8'><div class='caption product-detail'><h6 class='product-name'>" +
                                 "<a href='#'>${ix.bookname}</a></h6>" +
@@ -320,13 +320,13 @@
                     </div>
                     <div class="row">
                         <style>
-                            .image a .aaa{height: 124px;}
+                            .image a .aaa{height: 250px;}
                         </style>
                         <script>
                             <c:forEach items="${tags}" var="ix" varStatus="stauts">
                             console.log("index${stauts.index}")
                             var item = "<div class='product-layout  product-grid  col-lg-3 col-md-4 col-sm-6 col-xs-12 ''><div class='item'><div class='product-thumb clearfix mb_30'><div class='image product-imageblock'> " +
-                                "<a href='#''><img class='aaa' data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
+                                "<a href='javascript:void(0);' onclick=\"quickview('${ix.bookid}')\"><img class='aaa' data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
                                 "<img class='aaa' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> </a> </div><div class='caption product-detail text-left'><h6 data-name='product_name' class='product-name mt_20'>" +
                                 "<a href='#'' title='Casual Shirt With Ruffle Hem'> " + "${ix.bookname}" + "</a></h6><div class='rating'>" + star + " </div>" +
                                 "<span class='price'><span class='amount'><span class='currencySymbol'>$</span>" + "${ix.price}" + "</span>" +
@@ -452,6 +452,7 @@
     }
 </script>
 <script src="${pageContext.servletContext.contextPath}/js/md5.js"></script>
+
 <script>
     function userlogin() {
         if("${ptu}" != "") {
@@ -472,7 +473,7 @@
     function Register() {
         var pwd = $('#inputExample2').val()
         $('#inputExample2').val(hex_md5(pwd))
-        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val()+"&pwd="+$('#inputExample2').val()+"&username="+$('#inputExample3').val()+"$sex=";
+        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val()+"&pwd="+$('#inputExample2').val()+"&username="+$('#inputExample3').val()+"&sex=";
         if(document.getElementById("sex2").checked) url = url + "女";
         else url = url + "男";
         location.href = url;
@@ -481,16 +482,19 @@
         //修改img的src的值
         o.src = "${pageContext.servletContext.contextPath}/code.do?"+new Date().getTime();
     }
+
     function addtocart(a,b) {
         var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid='+a+'&price='+b
-        // alert(url)
-        location.href = url
+        $.post(url)
+        // location.href = url
+        if("${ptu}" == "") alert("添加失败！")
+        else alert("成功添加到购物车，进入个人页面查看！")
     }
     function quickview(id) {
         var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
         location.href = url;
     }
 </script>
-</body>
 
+</body>
 </html>

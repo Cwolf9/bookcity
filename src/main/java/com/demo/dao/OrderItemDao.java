@@ -25,22 +25,20 @@
  */
 package com.demo.dao;
 
+import com.demo.model.Order;
 import com.demo.model.OrderItem;
-import com.demo.model.Orders;
-import com.demo.model.User;
 import com.demo.util.DBUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderItemDao {
     public static void main(String[] args) {
         OrderItemDao a = new OrderItemDao();
-        List<Orders> b = new OrdersDao().findAll(0, "0");
-        for(Orders x: b) {
+        List<Order> b = new OrderDao().findAll(0, "0");
+        for(Order x: b) {
 //            a.save(x.getOrderid(),1,5,1.0,5);
         }
         a.hh();
@@ -54,12 +52,17 @@ public class OrderItemDao {
      * @param allmoney
      */
     public void save(String orderid,int bookid,int booknum,double singleprice,double allmoney) {
-        String sql = "insert into b_orderitem (orderid,bookid,booknum,singleprice,allmoney) values"+
+        String sql = "insert into orderitem (orderid,bookid,booknum,singleprice,allmoney) values"+
                 "(?,?,?,?,?)";
         DBUtil.insert(sql, orderid,bookid,booknum,singleprice,allmoney);
     }
+    public void save(String orderid,int bookid,int booknum,double singleprice,double allmoney,String bookname) {
+        String sql = "insert into orderitem (orderid,bookid,booknum,singleprice,allmoney,bookname) values"+
+                "(?,?,?,?,?,?)";
+        DBUtil.insert(sql, orderid,bookid,booknum,singleprice,allmoney,bookname);
+    }
     public void hh() {
-        String sql = "update b_orderitem set allmoney = 3.0 where booknum = ?";
+        String sql = "update orderitem set allmoney = 3.0 where booknum = ?";
         DBUtil.update(sql, 3);
     }
     /**
@@ -68,7 +71,7 @@ public class OrderItemDao {
      * @return
      */
     public List<OrderItem> findOIByOrderId(String orderid) {
-        String sql = "SELECT * FROM b_orderitem where orderid=?";
+        String sql = "SELECT * FROM orderitem where orderid=?";
         List<OrderItem> ans = new ArrayList<OrderItem>();
         try {
             ResultSet rs = DBUtil.select(sql,orderid);
@@ -88,7 +91,7 @@ public class OrderItemDao {
         return ans;
     }
     public List<OrderItem> findAllOI() {
-        String sql = "SELECT * FROM b_orderitem";
+        String sql = "SELECT * FROM orderitem";
         List<OrderItem> ans = new ArrayList<OrderItem>();
         try {
             ResultSet rs = DBUtil.select(sql);

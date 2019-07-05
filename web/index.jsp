@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- =====  BASIC PAGE NEEDS  ===== -->
     <meta charset="utf-8">
     <title>Home</title>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="css/style0.css">
@@ -53,7 +53,7 @@
         <!-- 顶部开始 -->
         <!-- 导航栏变化样式 -->
         <div class="headchange">
-            <div class="headbrand"></div>
+            <div class="headbrand">BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -66,14 +66,15 @@
                 </ul>
             </div>
             <div class="headicon">
-                <!-- 搜索框的实现 -->
+
                 <ul>
                     <li><a onclick="regUser()"><i class="fa fa-user fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                     <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
                     <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
-                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/user.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
+                <!-- 搜索框的实现 -->
                 <div class="search">
                     <div class="search-overlay">
                         <!-- 关闭键 -->
@@ -180,7 +181,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal2">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" onclick="Register()">注册</button>
                     </div>
                 </div>
@@ -190,7 +191,7 @@
         <!-- 导航栏固定样式 -->
         <div id="home" class="headorigin">
             <div class="headbrand">
-            </div>
+            BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -209,7 +210,7 @@
                     <button type="button" data-toggle="modal" data-target="#myModal2" id="regbutton" style="display: none;"></button>
                     <li><a onclick="userlogin()"><i class="fa fa-user-circle fa-2x hoverspin black" aria-hidden="true"></i></a>${ptuname}</li>
                     <button type="button" data-toggle="modal" data-target="#myModal" id="ycbutton" style="display: none;"></button>
-                    <li><a href="${pageContext.servletContext.contextPath}/cart.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
+                    <li><a href="${pageContext.servletContext.contextPath}/user.action"><i class="fa fa-book fa-2x hoverspin black" aria-hidden="true"></i></a></li>
                 </ul>
                 <div class="search">
                     <div class="search-overlay">
@@ -293,7 +294,7 @@
                 </div>
                 <!-- 导航栏 -->
                 <!-- 左侧海报图功能图 -->
-                <div class="left_banner left-sidebar-widget mt_30 mb_50"><a href="#"><img src="images/left1.jpg"
+                <div class="left_banner left-sidebar-widget mt_30 mb_50"><a href="#"><img src="images/left11.jpg"
                                                                                           alt="Left Banner"
                                                                                           class="img-responsive"/></a>
                 </div>
@@ -302,21 +303,21 @@
                         <li>
                             <div class="feature-i-left ptb_40">
                                 <div class="icon-right Shipping"></div>
-                                <a href=""><h6>物流查询</h6></a>
+                                <a href="${pageContext.servletContext.contextPath}/user.action"><h6>物流查询</h6></a>
                                 <p>Free delivery worldwide</p>
                             </div>
                         </li>
                         <li>
                             <div class="feature-i-left ptb_40">
                                 <div class="icon-right Order"></div>
-                                <a href=""><h6>与我联系</h6></a>
+                                <a href="${pageContext.servletContext.contextPath}/user.action"><h6>与我联系</h6></a>
                                 <p>Hours : 8am - 11pm</p>
                             </div>
                         </li>
                         <li>
                             <div class="feature-i-left ptb_40">
                                 <div class="icon-right Save"></div>
-                                <a href=""><h6>购物车界面</h6></a>
+                                <a href="${pageContext.servletContext.contextPath}/user.action"><h6>购物车界面</h6></a>
                                 <p>For All Spices & Herbs</p>
                             </div>
                         </li>
@@ -336,8 +337,8 @@
                             if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
                             var item = "<li class='item product-layout-left mb_20'>" +
                                 "<div class='product-list col-xs-4'>" +
-                                "<div class='product-thumb' onclick=\"quickview('${ix.bookid}')\">" +
-                                "<div class='image product-imageblock'>" +
+                                "<div class='product-thumb' >" +
+                                "<div class='image product-imageblock' onclick=\"quickview('${ix.bookid}')\">" +
                                 "<a href='#'><img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                 "</a></div></div></div>" +
@@ -416,9 +417,9 @@
                 <!-- 焦点图         -->
                 <div class="banner" id="focus">
                     <div class="main-banner owl-carousel">
-                        <div class="item"><a href="#"><img src="images/main_banner1.jpg" alt="Main Banner"
+                        <div class="item"><a href="#"><img src="images/main_banner11.jpg" alt="Main Banner"
                                                            class="img-responsive"/></a></div>
-                        <div class="item"><a href="#"><img src="images/main_banner1.jpg" alt="Main Banner"
+                        <div class="item"><a href="#"><img src="images/main_banner22.jpg" alt="Main Banner"
                                                            class="img-responsive"/></a></div>
                     </div>
                 </div>
@@ -427,22 +428,22 @@
                 <div class="row">
                     <div class="cms_banner mt_10">
                         <div class="col-xs-6 col-sm-12 col-md-6 mt_20">
-                            <div id="subbanner1" class="sub-hover"><a href="#"><img src="images/sub1.jpg"
+                            <div id="subbanner1" class="sub-hover"><a href="#"><img src="images/sub11.png"
                                                                                     alt="Sub Banner1"
                                                                                     class="img-responsive"></a>
                                 <div class="bannertext">
-                                    <h2>Full HD Camera</h2>
-                                    <p class="mt_10">Different Resolutions</p>
+                                    <h2>Wonderful<br></br>book</h2>
+                                    <p class="mt_10">How to look book</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-12 col-md-6 mt_20">
-                            <div id="subbanner2" class="sub-hover"><a href="#"><img src="images/sub2.jpg"
+                            <div id="subbanner2" class="sub-hover"><a href="#"><img src="images/sub22.png"
                                                                                     alt="Sub Banner2"
                                                                                     class="img-responsive"></a>
                                 <div class="bannertext">
-                                    <h2>smart watches</h2>
-                                    <p class="mt_10">Most Popular Brands</p>
+                                    <h2>SMART BOOKS</h2>
+                                    <p class="mt_10">How to look book</p>
                                 </div>
                             </div>
                         </div>
@@ -460,6 +461,11 @@
                         <li><a href="#commentsort" data-toggle="tab">CommentSort</a></li>
                     </ul>
                     <!-- 书本展示栏 -->
+                    <style>
+                        .image a .abc {
+                            height: 260px;
+                        }
+                    </style>
                     <div class="tab-content clearfix box">
                         <!-- 按照人气排名 -->
                         <div class="tab-pane active" id="hopsort">
@@ -471,15 +477,15 @@
                                     if ("${stauts.index}" == "0" || "${stauts.index}" == "2" || "${stauts.index}" == "4" || "${stauts.index}" == "6") {
                                         row = row + "<div class='product-grid'>";
                                     }
-                                    var item = "<div class='item'><div class='product-thumb ' onclick=\"quickview('${ix.bookid}')\"><div class='image product-imageblock'> <a href='#''>" +
-                                        "<img data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
-                                        "<img src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> </a> </div>" +
+                                    var item = "<div class='item'><div class='product-thumb ' ><div class='image product-imageblock'> <a href='javascript:void(0);' onclick=\"quickview('${ix.bookid}')\">" +
+                                        "<img class='abc' data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive' > " +
+                                        "<img class='abc' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> </a> </div>" +
                                         "<div class='caption product-detail text-left'><h6 data-name='product_name' class='product-name mt_20'>" +
                                         "<a href='#'' title='Casual Shirt With Ruffle Hem'> " + "${ix.bookname}" + "</a></h6><div class='rating'>" + star + " </div><span class='price'>" +
                                         "<span class='amount'><span class='currencySymbol'>$</span>" + "${ix.price}" + "</span><span class='dates'>" + "${ix.booknum}" + "</span></span>" +
                                         "<div class='button-group text-center'><div class='wishlist'><a href='#'><span>wishlist</span></a></div><div class='quickview' onclick=\"quickview('${ix.bookid}')\">" +
                                         "<a href='#'><span>Quick View</span></a></div><div class='compare'><a href='#'><span>Compare</span></a></div>" +
-                                        "<div class='add-to-cart'><a href='#'><span>Add to cart</span></a></div></div></div></div></div>";
+                                        "<div class='add-to-cart' onclick=\"addtocart('${ix.bookid}','${ix.price}')\"><a href='#'><span>Add to cart</span></a></div></div></div></div></div>";
                                     row = row + item;
                                     if ("${stauts.index}" == "1" || "${stauts.index}" == "3" || "${stauts.index}" == "5" || "${stauts.index}" == "7") row = row + "</div>";
                                     </c:forEach>
@@ -554,7 +560,7 @@
                 <div class="row">
                     <div class="cms_banner mt_40 mb_50">
                         <div class="col-xs-12">
-                            <div id="subbanner3" class="banner sub-hover"><a href="#"><img src="images/sub3.jpg"
+                            <div id="subbanner3" class="banner sub-hover"><a href="#"><img src="images/sub33.jpg"
                                                                                            alt="Sub Banner3"
                                                                                            class="img-responsive"></a>
                             </div>
@@ -570,8 +576,8 @@
                     <div class="Specials owl-carousel">
                         <div class="item product-layout product-list">
 
-                            <div class="product-thumb" onclick=quickview('${maxhotbook.bookid}')>
-                                <div class="image product-imageblock"><a href="#"> <img data-name="product_image"
+                            <div class="product-thumb" >
+                                <div class="image product-imageblock" onclick=quickview('${maxhotbook.bookid}')><a href="#"> <img data-name="product_image"
                                                                                         src="${pageContext.servletContext.contextPath}/${maxhotbook.defaultimg}"
                                                                                         alt="iPod Classic"
                                                                                         title="iPod Classic"
@@ -618,7 +624,7 @@
                 <div class="row">
                     <div class="cms_banner mt_60 mb_50">
                         <div class="col-xs-12">
-                            <div id="subbanner4" class="banner sub-hover"><a href="#"><img src="images/sub4.jpg"
+                            <div id="subbanner4" class="banner sub-hover"><a href="#"><img src="images/sub44.jpg"
                                                                                            alt="Sub Banner4"
                                                                                            class="img-responsive"></a>
                                 <div class="bannertext"></div>
@@ -789,7 +795,7 @@
     function Register() {
         var pwd = $('#inputExample2').val()
         $('#inputExample2').val(hex_md5(pwd))
-        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val()+"&pwd="+$('#inputExample2').val()+"&username="+$('#inputExample3').val()+"$sex=";
+        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val()+"&pwd="+$('#inputExample2').val()+"&username="+$('#inputExample3').val()+"&sex=";
         if(document.getElementById("sex2").checked) url = url + "女";
         else url = url + "男";
         location.href = url;
@@ -800,8 +806,10 @@
     }
     function addtocart(a,b) {
         var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid='+a+'&price='+b
-        // alert(url)
-        location.href = url
+        $.post(url)
+        // location.href = url
+        if("${ptu}" == "") alert("添加失败！")
+        else alert("成功添加到购物车，进入个人页面查看！")
     }
     function quickview(id) {
         var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;

@@ -33,12 +33,15 @@ import com.demo.service.impl.DataServiceImpl;
 import com.demo.service.impl.LoginServiceImpl;
 import com.demo.service.impl.UploadServiceImpl;
 import com.demo.util.MD5Util;
-import com.mysql.cj.Session;
+import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AServlet extends HttpServlet {
@@ -90,6 +93,7 @@ public class AServlet extends HttpServlet {
             }
         }else if("/userlogout.action".equals(url)){
             session.removeAttribute("ptu");
+            session.removeAttribute("ptuname");
             req.setAttribute("error", "您已成功退出!");
             resp.sendRedirect(req.getContextPath()+"/index.action");
         }else if("/searchBook.action".equals(url)) {
@@ -117,10 +121,6 @@ public class AServlet extends HttpServlet {
             req.setAttribute("searchbar", info);
             req.setAttribute("queryBooksSum", allbooks.size());
             req.getRequestDispatcher("page/menu.jsp").forward(req, resp);
-        }else if("/submitBlog.action".equals(url)) {
-            String blogContent = req.getParameter("blogContent");
-            req.setAttribute("blogContent", blogContent);
-            req.getRequestDispatcher("page/showBlog.jsp").forward(req, resp);
         }else if("/index.action".equals(url)) {
             List<Book> allbooks = dts.findAllBooks();
             Collections.sort(allbooks, sallnum);
@@ -186,7 +186,6 @@ public class AServlet extends HttpServlet {
             }
             for (int i = (nowpage - 1) * 8; i < nowpage * 8 && i < allbooks.size(); ++i) {
                 tags.add(allbooks.get(i));
-                System.out.println(i);
             }
             req.setAttribute("tags", tags);
             if (allbooks.size() % 8 > 0) req.setAttribute("allpage", allbooks.size() / 8 + 1);
@@ -209,15 +208,19 @@ public class AServlet extends HttpServlet {
             else req.setAttribute("allpage", allbooks.size()/8);
             req.getRequestDispatcher("list.jsp").forward(req, resp);
         }else if("/user.action".equals(url)) {
-            int uid = ((User) session.getAttribute("ptu")).getUserid();
-            Address mrdz = dts.findAddressById(uid);
-            if(mrdz == null)req.setAttribute("mrdz", "尚未设置地址");
-            else req.setAttribute("mrdz", mrdz.getName());
-            List<ShoppingCar> usc = dts.findSC(uid);
-            req.setAttribute("usc", usc);
-            List<Orders> list = dts.findAllOrders(1, String.valueOf(uid));
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("user.jsp").forward(req, resp);
+            if(session.getAttribute("ptu") == null) {
+                resp.sendRedirect(req.getContextPath()+"/index.action");
+            }else {
+                int uid = ((User) session.getAttribute("ptu")).getUserid();
+                Address mrdz = dts.findAddressById(uid);
+                if (mrdz == null) req.setAttribute("mrdz", "尚未设置地址");
+                else req.setAttribute("mrdz", mrdz.getName());
+                List<ShoppingCar> usc = dts.findSC(uid);
+                req.setAttribute("usc", usc);
+                List<Order> list = dts.findAllOrders(1, String.valueOf(uid));
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("user.jsp").forward(req, resp);
+            }
         }else if("/ulogin.action".equals(url)) {
             String usercode = req.getParameter("code");
             String code = (String) session.getAttribute("code");
@@ -261,11 +264,11 @@ public class AServlet extends HttpServlet {
             String orderid = dts.saveOrder(uid,new Random().nextInt(100),allpri,mrdz.getName(),allnum);
             List<ShoppingCar> usc = dts.findSC(uid);
             for(String tmp:req.getParameter("scbookid").split(",")) {
-                System.out.println(Integer.parseInt(tmp));
+                if(tmp == "") continue;
                 int bid = Integer.parseInt(tmp);
                 for(ShoppingCar x: usc) {
                     if(x.getBookid() == bid) {
-                        dts.saveOrderItem(orderid,bid,x.getBooknum(),x.getPrice(),x.getAllprice());
+                        dts.saveOrderItem(orderid,bid,x.getBooknum(),x.getPrice(),x.getAllprice(),dts.findBooksById(bid).getBookname());
                     }
                 }
                 dts.removeScByUB(uid, bid);
@@ -290,12 +293,13 @@ public class AServlet extends HttpServlet {
             req.setAttribute("mrdz", mrdz.getName());
             List<ShoppingCar> usc = dts.findSC(uid);
             req.setAttribute("usc", usc);
-            List<Orders> list = dts.findAllOrders(1, String.valueOf(uid));
+            List<Order> list = dts.findAllOrders(1, String.valueOf(uid));
             req.setAttribute("list", list);
             req.getRequestDispatcher("user.jsp").forward(req,resp);
             return;
         }else if("/showMoreInfo.action".equals(url)) {
             String orderid = req.getParameter("orderid");
+            System.out.println(orderid);
             List<OrderItem> ans = dts.findOIByOrderId(orderid);
             req.setAttribute("oitems", ans);
             req.getRequestDispatcher("page/showMoreInfo.jsp").forward(req,resp);
@@ -323,8 +327,8 @@ public class AServlet extends HttpServlet {
             else flag = 1;
             if(u != null) dts.addtocart(u.getUserid(),bid,1,price);
             else flag = 1;
-            if(flag == 1) req.getRequestDispatcher("index.action").forward(req,resp);
-            else req.getRequestDispatcher("user.action").forward(req,resp);
+            if(flag == 1) resp.sendRedirect(req.getContextPath()+"/index.action");
+            else resp.sendRedirect(req.getContextPath()+"/user.action");
         }else if("/bookinfo.action".equals(url)) {
             List<Book> allbooks = dts.findAllBooks();
             List<Book> cai = new ArrayList<Book>();
@@ -349,8 +353,11 @@ public class AServlet extends HttpServlet {
             }
             System.out.println("tim = "+tim);
             req.setAttribute("relebook", relebook);
-            List<String> bookimgs = dts.findBookImgsByBook(book.getBook());
-            req.setAttribute("bookimgs", bookimgs);
+            List<String> bookimg = dts.findBookImgsByBook(book.getBook());
+            req.setAttribute("bookimg", bookimg);
+            List<Messagebord> message = dts.findAllMes(bid);
+            Collections.reverse(message);
+            req.setAttribute("message", message);
             req.getRequestDispatcher("bookinfo.jsp").forward(req,resp);
         }else if("/cart.action".equals(url)) {
             req.getRequestDispatcher("index.action").forward(req,resp);
@@ -369,9 +376,87 @@ public class AServlet extends HttpServlet {
             dts.saveBook(bookname, bookauthor, bookinfo, price, booknum,bowner,book,tags);
             dts.changeImg(book);
             resp.sendRedirect(req.getContextPath()+"/user.action");
+        }else if("/uploadbookimgs.action".equals(url)) {
+            String book = req.getParameter("book");
+            resp.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            List<FileItem> items = ups.uploadimg(req, resp);
+            //处理请求内容
+            if(items!=null){
+                for(FileItem item:items){
+                    if(item.isFormField()){
+                    }else{
+                        String oldName = item.getName();
+                        System.out.println("oldName:"+oldName);
+                        //确定要上传到服务器的位置
+                        String path = req.getServletContext().getRealPath("/upload");
+                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+String.valueOf(new Random().nextInt(1000))+oldName.substring(oldName.lastIndexOf("."));
+                        try {
+                            item.write(new File(path,name));
+                            dts.saveBI(book, "upload/"+name);
+                            System.out.println(book+"; upload/"+name);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            out.write("上传成功！");
+        }else if("/savemes.action".equals(url)) {
+            int bid = Integer.parseInt(req.getParameter("bookid"));
+            String acc = req.getParameter("acc");
+            String date = req.getParameter("date");
+            String ava = req.getParameter("ava");
+            String biaoti = req.getParameter("biaoti");
+            String neirong = req.getParameter("neirong");
+            dts.saveMess(acc,biaoti,neirong,date,ava,bid);
+            if(bid == 0) {
+                resp.sendRedirect(req.getContextPath()+"/person.do");
+            }else {
+                resp.sendRedirect(req.getContextPath()+"/bookinfo.action?bookid="+bid);
+            }
+        }else if("/delmes.action".equals(url)) {
+            int mid = Integer.parseInt(req.getParameter("mid"));
+            dts.removeMesByMid(mid);
+        }else if("/submitBlog.action".equals(url)) {
+            String blogContent = req.getParameter("blogContent");
+            req.setAttribute("blogContent", blogContent);
+            System.out.println("blogContent:"+blogContent);
+            String AdId = req.getParameter("AdId");
+            System.out.println("AdId:"+AdId);
+            Admin u = ls.findAdminByAccount(AdId);
+            ls.modufyAdminLog(blogContent,u.getAdminid());
+            req.getRequestDispatcher("page/showBlog.jsp").forward(req, resp);
+        }else if("/upload.action".equals(url)) {
+            resp.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            List<FileItem> items = ups.uploadimg(req, resp);
+            if(items!=null){//处理请求内容
+                for(FileItem item:items){
+                    if(item.isFormField()){
+                    }else{
+                        String oldName = item.getName();
+                        System.out.println("oldName:"+oldName);
+                        //确定要上传到服务器的位置
+                        String path = req.getServletContext().getRealPath("/upload");
+                        User u = (User) session.getAttribute("ptu");
+                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+u.getAccount()+oldName.substring(oldName.lastIndexOf("."));
+                        try {
+                            item.write(new File(path,name));
+                            //跟新用户头像为新的图片路径
+                            ls.modifyAvatar("upload/"+name, u.getUserid());
+                            session.setAttribute("ptu",ls.findUserById(u.getUserid()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            out.write("上传成功！");
         }
 
     }
+
     static Comparator<Book> sallnum = new Comparator() {
         public int compare(Object o1, Object o2) {//畅销
             Book x1 = (Book)o1;

@@ -18,16 +18,17 @@
     <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
-<h1>editBlog!</h1>
+<h1>${adminname}, Edit you blog!</h1>
 <form action="${pageContext.servletContext.contextPath}/submitBlog.action">
-<div id="test-editormd">
-    <textarea name="blogContent" id="blogContent">### 关于 Editor.md
-**Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
-
-$$Hello,World!$$</textarea>
+    <input type="text" name="AdId" value="${adminname}" style="border: none;" readonly>
+<div id="test-editormd" style="margin-top: 20px;height: 470px;">
+    <textarea name="blogContent" id="blogContent">${blogContent}</textarea>
 </div>
-<button class="btn btn-primary" type="submit" style="width: 104px;margin: 0 auto;">提交博客内容</button>
+<button class="btn btn-primary" type="submit" style="width: 104px;margin-left: 600px;margin-top: 10px;" onclick="sublog()">提交日志内容</button>
 </form>
+<a href="${pageContext.servletContext.contextPath}/person.do">
+    <button class="btn btn-primary" type="button" style="width: 104px;margin-left: 600px;margin-top: 10px;" >回到首页</button>
+</a>
 <script src="${pageContext.servletContext.contextPath}/editor.md-master/editormd.js"></script>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -56,6 +57,7 @@ $$Hello,World!$$</textarea>
         });
     });
 </script>
-
+<script>
+</script>
 </body>
 </html>

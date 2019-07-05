@@ -26,9 +26,6 @@
 package com.demo.servlet;
 
 import com.alibaba.fastjson.JSONObject;
-import com.demo.dao.BookDao;
-import com.demo.dao.BookimgsDao;
-import com.demo.dao.UserDao;
 import com.demo.model.*;
 import com.demo.service.DataService;
 import com.demo.service.LoginService;
@@ -37,16 +34,10 @@ import com.demo.service.impl.DataServiceImpl;
 import com.demo.service.impl.LoginServiceImpl;
 import com.demo.service.impl.UploadServiceImpl;
 import com.demo.util.CodeUtil;
-import com.demo.util.ColorUtil;
 import com.demo.util.MD5Util;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -56,10 +47,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-//import javax.servlet.http.HttpSession;
 import javax.servlet.http.*;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -133,14 +122,11 @@ public class WebServlet extends HttpServlet{
                     Cookie cookie_pwd = new Cookie("adminpwd",pwd);
                     cookie_acc.setMaxAge(5*60);
                     cookie_pwd.setMaxAge(5*60);
-//                    cookie_acc.setPath("/");
                     response.addCookie(cookie_acc);
                     response.addCookie(cookie_pwd);
                     response.setContentType("text/html;charset=UTF-8");
                     //重定向
-                    response.sendRedirect(request.getContextPath()+"/page/person.jsp");
-                    //转发
-//                    request.getRequestDispatcher("page/person.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath()+"/person.do");
                 }
             }else{
                 //不需要判断账号和密码，回到登陆页面，然后再页面提示错误信息
@@ -149,6 +135,7 @@ public class WebServlet extends HttpServlet{
             }
         }else if("/sendsmscode.do".equals(url)) {
             Admin admin = ls.findAdminByMobile(phonenumber);
+            System.out.println("sendsms");
             if(admin == null) {
                 session.setAttribute("error", "手机号不存在");
             }else {
@@ -169,7 +156,7 @@ public class WebServlet extends HttpServlet{
                     request.getRequestDispatcher("page/smslogin.jsp").forward(request, response);
                 }else{//登陆成功
                     session.setAttribute("u", u);
-                    response.sendRedirect(request.getContextPath()+"/page/person.jsp");
+                    response.sendRedirect(request.getContextPath()+"/person.do");
                 }
             }else{
                 request.setAttribute("error", "验证码错误!");
@@ -179,6 +166,9 @@ public class WebServlet extends HttpServlet{
             Admin user = ls.findAdminByAccount(((Admin) session.getAttribute("u")).getAdminacc());
             request.setAttribute("user", user);
             session.setAttribute("u", user);
+            List<Messagebord> message = dts.findAllMes();
+            Collections.reverse(message);
+            request.setAttribute("message", message);
             request.getRequestDispatcher("page/person.jsp").forward(request, response);
         }else if("/findAll.do".equals(url)){//查询所有的数据
             List<User> list = ls.findAllUsers();
@@ -246,10 +236,9 @@ public class WebServlet extends HttpServlet{
                         System.out.println("oldName:"+oldName);
                         //确定要上传到服务器的位置
                         String path = request.getServletContext().getRealPath("/upload");
-                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+oldName.substring(oldName.lastIndexOf("."));
+                        String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+String.valueOf(new Random().nextInt(1000))+oldName.substring(oldName.lastIndexOf("."));
                         try {
                             item.write(new File(path,name));
-                            //跟新用户头像为新的图片路径
                             dts.saveBI(book, "upload/"+name);
                             System.out.println(book+"; upload/"+name);
                         } catch (Exception e) {
@@ -292,7 +281,7 @@ public class WebServlet extends HttpServlet{
         }else if("/orders.do".equals(url)) {
             String orderid2 = request.getParameter("single");
             if(orderid2 == null || orderid2 == "") orderid2 = "0";
-            List<Orders> list = dts.findAllOrders(Integer.parseInt(orderid2), orderid2);
+            List<Order> list = dts.findAllOrders(Integer.parseInt(orderid2), orderid2);
             request.setAttribute("list", list);
             request.getRequestDispatcher("page/orders.jsp").forward(request, response);
         }else if("/delorder.do".equals(url)) {
@@ -323,7 +312,7 @@ public class WebServlet extends HttpServlet{
                 request.setAttribute("changepwdAns","原密码错误！修改失败！");
             }
 //            response.sendRedirect(request.getContextPath()+"/page/person.jsp");
-            request.getRequestDispatcher("page/person.jsp").forward(request,response);
+            request.getRequestDispatcher("person.do").forward(request,response);
         }else if("/cgeUser.do".equals(url)) {
             account = request.getParameter("account");
             int userid = ls.findByAccount(account).getUserid();
@@ -407,10 +396,16 @@ public class WebServlet extends HttpServlet{
             response.sendRedirect(request.getContextPath()+"/adminers.do");
         }else if("/showUserList.do".equals(url)) {
             int userid = Integer.parseInt(request.getParameter("userid"));
-            List<Orders> morders = dts.findAllOrders(1, String.valueOf(userid));
+            List<Order> morders = dts.findAllOrders(1, String.valueOf(userid));
             request.setAttribute("morders", morders);
             request.getRequestDispatcher("page/showUserList.jsp").forward(request,response);
             return;
+        }else if("/perlog.do".equals(url)) {
+            String blogContent = ((Admin)session.getAttribute("u")).getLog();
+            request.setAttribute("blogContent", blogContent);
+            System.out.println(blogContent);
+            request.setAttribute("adminname", ((Admin)session.getAttribute("u")).getAdminacc());
+            request.getRequestDispatcher("page/default.jsp").forward(request, response);
         }
 
     }

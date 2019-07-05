@@ -34,9 +34,10 @@ import java.util.List;
 public class DataServiceImpl implements DataService {
     private static AddressDao asdao = new AddressDao();
     private static BookDao bdao = new BookDao();
-    private static BookimgsDao bidao = new BookimgsDao();
-    private static OrdersDao ordao = new OrdersDao();
+    private static BookimgDao bidao = new BookimgDao();
+    private static OrderDao ordao = new OrderDao();
     private static OrderItemDao oidao = new OrderItemDao();
+    private static MessageboardDao mdao = new MessageboardDao();
     public void saveBook(String bookname, String bookauthor, String bookinfo, double price, int booknum, String bowner, String book) {
         bdao.save(bookname, bookauthor, bookinfo, price, booknum,bowner,book);
     }
@@ -73,8 +74,8 @@ public class DataServiceImpl implements DataService {
         bidao.save(book,img);
     }
 
-    public List<Orders> findAllOrders(int ip, String orderid2) {
-        return ordao.findAll(ip, orderid2);
+    public List<Order> findAllOrders(int ip, String uid) {
+        return ordao.findAll(ip, uid);
     }
 
     public void removeOrderById(String orderid) {
@@ -118,7 +119,9 @@ public class DataServiceImpl implements DataService {
     public void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice) {
         oidao.save(orderid, bid, booknum, price, allprice);
     }
-
+    public void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice,String bookname) {
+        oidao.save(orderid, bid, booknum, price, allprice,bookname);
+    }
     public void modifyBSByUB(int userid, int bookid, int booknum, double v) {
         bdao.modifyBSByUB(userid, bookid, booknum, v);
     }
@@ -133,5 +136,19 @@ public class DataServiceImpl implements DataService {
 
     public List<String> findBookImgsByBook(String book) {
         return bdao.findBookImgsByBook(book);
+    }
+
+    public void saveMess(String a, String b, String c, String d, String e, int f) {
+        mdao.save(a, b, c, d, e, f);
+    }
+
+    public void removeMesByMid(int mid) {
+        mdao.removeByMId(mid);
+    }
+    public List<Messagebord> findAllMes() {
+        return mdao.findAllMes();
+    }
+    public List<Messagebord> findAllMes(int bid) {
+        return mdao.findAllMes(bid);
     }
 }

@@ -16,7 +16,7 @@ public interface DataService {
 
     void saveBI(String book, String img);
 
-    List<Orders> findAllOrders(int ip,String orderid2);
+    List<Order> findAllOrders(int ip, String orderid2);
     void removeOrderById(String orderid);
 
     void modifydzNameById(String name, String orderid);
@@ -34,6 +34,7 @@ public interface DataService {
     public Address findAddressById(int id);
 
     String saveOrder(int uid, int nextInt, double allpri, String name, int allnum);
+    void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice,String bookname);
 
     void saveOrderItem(String orderid, int bid, int booknum, double price, double allprice);
 
@@ -44,4 +45,8 @@ public interface DataService {
     Book findBooksById(int bid);
 
     List<String> findBookImgsByBook(String book);
+    void saveMess(String a, String b, String c,String d, String e,int f);
+    void removeMesByMid(int mid);
+    List<Messagebord> findAllMes();
+    List<Messagebord> findAllMes(int bid);
 }

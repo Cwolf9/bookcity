@@ -39,19 +39,8 @@ import java.util.List;
 
 public class DBUtil {
     private static Connection conn = null;
-    public static void main(String[] args) {
-        //getConnection();
-        List<User> a = new UserDao().findAll();
-        for(User x: a) {
-            System.out.println(x);
-        }
-        List<Admin> b = new AdminDao().findAll();
-        for(Admin x: b) {
-            System.out.println(x.getAdminid());
-        }
-    }
     public static Connection getConnection() {
-//        if(conn == null) {
+        if(conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookcity?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "lhroot");
@@ -62,8 +51,8 @@ public class DBUtil {
             } finally {
                 return conn;
             }
-//        }
-//        return conn;
+        }
+        return conn;
     }
 
     /**
@@ -83,7 +72,7 @@ public class DBUtil {
         } finally{
             try {
                 pstm.close();
-                conn.close();
+                //conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }catch (NullPointerException e) {
@@ -109,7 +98,7 @@ public class DBUtil {
         } finally{
             try {
                 pstm.close();
-                conn.close();
+                //conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }catch (NullPointerException e) {
@@ -196,7 +185,7 @@ public class DBUtil {
         } finally{
             try {
                 pstmt.close();
-                conn.close();
+                //conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }catch (NullPointerException e) {

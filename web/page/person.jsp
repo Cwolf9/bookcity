@@ -12,13 +12,20 @@
         .myright_bar {
             height: 500px;
             width: 1422px;
-            margin-left: 530px;
+            position: absolute;
+            left: 980px;
+        }
+        .commentcontainer{
+            position: absolute;
+            top: 100px;
+            left: 170px;
         }
         .input-control {margin-top: 10px;margin-bottom: 5px;}
         .div_record .div_little_func #xiugaimima{margin-left: 120px;}
         .div_record .div_little_func #setMobile{margin-left: 120px;}
         .div_record .div_little_func #changeMobile{margin-left: 120px;}
-        .comment{width: 950px;margin-left: 220px;}
+        .div_record .div_little_func #perlog{margin-left: 120px;}
+        .comment{width: 490px;}
     </style>
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/person.css">
     <link href="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.min.css" rel="stylesheet">
@@ -54,7 +61,7 @@
         <!-- 小功能列表 -->
         <div class="row div_little_func">
             <div>
-                <button id="xiugaimima" type="button" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal">修改&nbsp;&nbsp;&nbsp;密码</button>
+                <button id="xiugaimima" type="button" class="btn btn-lg btn-warning " data-toggle="modal" data-target="#myModal">修改下密码</button>
                 <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changepwdAns}</div>
             </div>
             <div>
@@ -65,16 +72,23 @@
                 <button id="changeMobile" type="button" class="btn btn-lg btn-info" data-toggle="modal" data-target="#myModal3">修改手机号</button>
                 <div class="text-center  label-input100" style="color: red;margin-bottom: 2px;">${changeMbAns}</div>
             </div>
+            <div>
+                <button id="perlog" type="button" class="btn btn-lg btn-success" data-remote="${pageContext.servletContext.contextPath}/perlog.do?adminid=${u.adminid}" data-toggle="modal" data-size="fullscreen">
+                    查个人日志</button>
+            </div>
         </div>
     </div>
 </div>
-<br> <br>
-<div class="comment">
+<div class="commentcontainer">
+    <div class="document">
+
+    </div>
+    <div class="comment">
     <a href="###" class="avatar">
         <img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">
     </a>
     <div class="content">
-        <div class="pull-right text-muted">2019-06-17</div>
+        <div class="pull-right text-muted">2019-06-17-00:00:00</div>
         <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
         <div class="text">生存还是毁灭？这是一个问题</div>
         <div class="actions">
@@ -83,35 +97,25 @@
         </div>
     </div>
 </div>
-<div class="comment">
-    <a href="###" class="avatar">
-        <img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">
-    </a>
-    <div class="content">
-        <div class="pull-right text-muted">2019-06-17</div>
-        <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
-        <div class="text">生存还是毁灭？这是一个问题</div>
-        <div class="actions">
-            <a href="##">编辑</a>
-            <a href="##">删除</a>
-        </div>
-    </div>
-</div>
-<div class="comment">
-    <a href="###" class="avatar">
-        <img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">
-    </a>
-    <div class="content">
-        <div class="pull-right text-muted">2019-06-17</div>
-        <div><a href="###"><strong>哈姆雷特：</strong></a> <span class="text-muted">思考</span></div>
-        <div class="text">生存还是毁灭？这是一个问题</div>
-        <div class="actions">
-            <a href="##">编辑</a>
-            <a href="##">删除</a>
-        </div>
-    </div>
-</div>
-<div class="document">
+<script>
+    <c:forEach items="${message}" var="ix" varStatus="stauts">
+    var item = "<div class=\"comment\" id='mes${stauts.index}'>" +
+            "    <a href=\"javascript:void(0);\" class=\"avatar\">" +
+            "        <img class=\"icon-2x\" src = \"${pageContext.servletContext.contextPath}/${ix.ava}\">" +
+            "    </a>" +
+            "    <div class=\"content\">" +
+            "        <div class=\"pull-right text-muted\">"+"${ix.time}"+"</div>" +
+            "        <div><a href=\"###\"><strong>"+"${ix.username}"+"：</strong></a> <span class=\"text-muted\">"+"${ix.title}"+"</span></div>" +
+            "        <div class=\"text\">"+"${ix.context}"+"</div>" +
+            "        <div class=\"actions\">" +
+            "            <a href=\"#\">编辑</a>" +
+            "            <a href=\"#\" onclick=\"delmes('${ix.m_id}' ,'mes${stauts.index}')\">删除</a>" +
+            "        </div>" +
+            "    </div>" +
+            "</div>";
+    document.write(item);
+    </c:forEach>
+</script>
 
 </div>
 <script>
@@ -121,29 +125,19 @@
         }else if(document.getElementById("neirong").value == "") {
             alert("请输入内容！")
         }else {
-            var popContent =
-                '<div class="comment">' +
-                '<a href="###" class="avatar">' +
-                '<img class="icon-2x" src = "${pageContext.servletContext.contextPath}/${u.avatar}">' +
-                '    </a>\n' +
-                '    <div class="content">\n' +
-                '        <div class="pull-right text-muted">'+
-                new Date().format("yyyy-MM-dd-hh:mm:ss")+
-                '</div>\n' +
-                '        <div><a href="###"><strong>${u.adminacc}:&nbsp;</strong></a> <span class="text-muted">'+
-                document.getElementById("biaoti").value+
-                '</span></div>\n' +
-                '        <div class="text">'+
-                document.getElementById("neirong").value+
-                '</div>\n' +
-                '        <div class="actions">\n' +
-                '            <a href="##">编辑</a>\n' +
-                '            <a href="##">删除</a>\n' +
-                '        </div>\n' +
-                '    </div>\n' +
-                '</div>';
-            $('.document').append(popContent);
+            var ava = "${u.avatar}"
+            var date = new Date().format("yyyy-MM-dd-hh:mm:ss")
+            var acc = "${u.adminacc}"
+            var biaoti = document.getElementById("biaoti").value
+            var neirong = document.getElementById("neirong").value
+            location.href = "${pageContext.servletContext.contextPath}/savemes.action?acc="+acc+
+                    "&date="+date+"&ava="+ava+"&biaoti="+biaoti+"&neirong="+neirong+"&bookid=0";
         }
+    }
+    function delmes(x, y) {
+        y = "#" + y;
+        $(y).css("display","none");
+        $.post("${pageContext.servletContext.contextPath}/delmes.action?mid="+x);
     }
 </script>
 <!-- 修改密码 -->
@@ -244,8 +238,7 @@
     </div>
 </div>
 <!-- sometime later, probably inside your on load event callback -->
-<script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js"></script>
-<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+<%--<script src="${pageContext.servletContext.contextPath}/zui/lib/bootbox/bootbox.js"></script>--%>
 <script src="${pageContext.servletContext.contextPath}/zui/js/zui.js" type="text/javascript" charset="utf-8"></script>
 <script>
 function changepwd() {
@@ -334,5 +327,6 @@ function checkM() {
         }, 2000);
     }
 </script>
+
 </body>
 </html>

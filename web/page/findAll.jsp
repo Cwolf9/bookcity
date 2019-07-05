@@ -51,7 +51,7 @@
                 <td>${ix.phonenumber }</td>
                 <td>${ix.registerdate }</td>
                 <td>
-                    <button class="btn btn-info btn-sm" type="button" data-remote="${pageContext.servletContext.contextPath}/showUserList.do?userid=${ix.userid}" data-toggle="modal">查看记录</button>
+                    <button class="btn btn-info btn-sm" type="button" data-remote="${pageContext.servletContext.contextPath}/showUserList.do?userid=${ix.userid}" data-toggle="modal">查看</button>
                     <button class="btn btn-danger btn-sm" type="button" onclick="del(${ix.userid})">删除</button>
                     <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal" onclick="showUserInfo('${ix.account}','${ix.phonenumber}')">修改</button>
                 </td>

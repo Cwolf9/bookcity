@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2018-2019, csust
- * FileName: Orders
+ * FileName: Order
  * Author:   Cwolf9
  * Date:     2019/06/27 10:07
  * Description:
@@ -25,7 +25,7 @@
  */
 package com.demo.model;
 
-public class Orders {
+public class Order {
     private int orderindex;
     private String orderid;
     private int uid;
@@ -34,11 +34,11 @@ public class Orders {
     private String name;
     private String express;
     private int allnum;
-    public Orders() {
+    public Order() {
         super();
     }
 
-    public Orders(int orderindex, String orderid, int uid, int sid, double money, String name, String express,int allnum) {
+    public Order(int orderindex, String orderid, int uid, int sid, double money, String name, String express, int allnum) {
         this.orderindex = orderindex;
         this.orderid = orderid;
         this.uid = uid;

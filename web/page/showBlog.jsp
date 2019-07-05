@@ -12,15 +12,18 @@
 <head>
     <title>showBlog</title>
     <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/zui/css/zui.css"/>
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/editor.md-master/css/editormd.css" />
     <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <h1>showBlog!</h1>
-
 <div id="test-editormd">
     <textarea name="blogContent" id="blogContent">${blogContent}</textarea>
 </div>
+<a href="${pageContext.servletContext.contextPath}/person.do">
+    <button class="btn btn-primary" type="button" style="width: 104px;margin-left: 600px;margin-top: 10px;" >回到首页</button>
+</a>
 <script src="${pageContext.servletContext.contextPath}/editor.md-master/editormd.js"></script>
 <script>
     var testEditor;

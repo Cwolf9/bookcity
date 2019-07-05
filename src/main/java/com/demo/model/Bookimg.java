@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2018-2019, csust
- * FileName: Bookimgs
+ * FileName: Bookimg
  * Author:   Cwolf9
  * Date:     2019/06/26 15:40
  * Description:
@@ -25,15 +25,15 @@
  */
 package com.demo.model;
 
-public class Bookimgs {
+public class Bookimg {
     private String book;
     private String img;
 
-    public Bookimgs() {
+    public Bookimg() {
         super();
     }
 
-    public Bookimgs(String book, String img) {
+    public Bookimg(String book, String img) {
         this.book = book;
         this.img = img;
     }

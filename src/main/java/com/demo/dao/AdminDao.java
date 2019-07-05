@@ -51,12 +51,12 @@ public class AdminDao {
      * @param phonenumber
      */
     public void saveAdmin(String adminacc, String pwd, String phonenumber){
-            String sql = "INSERT INTO b_admin (registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
+            String sql = "INSERT INTO admin (registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
                     "VALUES(NOW(),?,?,'imgs/admin0.jpg',?,'是')";
             DBUtil.insert(sql,adminacc,pwd,phonenumber);
     }
     public void saveAdmin(String adminacc, String pwd, String phonenumber,String permission){
-        String sql = "INSERT INTO b_admin (registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
+        String sql = "INSERT INTO admin (registerdate,adminacc,pwd,avatar,phonenumber,permission) " +
                 "VALUES(NOW(),?,?,'imgs/admin0.jpg',?,?)";
         DBUtil.insert(sql,adminacc,pwd,phonenumber,permission);
     }
@@ -65,12 +65,12 @@ public class AdminDao {
      * @param Adminid
      */
     public void removeById(int Adminid){
-        String sql = "DELETE FROM b_admin WHERE adminid=?";
+        String sql = "DELETE FROM admin WHERE adminid=?";
         DBUtil.delete(sql, Adminid);
     }
     public List<Admin> findAll(){
         List<Admin> list = new ArrayList<Admin>();
-        String sql = "SELECT * FROM b_admin";
+        String sql = "SELECT * FROM admin";
         try {
             ResultSet rs = DBUtil.select(sql);
             while(rs.next()){//指标往下移动一行
@@ -81,7 +81,8 @@ public class AdminDao {
                 String phonenumber = rs.getString(5);
                 Date registerdate = rs.getDate(6);
                 String permission = rs.getString(7);
-                Admin ors = new Admin(adminid,adminacc,pwd,avatar,phonenumber,registerdate,permission);
+                String log = rs.getString(8);
+                Admin ors = new Admin(adminid,adminacc,pwd,avatar,phonenumber,registerdate,permission,log);
                 list.add(ors);
             }
         } catch (SQLException e) {
@@ -90,7 +91,7 @@ public class AdminDao {
         return list;
     }
     public Admin findAdminByAccount(String adminacc) {
-        String sql = "SELECT * FROM b_admin where adminacc=?";
+        String sql = "SELECT * FROM admin where adminacc=?";
         try {
             ResultSet rs = DBUtil.select(sql,adminacc);
             while(rs.next()){//指标往下移动一行
@@ -101,7 +102,8 @@ public class AdminDao {
                 String phonenumber = rs.getString(5);
                 Date registerdate = rs.getDate(6);
                 String permission = rs.getString(7);
-                Admin ors = new Admin(adminid,adminacc2,pwd,avatar,phonenumber,registerdate,permission);
+                String log = rs.getString(8);
+                Admin ors = new Admin(adminid,adminacc2,pwd,avatar,phonenumber,registerdate,permission,log);
                 return ors;
             }
         } catch (SQLException e) {
@@ -115,21 +117,21 @@ public class AdminDao {
      * @param adminid
      */
     public void modifyPwd(String pwd, int adminid){
-        String sql = "UPDATE b_admin SET pwd = ? WHERE adminid=?";
+        String sql = "UPDATE admin SET pwd = ? WHERE adminid=?";
         DBUtil.update(sql,pwd,adminid);
     }
 
     public void modifyAdminPer(String newPermission, int adminid) {
-        String sql = "UPDATE b_admin SET permission = ? WHERE adminid=?";
+        String sql = "UPDATE admin SET permission = ? WHERE adminid=?";
         DBUtil.update(sql,newPermission,adminid);
     }
     public void modifyAdminPwd(String md5Encode, int adminid) {
-        String sql = "UPDATE b_admin SET pwd = ? WHERE adminid=?";
+        String sql = "UPDATE admin SET pwd = ? WHERE adminid=?";
         DBUtil.update(sql,md5Encode,adminid);
     }
 
     public Admin findAdminByMobile(String phonenumber) {
-        String sql = "SELECT * FROM b_admin where phonenumber=?";
+        String sql = "SELECT * FROM admin where phonenumber=?";
         try {
             ResultSet rs = DBUtil.select(sql,phonenumber);
             while(rs.next()){//指标往下移动一行
@@ -140,7 +142,8 @@ public class AdminDao {
                 String phonenumber2 = rs.getString(5);
                 Date registerdate = rs.getDate(6);
                 String permission = rs.getString(7);
-                Admin ors = new Admin(adminid,adminacc2,pwd,avatar,phonenumber2,registerdate,permission);
+                String log = rs.getString(8);
+                Admin ors = new Admin(adminid,adminacc2,pwd,avatar,phonenumber2,registerdate,permission,log);
                 return ors;
             }
         } catch (SQLException e) {
@@ -150,12 +153,12 @@ public class AdminDao {
     }
 
     public void modifyAdminPhonenumber(String phonenumber, int adminid) {
-        String sql = "UPDATE b_admin SET phonenumber = ? WHERE adminid=?";
+        String sql = "UPDATE admin SET phonenumber = ? WHERE adminid=?";
         DBUtil.update(sql,phonenumber,adminid);
     }
 
     public Admin findAdminByAccountAndPwd(String account, String pwd) {
-        String sql = "SELECT * FROM b_admin where adminacc=? and pwd=?";
+        String sql = "SELECT * FROM admin where adminacc=? and pwd=?";
         try {
             ResultSet rs = DBUtil.select(sql,account, pwd);
             while(rs.next()){//指标往下移动一行
@@ -166,7 +169,8 @@ public class AdminDao {
                 String phonenumber2 = rs.getString(5);
                 Date registerdate = rs.getDate(6);
                 String permission = rs.getString(7);
-                Admin ors = new Admin(adminid,adminacc2,pwd2,avatar,phonenumber2,registerdate,permission);
+                String log = rs.getString(8);
+                Admin ors = new Admin(adminid,adminacc2,pwd2,avatar,phonenumber2,registerdate,permission,log);
                 return ors;
             }
         } catch (SQLException e) {
@@ -176,7 +180,12 @@ public class AdminDao {
     }
 
     public void modifyAdminAvatar(String s, int adminid) {
-        String sql = "UPDATE b_admin SET avatar = ? WHERE adminid=?";
+        String sql = "UPDATE admin SET avatar = ? WHERE adminid=?";
         DBUtil.update(sql,s,adminid);
+    }
+
+    public void modufyAdminLog(String blogContent,int adminid) {
+        String sql = "UPDATE admin SET log = ? WHERE adminid=?";
+        DBUtil.update(sql,blogContent,adminid);
     }
 }

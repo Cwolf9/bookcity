@@ -1,12 +1,12 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
+    <link rel="icon" href="${pageContext.servletContext.contextPath}/imgs/csust.jpg">
     <!-- =====  BASIC PAGE NEEDS  ===== -->
     <meta charset="utf-8">
-    <title>HealthCare</title>
+    <title>bookshop</title>
     <!-- =====  SEO MATE  ===== -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description" content="">
@@ -92,8 +92,7 @@
         <!-- 顶部开始 -->
         <!-- 导航栏变化样式 -->
         <div class="headchange">
-            <div class="headbrand">
-            </div>
+            <div class="headbrand">BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -233,7 +232,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal2">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" onclick="Register()">注册</button>
                     </div>
                 </div>
@@ -242,9 +241,7 @@
         <!-- 导航栏变化样式 -->
         <!-- 导航栏固定样式 -->
         <div id="home" class="headorigin">
-            <div class="headbrand">
-
-            </div>
+            <div class="headbrand">BOOKSHOP</div>
             <div class="headlocate">
                 <ul>
                     <li><a href="${pageContext.servletContext.contextPath}/index.action">HOME</a></li>
@@ -357,7 +354,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="left_banner left-sidebar-widget mb_50"><a href="#"><img src="images/left1.jpg"
+                <div class="left_banner left-sidebar-widget mb_50"><a href="#"><img src="images/left11.jpg"
                                                                                     alt="Left Banner"
                                                                                     class="img-responsive"/></a></div>
                 <div class="left-special left-sidebar-widget mb_50">
@@ -371,7 +368,7 @@
                             var row = "";
                             <c:forEach items="${lammuyd}" var="ix" varStatus="stauts">
                             if ("${stauts.index}" == "0" || "${stauts.index}" == "3" || "${stauts.index}" == "6") row = row + "<ul class='row'>";
-                            var item = "<li class='item product-layout-left mb_20'><div class='product-list col-xs-4'><div class='product-thumb'><div class='image product-imageblock'><a href='#'>" +
+                            var item = "<li class='item product-layout-left mb_20'><div class='product-list col-xs-4'><div class='product-thumb'><div class='image product-imageblock'><a href='javascript:void(0);' onclick=\"quickview('${ix.bookid}')\">" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'>" +
                                 "<img class='img-responsive' title='iPod Classic' alt='iPod Classic' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}'></a></div></div></div><div class='col-xs-8'><div class='caption product-detail'><h6 class='product-name'>" +
                                 "<a href='#'>" + "${ix.bookname}" + "</a></h6>" +
@@ -390,11 +387,10 @@
             <div class="col-sm-8 col-md-8 col-lg-9 mtb_30">
                 <!-- =====  BANNER STRAT  ===== -->
                 <div class="breadcrumb ptb_20">
-                    <h1>New LCDScreen...</h1>
+                    <h1>${Book.bookname}</h1>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li class="active">New LCDS...</li>
+                        <li><a href="${pageContext.servletContext.contextPath}/index.action">Home</a></li>
+                        <li class="active">${Book.bookname}</li>
                     </ul>
                 </div>
                 <!-- =====  BREADCRUMB END===== -->
@@ -405,7 +401,7 @@
                                                          alt=""/></a></div>
                         <div id="product-thumbnail" class="owl-carousel">
                             <script>
-                                <c:forEach items="${bookimgs}" var="ix" varStatus="stauts">
+                                <c:forEach items="${bookimg}" var="ix" varStatus="stauts">
                                 var item =
                                     '<div class="item">' +
                                     '<div class="image-additional">' +
@@ -471,6 +467,7 @@
                         </div>
                     </div>
                 </div>
+                <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/person.css">
                 <div class="row">
                     <div class="col-md-12">
                         <div id="exTab5" class="mtb_30">
@@ -482,17 +479,17 @@
                                 <!-- 评价发表 -->
                                 <div class="mycomment">
                                     <div class="mycommenttitle">
-                                        <img class=" img-circle icon-2x" src="images/user1.jpg">
+                                        <img class=" img-circle icon-2x" src="${pageContext.servletContext.contextPath}/${ptu.avatar}">
                                         <div style="display: block; margin-left: 12px;font-size: 18px;">
-                                            <span>用户名:</span><span>${ptu.account}</span></div>
+                                            <span>${ptu.account}</span></div>
                                     </div>
                                     <input type="text" class="mycommentcontent-input" placeholder="标题:美好的一天..."
-                                           id="biaoti">
+                                           id="biaoti" style="margin-top: 10px;">
                                     <br>
                                     <textarea rows="3" class="mycommentcontent-textarea" name=textarea
-                                              placeholder="内容:今天捡到一分钱！！！^_^" id="neirong"></textarea>
+                                              placeholder="内容:今天捡到一分钱！！！^_^" id="neirong" style="margin-top: 10px;"></textarea>
                                     <br>
-                                    <button type="button" class="mycommentcontent-button" onclick="savemess()">save
+                                    <button type="button" class="btn btn-primary mycommentcontent-button" onclick="savemess()" style="margin-left: 120px;">save
                                     </button>
                                 </div>
                                 <!-- 评价发表 -->
@@ -502,14 +499,28 @@
                                     <div class="document"></div>
                                     <!-- single -->
                                     <div class="commentlistitem">
-                                        <div class="commentlisttitle">
-                                            <img class="img-circle commentlistuserimg" src="images/user1.jpg">
+                                        <div class="commentlisttitle" style="color: black;">
+                                            <img class="img-circle commentlistuserimg" src="${pageContext.servletContext.contextPath}/images/user1.jpg">
                                             <span class="commentlistusername"><strong>哈姆雷特：</strong></span>
                                             <span>思考</span>
                                             <span class="dates">2019-06-17</span></div>
-                                        <div class="comentlist-content">生存还是毁灭？这是一个问题</div>
-                                        <button class="commentlistbutton" type="button">删除</button>
+                                        <div class="comentlist-content" style="margin-top: 15px;color: black;">生存还是毁灭？这是一个问题</div>
+                                        <%--<button class="commentlistbutton" type="button">删除</button>--%>
                                     </div>
+                                    <script>
+                                        <c:forEach items="${message}" var="ix" varStatus="stauts">
+                                            var item = "<div class=\"commentlistitem\" id='mes${stauts.index}'>" +
+                                                " <div class=\"commentlisttitle\" style=\"color: black;\">" +
+                                                " <img class=\"img-circle commentlistuserimg\" src=\"${pageContext.servletContext.contextPath}/${ix.ava}\">" +
+                                                "  <span class=\"commentlistusername\"><strong>"+"${ix.username}"+"：</strong></span>" +
+                                                "   <span>"+"${ix.title}"+"</span>" +
+                                                "  <span class=\"dates\">"+"${ix.time}"+"</span></div>" +
+                                                "  <div class=\"comentlist-content\" style=\"margin-top: 15px;color: black;\">"+"${ix.context}"+"</div>";
+                                                if("${ix.username}" == "${ptu.account}") item = item + "<button class=\"commentlistbutton\" type=\"button\" onclick=\"delmes('${ix.m_id}','mes${stauts.index}')\">删除</button>";
+                                                item = item + "   </div>";
+                                            document.write(item);
+                                        </c:forEach>
+                                    </script>
                                     <!-- single -->
                                 </div>
                             </div>
@@ -528,7 +539,7 @@
                         <script>
                             var star = "<span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-1x'></i></span> <span class='fa fa-stack'><i class='fa fa-star-o fa-stack-1x'></i><i class='fa fa-star fa-stack-x'></i></span>";
                             <c:forEach items="${relebook}" var="ix" varStatus="stauts">
-                            var item = "<div class='item'><div class='product-thumb '><div class='image product-imageblock'> <a href='#''>" +
+                            var item = "<div class='item'><div class='product-thumb '><div class='image product-imageblock'> <a href='#' onclick=\"quickview('${ix.bookid}')\">" +
                                 "<img data-name='product_image' src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> " +
                                 "<img src='${pageContext.servletContext.contextPath}/${ix.defaultimg}' alt='iPod Classic' title='iPod Classic' class='img-responsive'> </a> </div><div class='caption product-detail text-left'><h6 data-name='product_name' class='product-name mt_20'>" +
                                 "<a href='#' title='Casual Shirt With Ruffle Hem'> " + "${ix.bookname}" + "</a></h6><div class='rating'>" + star + " </div><span class='price'><span class='amount'>" +
@@ -615,25 +626,19 @@
         } else if (document.getElementById("neirong").value == "") {
             alert("请输入内容！")
         } else {
-            // img/哈姆雷特是接口这里不使用数组了你直接改一下
-            var popContent =
-                '<div class"commentlistitem">' +
-                '<div class="commentlisttitle">' +
-                '<img class="img-circle commentlistuserimg" src = "images/user1.jpg">' +
-                '<span class="commentlistusername"><strong>哈姆雷特：</strong></span>' +
-                '<span>' +
-                document.getElementById("biaoti").value +
-                '</span>' +
-                '<span class="dates">' +
-                new Date().format("yyyy-MM-dd-hh:mm:ss") +
-                '</span></div>' +
-                '<div class="comentlist-content">' +
-                document.getElementById("neirong").value +
-                '</div>' +
-                '<button class="commentlistbutton"  type="button" >删除</button>' +
-                '</div>';
-            $('.document').append(popContent);
+            var ava = "${ptu.avatar}"
+            var date = new Date().format("yyyy-MM-dd-hh:mm:ss")
+            var acc = "${ptu.account}"
+            var biaoti = document.getElementById("biaoti").value
+            var neirong = document.getElementById("neirong").value
+            location.href = "${pageContext.servletContext.contextPath}/savemes.action?acc="+acc+
+                "&date="+date+"&ava="+ava+"&biaoti="+biaoti+"&neirong="+neirong+"&bookid=${Book.bookid}";
         }
+    }
+    function delmes(x, y) {
+        y = "#" + y;
+        $(y).css("display","none");
+        $.post("${pageContext.servletContext.contextPath}/delmes.action?mid="+x);
     }
 </script>
 <script>
@@ -659,7 +664,7 @@
     function Register() {
         var pwd = $('#inputExample2').val()
         $('#inputExample2').val(hex_md5(pwd))
-        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val() + "&pwd=" + $('#inputExample2').val() + "&username=" + $('#inputExample3').val() + "$sex=";
+        var url = "${pageContext.servletContext.contextPath}/register.do?account=" + $('#inputExample1').val() + "&pwd=" + $('#inputExample2').val() + "&username=" + $('#inputExample3').val() + "&sex=";
         if (document.getElementById("sex2").checked) url = url + "女";
         else url = url + "男";
         location.href = url;
@@ -672,8 +677,14 @@
 
     function addtocart(a, b) {
         var url = '${pageContext.servletContext.contextPath}/addtocart.action?bookid=' + a + '&price=' + b
-        // alert(url)
-        location.href = url
+        $.post(url)
+        // location.href = url
+        if("${ptu}" == "") alert("添加失败！")
+        else alert("成功添加到购物车，进入个人页面查看！")
+    }
+    function quickview(id) {
+        var url = "${pageContext.servletContext.contextPath}/bookinfo.action?bookid="+id;
+        location.href = url;
     }
 </script>
 </body>

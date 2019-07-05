@@ -11,6 +11,7 @@
         .myright_bar {
             margin: 0 auto;
         }
+        .form-group{margin-bottom: 30px;}
     </style>
     <script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
 </head>

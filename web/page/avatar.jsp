@@ -19,6 +19,9 @@
 		.myright_bar {
 			float: left;
 			margin: 0 auto;
+			position: absolute;
+			left: 600px;
+			top: 200px;
 		}
 	</style>
 	<script src="${pageContext.servletContext.contextPath}/zui/lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>

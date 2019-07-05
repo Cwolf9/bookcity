@@ -77,4 +77,6 @@ public interface LoginService {
     List<User> findMerchant();
 
     void saveAddress(int uid, String dizhi, String isdefault);
+
+    void modufyAdminLog(String blogContent,int adminid);
 }

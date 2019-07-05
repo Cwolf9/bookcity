@@ -328,7 +328,8 @@ h6 {
 	margin-bottom: 20px;
 }
 .mtb_30 {
-	margin-top: 30px;
+	/*TODO:top*/
+	margin-top: 0px;
 	margin-bottom: 30px;
 }
 .mtb_40 {
@@ -981,12 +982,17 @@ label.checkme {
     /*color:#616060;*/
     color:black;
     }
-.headbrand{
-  float:left;
-  background-color: black;
-  margin:10px;
-  width:200px;
-  height:90px;
+
+.headbrand {
+	float: left;
+	color: black;
+	text-align: center;
+	margin: 10px;
+	width: 200px;
+	height: 90px;
+	font-size: 30px;
+	line-height: 90px;
+	font-weight: bold;
 }
 .headlocate{
   float:left;
@@ -1533,10 +1539,10 @@ input#amount {
 }
 .Safe {
 	background-position: -128px -357px
-}/*
+}
 .feature-i-left:hover .Shipping {
 	background-position: 2px 0px
-}*/
+}
 .feature-i-left:hover .Order {
 	background-position: 2px -120px
 }
@@ -1820,7 +1826,7 @@ blockquote {
 	text-align: center;
 	cursor: pointer;
 	margin: 5px;
-	margin-bottom:0px;
+	margin-bottom:37px;
 	transition: all 0.5s ease 0s
 }
 .product-thumb .button-group .quickview {
@@ -1923,7 +1929,7 @@ blockquote {
 	margin: 0 0 0 15px;
 	padding: 0;
 	text-align: left;
-	width: 65%;
+	width: 50%;
 }
 .col_3r .product-list .product-thumb .caption, .col_3l .product-list .product-thumb .caption {
 	width: 40%;
@@ -2263,7 +2269,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 	font-size: 22px;
 }
 .wrapper{
-   background:url("../siteBackground.png") ;
+   background:url("../images/siteBackground.png") ;
   background-attachment: fixed;}
 /* ----------------------------------------------
 	4.2 Scrollup

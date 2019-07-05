@@ -35,12 +35,12 @@ public class Admin {
     private String phonenumber;
     private Date registerdate;
     private String permission;
-
+    private String log;
     public Admin() {
         super();
     }
 
-    public Admin(int adminid, String adminacc, String pwd, String avatar, String phonenumber, Date registerdate, String permission) {
+    public Admin(int adminid, String adminacc, String pwd, String avatar, String phonenumber, Date registerdate, String permission,String log) {
         this.adminid = adminid;
         this.adminacc = adminacc;
         this.pwd = pwd;
@@ -48,6 +48,15 @@ public class Admin {
         this.phonenumber = phonenumber;
         this.registerdate = registerdate;
         this.permission = permission;
+        this.log = log;
+    }
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
     }
 
     public int getAdminid() {

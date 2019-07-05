@@ -34,6 +34,7 @@ import com.demo.service.LoginService;
 import com.demo.util.CodeUtil;
 import com.demo.util.ColorUtil;
 import com.demo.util.MD5Util;
+import com.demo.util.SendCodeUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -82,15 +83,15 @@ public class LoginServiceImpl implements LoginService {
 
     public String getSmscode(String phone) {
         //发送手机验证码：网易云短信发送接口
-        //String smscode = SendCodeUtil.sendsms(phone);
-        String str[] = {
-                "{\"obj\":\"443587\"}",
-                "{\"obj\":\"384762\"}",
-                "{\"obj\":\"983622\"}",
-                "{\"obj\":\"456747\"}",
-                "{\"obj\":\"129856\"}"
-        };
-        String smscode = str[new Random().nextInt(str.length)];
+        String smscode = SendCodeUtil.sendsms(phone);
+//        String str[] = {
+//                "{\"obj\":\"443587\"}",
+//                "{\"obj\":\"384762\"}",
+//                "{\"obj\":\"983622\"}",
+//                "{\"obj\":\"456747\"}",
+//                "{\"obj\":\"129856\"}"
+//        };
+//        String smscode = str[new Random().nextInt(str.length)];
         return smscode;
     }
 
@@ -169,5 +170,9 @@ public class LoginServiceImpl implements LoginService {
 
     public void saveAddress(int uid, String dizhi, String isdefault) {
         adrdao.save(dizhi,uid,isdefault);
+    }
+
+    public void modufyAdminLog(String blogContent,int adminid) {
+        addao.modufyAdminLog(blogContent, adminid);
     }
 }
